@@ -1,0 +1,61 @@
+Item_ID,Product_Type,Size,Packaging,Location,True_Quantity,Difficulty
+ITEM001,Miscellaneous,Small,Bulk,Medical Device Storage,71,9
+ITEM002,Medical Device,Small,Blister Pack,Warehouse,17,4
+ITEM003,Medical Device,Small,Individual,Warehouse,15,4
+ITEM004,Medical Device,Large,Bulk,Shop Floor,91,4
+ITEM005,Drug,Small,Blister Pack,Drug Storage,17,3
+ITEM006,Miscellaneous,Small,Bulk,Shop Floor,40,9
+ITEM007,Medical Device,Medium,Bulk,Shop Floor,94,4
+ITEM008,Miscellaneous,Small,Bulk,Warehouse,94,10
+ITEM009,Medical Device,Large,Blister Pack,Warehouse,12,1
+ITEM010,Medical Device,Medium,Individual,Warehouse,5,1
+ITEM011,Miscellaneous,Medium,Blister Pack,Warehouse,8,3
+ITEM012,Medical Device,Large,Blister Pack,Drug Storage,12,1
+ITEM013,Miscellaneous,Medium,Blister Pack,Medical Device Storage,12,2
+ITEM014,Medical Device,Medium,Blister Pack,Drug Storage,7,1
+ITEM015,Medical Device,Medium,Blister Pack,Medical Device Storage,10,1
+ITEM016,Miscellaneous,Small,Blister Pack,Warehouse,9,6
+ITEM017,Medical Device,Small,Bulk,Warehouse,21,8
+ITEM018,Medical Device,Medium,Blister Pack,Drug Storage,12,1
+ITEM019,Medical Device,Large,Blister Pack,Drug Storage,16,1
+ITEM020,Medical Device,Small,Bulk,Shop Floor,49,7
+ITEM021,Medical Device,Small,Individual,Shop Floor,6,3
+ITEM022,Drug,Medium,Individual,Warehouse,2,1
+ITEM023,Medical Device,Medium,Bulk,Warehouse,83,5
+ITEM024,Medical Device,Medium,Individual,Medical Device Storage,12,1
+ITEM025,Drug,Large,Individual,Drug Storage,5,1
+ITEM026,Medical Device,Large,Blister Pack,Shop Floor,5,1
+ITEM027,Drug,Small,Blister Pack,Shop Floor,16,3
+ITEM028,Miscellaneous,Small,Individual,Warehouse,10,6
+ITEM029,Miscellaneous,Small,Bulk,Medical Device Storage,41,9
+ITEM030,Medical Device,Small,Blister Pack,Shop Floor,17,3
+ITEM031,Drug,Small,Blister Pack,Drug Storage,16,3
+ITEM032,Miscellaneous,Medium,Blister Pack,Drug Storage,13,2
+ITEM033,Medical Device,Large,Individual,Drug Storage,1,1
+ITEM034,Miscellaneous,Medium,Bulk,Drug Storage,78,6
+ITEM035,Medical Device,Large,Blister Pack,Warehouse,19,1
+ITEM036,Medical Device,Small,Bulk,Warehouse,61,8
+ITEM037,Drug,Medium,Blister Pack,Warehouse,20,1
+ITEM038,Miscellaneous,Small,Bulk,Warehouse,79,10
+ITEM039,Medical Device,Large,Individual,Shop Floor,15,1
+ITEM040,Miscellaneous,Medium,Blister Pack,Warehouse,18,3
+ITEM041,Medical Device,Medium,Bulk,Warehouse,81,5
+ITEM042,Medical Device,Large,Bulk,Warehouse,66,5
+ITEM043,Drug,Medium,Individual,Drug Storage,14,1
+ITEM044,Drug,Large,Blister Pack,Medical Device Storage,7,1
+ITEM045,Miscellaneous,Small,Blister Pack,Medical Device Storage,16,5
+ITEM046,Miscellaneous,Medium,Individual,Medical Device Storage,7,2
+ITEM047,Medical Device,Medium,Individual,Drug Storage,4,1
+ITEM048,Medical Device,Small,Bulk,Drug Storage,83,7
+ITEM049,Medical Device,Medium,Bulk,Medical Device Storage,22,4
+ITEM050,Miscellaneous,Large,Individual,Drug Storage,5,2
+ITEM051,Drug,Medium,Bulk,Drug Storage,70,4
+ITEM052,Medical Device,Medium,Individual,Shop Floor,7,1
+ITEM053,Medical Device,Large,Individual,Warehouse,5,1
+ITEM054,Miscellaneous,Medium,Bulk,Medical Device Storage,92,6
+ITEM055,Miscellaneous,Small,Individual,Medical Device Storage,7,5
+ITEM056,Miscellaneous,Large,Blister Pack,Shop Floor,6,2
+ITEM057,Drug,Small,Blister Pack,Drug Storage,8,3
+ITEM058,Medical Device,Large,Bulk,Warehouse,79,5
+ITEM059,Drug,Medium,Bulk,Drug Storage,33,4
+ITEM060,Medical Device,Medium,Individual,Shop Floor,2,1
