@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
+import os  # Added import
 
 # Set random seed for reproducibility
 np.random.seed(42)
@@ -480,4 +481,51 @@ plt.tight_layout()
 plt.savefig('factor_relationship_validation.png')
 plt.close()
 
-print("\nData generation and validation complete. Visualizations saved.")
+# --- Generate Markdown Report ---
+report_content = []
+report_content.append("# Baseline Data Generation Report")
+report_content.append("\nThis report summarizes the key metrics and validation results from the generated baseline inventory data.")
+
+# Recalculate metrics for the report
+accuracy_percentage = inventory_df['Count_Accurate'].mean() * 100
+avg_error_percentage = inventory_df[inventory_df['Error_Amount'] > 0]['Error_Percentage'].mean()
+avg_count_time = inventory_df['Count_Time_Seconds'].mean()
+training_accuracy = inventory_df.groupby('Staff_Training')['Count_Accurate'].mean()
+method_accuracy = inventory_df.groupby('Count_Method')['Count_Accurate'].mean()
+location_accuracy = inventory_df.groupby('Location_Type')['Count_Accurate'].mean()
+
+report_content.append("\n## Overall Baseline Metrics")
+report_content.append(f"- **Overall Count Accuracy:** {accuracy_percentage:.2f}%")
+report_content.append(f"- **Average Error Percentage (when errors occur):** {avg_error_percentage:.2f}%")
+report_content.append(f"- **Average Count Time:** {avg_count_time:.2f} seconds")
+
+report_content.append("\n## Accuracy by Key Factors")
+
+report_content.append("\n### Accuracy by Staff Training")
+report_content.append(training_accuracy.to_markdown())
+
+report_content.append("\n### Accuracy by Count Method")
+report_content.append(method_accuracy.to_markdown())
+
+report_content.append("\n### Accuracy by Location Type")
+report_content.append(location_accuracy.to_markdown())
+
+report_content.append("\n## Visualizations")
+report_content.append("Validation plots have been generated and saved:")
+report_content.append("- `data_validation_plots.png`")
+report_content.append("- `factor_relationship_validation.png`")
+
+# --- Save Report to File ---
+report_filename = "baseline_data_report.md"
+script_dir = os.path.dirname(__file__)  # Get the directory where the script is located
+output_filepath = os.path.join(script_dir, report_filename)
+
+try:
+    with open(output_filepath, 'w') as f:
+        f.write("\n".join(report_content))
+    print(f"\nMarkdown report saved successfully to: {output_filepath}")
+except IOError as e:
+    print(f"\nError writing report to file: {e}")
+
+
+print("\nData generation, validation, and reporting complete. Visualizations and report saved.")
