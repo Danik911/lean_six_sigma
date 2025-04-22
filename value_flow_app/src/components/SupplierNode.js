@@ -10,6 +10,7 @@ const SupplierNode = ({ supplier, onClick }) => {
         position: 'absolute',
         left: `${supplier.position.x}px`,
         top: `${supplier.position.y}px`,
+        // The transform will be handled by the CSS class now
       }}
       onClick={onClick}
     >

@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "mcp-server": "npx @playwright/mcp --port 8932"
+    "mcp-server": "npx @playwright/mcp --port 8933"
   },
   "eslintConfig": {
     "extends": [
