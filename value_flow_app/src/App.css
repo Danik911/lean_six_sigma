@@ -1,6 +1,12 @@
 /* Add styles for your App component here */
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-header {
@@ -8,28 +14,115 @@
   padding: 20px;
   color: white;
   margin-bottom: 20px;
+  min-height: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.map-title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.map-title h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.App-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .map-container {
-  padding-left: 15px;
-  padding-right: 15px;
+  width: 100%;
+  overflow: auto;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+  position: relative;
+  min-height: 800px;
+  background-color: #f9f9f9;
+}
+
+.value-stream-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.control-panel {
+  width: 100%;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .vsm-wrapper {
-  border: 1px solid #ccc;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  background-color: white;
   padding: 10px;
   height: 70vh; /* Adjust as needed */
   overflow: auto; /* Add scroll if content overflows */
-  background-color: #f8f9fa;
 }
 
 .App-footer {
   background-color: #f8f9fa;
-  padding: 15px;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8px + 1vmin);
+  color: #282c34;
+  padding: 10px 0;
   border-top: 1px solid #dee2e6;
 }
 
+.metrics-summary {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .metrics-summary .badge {
-  font-size: 1rem;
-  margin: 0 5px;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.supplier-metrics .badge,
+.process-metrics .badge {
+  width: 70px;
+}
+
+.what-if-results .badge {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .App-container {
+    flex-direction: column;
+  }
+  
+  .control-panel {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }

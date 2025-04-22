@@ -1,172 +1,419 @@
 import React from 'react';
-import { Modal, Table, Badge, ProgressBar } from 'react-bootstrap';
-import { Chart } from 'react-google-charts';
+import { Modal, Button, Tabs, Tab, Table, Badge } from 'react-bootstrap';
+import { FaCogs, FaWarehouse, FaIndustry, FaUsers, FaArrowRight } from 'react-icons/fa';
+import './ProcessDetailModal.css';
 
-const ProcessDetailModal = ({ process, show, onHide }) => {
-  if (!process) return null;
-  
-  const valueAddedPercent = Math.round((process.valueAddedTime / process.cycleTime) * 100);
-  const nonValueAddedPercent = 100 - valueAddedPercent;
-  
-  // Prepare data for pie chart
-  const pieData = [
-    ['Activity Type', 'Minutes'],
-    ['Value Added', process.valueAddedTime],
-    ['Non-Value Added', process.nonValueAddedTime],
-  ];
-  
-  // Prepare data for bar chart of process steps (if available)
-  const stepData = process.steps ? [
-    ['Step', 'Minutes', { role: 'style' }],
-    ...process.steps.map(step => [
-      step.name,
-      step.time,
-      step.accuracy ? (step.accuracy > 90 ? '#28a745' : step.accuracy > 75 ? '#ffc107' : '#dc3545') : '#17a2b8'
-    ])
-  ] : null;
+const ProcessDetailModal = ({ element, show, onHide, metrics }) => {
+  const getIcon = () => {
+    if (element.id?.includes('supplier')) {
+      return <FaIndustry className="modal-icon supplier" />;
+    } else if (element.id?.includes('process')) {
+      return <FaCogs className="modal-icon process" />;
+    } else if (element.id?.includes('inventory')) {
+      return <FaWarehouse className="modal-icon inventory" />;
+    } else if (element.id?.includes('customer')) {
+      return <FaUsers className="modal-icon customer" />;
+    } else if (element.id?.includes('material') || element.id?.includes('info')) {
+      return <FaArrowRight className="modal-icon flow" />;
+    }
+    return null;
+  };
 
-  return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>{process.name} - Detailed Analysis</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="process-overview mb-4">
-          <h5>Process Overview</h5>
-          <p>{process.details}</p>
-          
-          <div className="d-flex justify-content-between mb-3">
-            <div>
-              <strong>Cycle Time:</strong> {process.cycleTime} minutes
-            </div>
-            <div>
-              <strong>Staff:</strong> {process.staff} people
-            </div>
-          </div>
-          
-          <h6>Value Added Analysis</h6>
-          <div className="d-flex align-items-center mb-2">
-            <span className="me-2">Value-Added: {process.valueAddedTime} min ({valueAddedPercent}%)</span>
-            <Badge bg={valueAddedPercent > 75 ? "success" : valueAddedPercent > 50 ? "warning" : "danger"}>
-              {valueAddedPercent}%
-            </Badge>
-          </div>
-          <ProgressBar className="mb-3">
-            <ProgressBar variant="success" now={valueAddedPercent} key={1} />
-            <ProgressBar variant="danger" now={nonValueAddedPercent} key={2} />
-          </ProgressBar>
+  const renderSupplierDetails = () => {
+    return (
+      <div className="supplier-detail-content">
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Products:</td>
+              <td>{element.productType}</td>
+            </tr>
+            <tr>
+              <td>Delivery Frequency:</td>
+              <td>{element.deliveryFrequency}</td>
+            </tr>
+            <tr>
+              <td>Lead Time:</td>
+              <td>{element.leadTime}</td>
+            </tr>
+            <tr>
+              <td>Process Time:</td>
+              <td>{element.processTime} days</td>
+            </tr>
+          </tbody>
+        </Table>
+        <div className="detail-description mt-3">
+          <h6>Description:</h6>
+          <p>{element.details}</p>
         </div>
-        
-        {process.steps && (
-          <div className="process-steps mb-4">
-            <h5>Process Steps</h5>
-            <Table striped bordered hover>
+        <div className="future-state mt-3">
+          <h6>Future State Improvements:</h6>
+          <ul>
+            <li>API integration for automated order processing</li>
+            <li>Real-time inventory visibility</li>
+            <li>Collaborative forecasting</li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  const renderProcessDetails = () => {
+    const hasProcessTimes = element.processTimes && Object.keys(element.processTimes).length > 0;
+    
+    return (
+      <div className="process-detail-content">
+        {hasProcessTimes && (
+          <div className="process-times mb-3">
+            <h6>Process Times:</h6>
+            <Table striped bordered hover size="sm">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Step Name</th>
-                  <th>Time (min)</th>
-                  <th>Details</th>
+                  <th>Product Type</th>
+                  <th>Time (hours)</th>
                 </tr>
               </thead>
               <tbody>
-                {process.steps.map((step, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{step.name}</td>
-                    <td>{step.time}</td>
-                    <td>
-                      {step.accuracy && <div>Accuracy: {step.accuracy}%</div>}
-                      {step.frequency && <div>Frequency: {step.frequency}</div>}
-                      {step.range && <div>Range: {step.range}</div>}
-                      {step.scanners && <div>Scanners: {step.scanners} (Utilization: {step.utilization}%)</div>}
-                      {step.problemRate && <div>Problem Rate: {step.problemRate}%</div>}
-                      {step.impact && <div>Impact: {step.impact}</div>}
-                    </td>
+                {element.processTimes.medicalDevices && (
+                  <tr>
+                    <td>Medical Devices</td>
+                    <td>{element.processTimes.medicalDevices}</td>
                   </tr>
-                ))}
+                )}
+                {element.processTimes.drugs && (
+                  <tr>
+                    <td>Drugs</td>
+                    <td>{element.processTimes.drugs}</td>
+                  </tr>
+                )}
+                {element.processTimes.miscellaneous && (
+                  <tr>
+                    <td>Miscellaneous</td>
+                    <td>{element.processTimes.miscellaneous}</td>
+                  </tr>
+                )}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td colSpan="2"><strong>Total</strong></td>
-                  <td><strong>{process.steps.reduce((sum, step) => sum + step.time, 0)} min</strong></td>
-                  <td></td>
-                </tr>
-              </tfoot>
             </Table>
           </div>
         )}
         
-        <div className="process-charts">
-          <div className="row">
-            <div className="col-md-6">
-              <h5>Value Distribution</h5>
-              <Chart
-                chartType="PieChart"
-                width="100%"
-                height="200px"
-                data={pieData}
-                options={{
-                  title: 'Value vs. Non-Value Added Time',
-                  slices: {
-                    0: { color: '#28a745' },
-                    1: { color: '#dc3545' }
-                  }
-                }}
-              />
-            </div>
-            {stepData && (
-              <div className="col-md-6">
-                <h5>Step Timing Breakdown</h5>
-                <Chart
-                  chartType="BarChart"
-                  width="100%"
-                  height="200px"
-                  data={stepData}
-                  options={{
-                    title: 'Process Step Times',
-                    legend: { position: 'none' },
-                  }}
-                />
-              </div>
-            )}
-          </div>
+        <div className="process-metrics mb-3">
+          <h6>Process Metrics:</h6>
+          <Table striped bordered hover size="sm">
+            <tbody>
+              {element.cycleTime && (
+                <tr>
+                  <td>Cycle Time:</td>
+                  <td>{element.cycleTime.min} - {element.cycleTime.max} hours</td>
+                </tr>
+              )}
+              {element.waitTime && (
+                <tr>
+                  <td>Wait Time:</td>
+                  <td>{element.waitTime.min} - {element.waitTime.max} hours</td>
+                </tr>
+              )}
+              {element.valueAddedRatio && (
+                <tr>
+                  <td>Value Added Ratio:</td>
+                  <td>
+                    <Badge bg={element.valueAddedRatio > 50 ? "success" : element.valueAddedRatio > 30 ? "warning" : "danger"}>
+                      {element.valueAddedRatio}%
+                    </Badge>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
         </div>
         
-        <div className="process-waste-analysis mt-4">
-          <h5>Waste Analysis</h5>
-          <p>Non-value added activities in this process contribute to {process.nonValueAddedTime} minutes of waste.</p>
-          <p>Potential improvement areas:</p>
+        {element.resources && (
+          <div className="resources mb-3">
+            <h6>Resources:</h6>
+            <Table striped bordered hover size="sm">
+              <tbody>
+                {element.resources.staff && (
+                  <tr>
+                    <td>Staff:</td>
+                    <td>{element.resources.staff.min} - {element.resources.staff.max} personnel</td>
+                  </tr>
+                )}
+                {element.resources.equipment && (
+                  <tr>
+                    <td>Equipment:</td>
+                    <td>{element.resources.equipment.join(', ')}</td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
+        )}
+        
+        <div className="detail-description mt-3">
+          <h6>Description:</h6>
+          <p>{element.details}</p>
+        </div>
+        
+        <div className="future-state mt-3">
+          <h6>Future State Improvements:</h6>
           <ul>
-            {process.id === "process-stock-take" && (
-              <>
-                <li>Implement RFID technology to eliminate manual counting (85% time reduction)</li>
-                <li>Standardize training to improve count accuracy from {process.steps.find(s => s.name.includes("counting"))?.accuracy || 0}% to 95%</li>
-                <li>Increase scanner utilization from {process.steps.find(s => s.name.includes("Scanning"))?.utilization || 0}% to 95%</li>
-              </>
-            )}
-            {process.id === "process-receiving" && (
-              <>
-                <li>Implement barcode scanning to improve count accuracy (currently {process.steps.find(s => s.name.includes("Count"))?.accuracy || 0}%)</li>
-                <li>Streamline verification process to reduce time by 30%</li>
-              </>
-            )}
-            {process.id === "process-sales" && (
-              <>
-                <li>Reduce customer wait time from average {process.steps.find(s => s.name.includes("wait"))?.time || 0} minutes</li>
-                <li>Optimize shelf stocking frequency based on demand patterns</li>
-              </>
-            )}
-            {(process.id === "process-internal-dist-medical" || process.id === "process-internal-dist-drugs") && (
-              <>
-                <li>Implement pull system with kanban cards</li>
-                <li>Reduce transport time through layout optimization</li>
-                <li>Optimize check frequency to reduce stockouts</li>
-              </>
-            )}
+            <li>RFID-enabled receiving and verification</li>
+            <li>Digital proof of delivery system</li>
+            <li>Automated quantity verification</li>
+            <li>Real-time inventory updates with location tracking</li>
           </ul>
         </div>
+      </div>
+    );
+  };
+
+  const renderInventoryDetails = () => {
+    return (
+      <div className="inventory-detail-content">
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Location:</td>
+              <td>{element.location}</td>
+            </tr>
+            <tr>
+              <td>Average Quantity:</td>
+              <td>{element.averageQuantity} units</td>
+            </tr>
+            {element.storageCapacityUtilization && (
+              <tr>
+                <td>Storage Capacity Utilization:</td>
+                <td>
+                  <Badge bg={element.storageCapacityUtilization > 90 ? "danger" : element.storageCapacityUtilization > 70 ? "warning" : "success"}>
+                    {element.storageCapacityUtilization}%
+                  </Badge>
+                </td>
+              </tr>
+            )}
+            {element.stockoutRate && (
+              <tr>
+                <td>Stockout Rate:</td>
+                <td>
+                  <Badge bg={element.stockoutRate > 5 ? "danger" : element.stockoutRate > 2 ? "warning" : "success"}>
+                    {element.stockoutRate}%
+                  </Badge>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+        <div className="detail-description mt-3">
+          <h6>Description:</h6>
+          <p>{element.details}</p>
+        </div>
+        <div className="future-state mt-3">
+          <h6>Future State Improvements:</h6>
+          <ul>
+            <li>RFID tagging for all inventory</li>
+            <li>Real-time inventory visibility system</li>
+            <li>Optimized storage layouts based on turnover</li>
+            <li>Automated replenishment triggers</li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
+
+  const renderFlowDetails = () => {
+    return (
+      <div className="flow-detail-content">
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Flow Type:</td>
+              <td>{element.id?.includes('material') ? 'Material Flow' : 'Information Flow'}</td>
+            </tr>
+            <tr>
+              <td>From:</td>
+              <td>{element.from}</td>
+            </tr>
+            <tr>
+              <td>To:</td>
+              <td>{element.to}</td>
+            </tr>
+            {element.frequency && (
+              <tr>
+                <td>Frequency:</td>
+                <td>{element.frequency}</td>
+              </tr>
+            )}
+            {element.transportMethod && (
+              <tr>
+                <td>Transport Method:</td>
+                <td>{element.transportMethod}</td>
+              </tr>
+            )}
+            {element.medium && (
+              <tr>
+                <td>Medium:</td>
+                <td>{element.medium}</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+        <div className="detail-description mt-3">
+          <h6>Description:</h6>
+          <p>{element.details}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderCustomerDetails = () => {
+    return (
+      <div className="customer-detail-content">
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Customer Satisfaction:</td>
+              <td>
+                <Badge bg={element.satisfaction > 90 ? "success" : element.satisfaction > 80 ? "warning" : "danger"}>
+                  {element.satisfaction}%
+                </Badge>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+        <div className="detail-description mt-3">
+          <h6>Description:</h6>
+          <p>{element.details}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderDetailContent = () => {
+    if (element.id?.includes('supplier')) {
+      return renderSupplierDetails();
+    } else if (element.id?.includes('process')) {
+      return renderProcessDetails();
+    } else if (element.id?.includes('inventory')) {
+      return renderInventoryDetails();
+    } else if (element.id?.includes('customer')) {
+      return renderCustomerDetails();
+    } else if (element.id?.includes('material') || element.id?.includes('info')) {
+      return renderFlowDetails();
+    }
+    return <p>No details available</p>;
+  };
+
+  const renderMetricsTab = () => {
+    const currentMetrics = metrics?.currentState || {};
+    const futureMetrics = metrics?.futureState || {};
+    
+    return (
+      <div className="metrics-tab-content">
+        <h6>Current State Metrics</h6>
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Total Lead Time:</td>
+              <td>{currentMetrics.totalLeadTime} days</td>
+            </tr>
+            <tr>
+              <td>Value-Added Time:</td>
+              <td>{currentMetrics.valueAddedTime} days</td>
+            </tr>
+            <tr>
+              <td>Value-Added Percentage:</td>
+              <td>
+                <Badge bg={currentMetrics.valueAddedPercentage > 30 ? "success" : currentMetrics.valueAddedPercentage > 15 ? "warning" : "danger"}>
+                  {currentMetrics.valueAddedPercentage}%
+                </Badge>
+              </td>
+            </tr>
+            <tr>
+              <td>Receiving Accuracy:</td>
+              <td>
+                <Badge bg={currentMetrics.receivingAccuracy > 95 ? "success" : currentMetrics.receivingAccuracy > 90 ? "warning" : "danger"}>
+                  {currentMetrics.receivingAccuracy}%
+                </Badge>
+              </td>
+            </tr>
+            <tr>
+              <td>Average Processing Time:</td>
+              <td>{currentMetrics.avgProcessingTimePerDelivery} hours</td>
+            </tr>
+            <tr>
+              <td>Manual Counting Errors:</td>
+              <td>
+                <Badge bg={currentMetrics.manualCountingErrors < 3 ? "success" : currentMetrics.manualCountingErrors < 7 ? "warning" : "danger"}>
+                  {currentMetrics.manualCountingErrors}%
+                </Badge>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+        
+        <h6 className="mt-4">Future State Targets</h6>
+        <Table striped bordered hover size="sm">
+          <tbody>
+            <tr>
+              <td>Processing Time Target:</td>
+              <td>{futureMetrics.processingTimeTarget} hours</td>
+            </tr>
+            <tr>
+              <td>Receiving Accuracy Target:</td>
+              <td>
+                <Badge bg="success">
+                  {futureMetrics.receivingAccuracyTarget}%
+                </Badge>
+              </td>
+            </tr>
+            <tr>
+              <td>Value-Added Percentage Target:</td>
+              <td>
+                <Badge bg="success">
+                  {futureMetrics.valueAddedPercentage}%
+                </Badge>
+              </td>
+            </tr>
+            <tr>
+              <td>Technology Improvements:</td>
+              <td>
+                {futureMetrics.rfidImplementation && <Badge bg="info" className="me-1">RFID</Badge>}
+                {futureMetrics.digitalProofOfDelivery && <Badge bg="info" className="me-1">Digital POD</Badge>}
+                {futureMetrics.automatedVerification && <Badge bg="info">Auto Verification</Badge>}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+    );
+  };
+
+  return (
+    <Modal 
+      show={show} 
+      onHide={onHide}
+      size="lg"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {getIcon()} {element.name}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Tabs defaultActiveKey="details" className="mb-3">
+          <Tab eventKey="details" title="Details">
+            {renderDetailContent()}
+          </Tab>
+          <Tab eventKey="metrics" title="Metrics">
+            {renderMetricsTab()}
+          </Tab>
+        </Tabs>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          Close
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

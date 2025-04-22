@@ -1,0 +1,65 @@
+.process-node {
+  cursor: pointer;
+  width: 200px;
+  z-index: 10;
+}
+
+.process-icon {
+  background-color: #27ae60;
+  color: white;
+  padding: 10px;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.process-box {
+  background-color: #ecf0f1;
+  border: 2px solid #27ae60;
+  border-radius: 0 0 4px 4px;
+  padding: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.erp-process {
+  border-color: #3498db;
+}
+
+.process-box h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #2c3e50;
+  text-align: center;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 5px;
+}
+
+.process-details {
+  font-size: 12px;
+}
+
+.process-details p {
+  margin: 4px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.process-times {
+  border-bottom: 1px dashed #bdc3c7;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.process-times p {
+  margin: 2px 0;
+  font-size: 11px;
+}
+
+.process-node:hover .process-box {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: #16a085;
+}
+
+.process-node:hover .process-icon {
+  background-color: #16a085;
+}

@@ -1,0 +1,57 @@
+.flow-arrow {
+  position: absolute;
+  height: 2px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.material-flow {
+  background-color: #3498db;
+  height: 3px;
+}
+
+.information-flow {
+  background-color: #e74c3c;
+  border-top: 2px dashed #e74c3c;
+  height: 0;
+}
+
+.arrow-head {
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -10px;
+  top: -4px;
+}
+
+.material-flow .arrow-head {
+  border-left: 10px solid #3498db;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.information-flow .arrow-head {
+  border-left: 10px solid #e74c3c;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.flow-label {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+  z-index: 6;
+  transform: translate(-50%, 0);
+  cursor: pointer;
+}
+
+.flow-arrow:hover {
+  filter: brightness(0.8);
+}
+
+.flow-label:hover {
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,73 @@
+.inventory-node {
+  cursor: pointer;
+  width: 160px;
+  z-index: 10;
+}
+
+.inventory-icon {
+  background-color: #e74c3c;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px;
+}
+
+.inventory-triangle {
+  text-align: center;
+  position: relative;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 70px solid #f9e79f;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.inventory-details {
+  background-color: #ecf0f1;
+  border: 2px solid #e67e22;
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: -35px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-details h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #2c3e50;
+  text-align: center;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 5px;
+}
+
+.inventory-details p {
+  margin: 4px 0;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.inventory-node:hover .inventory-details {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: #d35400;
+}
+
+.inventory-node:hover .inventory-icon {
+  background-color: #c0392b;
+}
+
+.inventory-node:hover .triangle {
+  border-bottom-color: #f5d76e;
+}
