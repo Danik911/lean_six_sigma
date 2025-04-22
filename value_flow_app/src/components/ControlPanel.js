@@ -35,7 +35,7 @@ function ControlPanel({
         <Form.Group className="mb-3">
           <Form.Label>Filters</Form.Label>
           {/* Existing filters */}
-          {Object.keys(filterSettings)
+          {Object.keys(filterSettings || {}) // Add fallback {} here
             .filter(key => !['showMedDev', 'showDrugSeek', 'showVitaFast'].includes(key)) 
             .map(key => (
             <Form.Check
