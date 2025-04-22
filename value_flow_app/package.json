@@ -2,7 +2,7 @@
   "name": "value-flow-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Danik911.github.io/lean_six_sigma",
+  "homepage": "https://danik911.github.io/lean_six_sigma",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
