@@ -43,7 +43,7 @@ function ControlPanel({
               type="switch"
               id={`filter-${key}`}
               label={`Show ${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`}
-              checked={filterSettings[key]}
+              checked={filterSettings?.[key]} // Use optional chaining here as well
               onChange={(e) => onFilterChange(key, e.target.checked)}
             />
           ))}
