@@ -1,0 +1,40 @@
+{
+  "inputs": [
+    {
+      "id": "qdrantUrl",
+      "type": "promptString",
+      "description": "Qdrant server URL",
+      "default": "http://localhost:6333"
+    },
+    {
+      "id": "collectionName",
+      "type": "promptString",
+      "description": "Qdrant collection name",
+      "default": "agent_memory"
+    },
+    {
+      "id": "qdrantApiKey",
+      "type": "promptString",
+      "description": "Qdrant API key (optional)",
+      "password": true
+    }
+  ],
+  "servers": {
+  
+
+    // "qdrant": {
+    //   "command": "npx",
+    //   "args": [
+    //     "-y",
+    //     "@smithery/cli@latest",
+    //     "run",
+    //     "mcp-server-qdrant"
+    //   ],
+    //   "env": {
+    //     "QDRANT_URL": "${input:qdrantUrl}",
+    //     "QDRANT_API_KEY": "${input:qdrantApiKey}",
+    //     "COLLECTION_NAME": "${input:collectionName}"
+    //   }
+    // }
+  }
+}

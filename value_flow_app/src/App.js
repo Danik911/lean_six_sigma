@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Nav, Button, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Nav, Button } from 'react-bootstrap';
 import './App.css';
 import ValueStreamMap from './components/ValueStreamMap';
-import InfoPanel from './components/InfoPanel';
-import ControlPanel from './components/ControlPanel';
 import { valueStreamData } from './valueStreamData';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [view, setView] = useState('current'); // 'current' or 'future'
+  const [view, setView] = useState('current');
   const [selectedMetric, setSelectedMetric] = useState('time');
   const [selectedNode, setSelectedNode] = useState(null);
   const [showStockTakeSimulation, setShowStockTakeSimulation] = useState(false);
+  const [filterSettings, setFilterSettings] = useState({
+    showSuppliers: true,
+    showProcesses: true,
+    showInventory: true,
+    showInfoFlow: true,
+    showMaterialFlow: true
+  });
+  const [timelineRange, setTimelineRange] = useState(7);
 
   const handleNodeSelect = (nodeId) => {
     setSelectedNode(nodeId);
@@ -21,8 +27,11 @@ function App() {
     setSelectedMetric(metric);
   };
 
-  const toggleView = () => {
-    setView(view === 'current' ? 'future' : 'current');
+  const handleFilterChange = (filter, value) => {
+    setFilterSettings(prev => ({
+      ...prev,
+      [filter]: value
+    }));
   };
 
   const toggleStockTakeSimulation = () => {
@@ -32,9 +41,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>SimplePharma Value Flow Map</h1>
+        <h1>SimplePharma Value Stream Map</h1>
         <p>DMAIC Project Visualization</p>
-        <Nav className="justify-content-center mb-4">
+        <Nav className="justify-content-center">
           <Nav.Item>
             <Button 
               variant={view === 'current' ? 'primary' : 'outline-primary'} 
@@ -60,42 +69,35 @@ function App() {
       </header>
 
       <Container fluid className="map-container">
-        <Row>
-          <Col md={9}>
-            <div className="vsm-wrapper">
-              <ValueStreamMap 
-                data={valueStreamData} 
-                view={view}
-                selectedMetric={selectedMetric}
-                onNodeSelect={handleNodeSelect}
-                showStockTakeSimulation={showStockTakeSimulation}
-              />
-            </div>
-          </Col>
-          <Col md={3}>
-            <ControlPanel 
-              selectedMetric={selectedMetric} 
-              onMetricChange={handleMetricChange} 
-            />
-            <InfoPanel 
-              selectedNode={selectedNode} 
-              data={valueStreamData} 
-            />
-          </Col>
-        </Row>
+        <div className="vsm-wrapper">
+          <ValueStreamMap 
+            data={valueStreamData} 
+            view={view}
+            selectedMetric={selectedMetric}
+            onNodeSelect={handleNodeSelect}
+            showStockTakeSimulation={showStockTakeSimulation}
+            filterSettings={filterSettings}
+          />
+        </div>
       </Container>
-      
-      <footer className="App-footer mt-4">
+
+      <footer className="App-footer">
         <div className="metrics-summary">
           <Row>
             <Col>
-              <Badge bg="info">Total Lead Time: {valueStreamData.metrics?.currentState?.totalLeadTime || "N/A"} days</Badge>
+              <div className="bg-info text-white p-2 mb-1">
+                Total Lead Time: {valueStreamData.metrics?.currentState?.totalLeadTime || "N/A"} days
+              </div>
             </Col>
             <Col>
-              <Badge bg="success">Value-Added: {valueStreamData.metrics?.currentState?.valueAddedPercentage || "N/A"}%</Badge>
+              <div className="bg-success text-white p-2 mb-1">
+                Value-Added: {valueStreamData.metrics?.currentState?.valueAddedPercentage || "N/A"}%
+              </div>
             </Col>
             <Col>
-              <Badge bg="warning">Inventory Accuracy: {valueStreamData.metrics?.inventoryAccuracy || "N/A"}%</Badge>
+              <div className="bg-warning text-white p-2 mb-1">
+                Inventory Accuracy: {valueStreamData.metrics?.inventoryAccuracy || "N/A"}%
+              </div>
             </Col>
           </Row>
         </div>

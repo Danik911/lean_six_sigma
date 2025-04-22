@@ -21,7 +21,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "mcp-server": "npx @playwright/mcp --port 8932"
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +43,9 @@
     ]
   },
   "devDependencies": {
+    "@playwright/mcp": "^0.0.14",
+    "@playwright/test": "^1.52.0",
+    "@smithery/cli": "^1.1.73",
     "gh-pages": "^6.3.0"
   }
 }

@@ -6,22 +6,28 @@ import FlowArrow from './FlowArrow';
 import ProcessDetailModal from './ProcessDetailModal';
 import './ValueStreamMap.css';
 
-const ValueStreamMap = ({ data }) => {
+const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTakeSimulation, filterSettings }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const handleElementClick = (element) => {
     setSelectedElement(element);
     setShowModal(true);
+    if (onNodeSelect) {
+      onNodeSelect(element.id);
+    }
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
+  // Use the view prop to determine which data to display
+  const metrics = view === 'future' ? data.metrics.futureState : data.metrics.currentState;
+
   return (
-    <div className="map-container">
-      <div className="value-stream-map">
+    <div className="value-stream-map">
+      <div className="map-content">
         {/* Map Legend */}
         <div className="map-legend">
           <h6>Legend</h6>
@@ -48,7 +54,7 @@ const ValueStreamMap = ({ data }) => {
         </div>
         
         {/* Suppliers */}
-        {data.suppliers.map(supplier => (
+        {filterSettings.showSuppliers && data.suppliers.map(supplier => (
           <SupplierNode 
             key={supplier.id}
             supplier={supplier}
@@ -57,7 +63,7 @@ const ValueStreamMap = ({ data }) => {
         ))}
 
         {/* Processes */}
-        {data.processes.map(process => (
+        {filterSettings.showProcesses && data.processes.map(process => (
           <ProcessBox 
             key={process.id}
             process={process}
@@ -66,7 +72,7 @@ const ValueStreamMap = ({ data }) => {
         ))}
 
         {/* ERP Process */}
-        {data.processes_erp && (
+        {filterSettings.showProcesses && data.processes_erp && (
           <ProcessBox 
             key={data.processes_erp.id}
             process={data.processes_erp}
@@ -76,7 +82,7 @@ const ValueStreamMap = ({ data }) => {
         )}
 
         {/* Inventory Points */}
-        {data.inventoryPoints.map(inventory => (
+        {filterSettings.showInventory && data.inventoryPoints.map(inventory => (
           <InventoryTriangle 
             key={inventory.id}
             inventory={inventory}
@@ -85,7 +91,7 @@ const ValueStreamMap = ({ data }) => {
         ))}
 
         {/* Material Flows */}
-        {data.materialFlows.map(flow => (
+        {filterSettings.showMaterialFlow && data.materialFlows.map(flow => (
           <FlowArrow 
             key={flow.id}
             flow={flow}
@@ -96,7 +102,7 @@ const ValueStreamMap = ({ data }) => {
         ))}
 
         {/* Information Flows */}
-        {data.informationFlows.map(flow => (
+        {filterSettings.showInfoFlow && data.informationFlows.map(flow => (
           <FlowArrow 
             key={flow.id}
             flow={flow}
@@ -131,33 +137,37 @@ const ValueStreamMap = ({ data }) => {
             show={showModal}
             onHide={handleCloseModal}
             metrics={data.metrics}
+            view={view}
           />
         )}
+      </div>
 
-        {/* Timeline at the bottom */}
+      {/* Timeline at the bottom */}
+      <div className="bottom-timeline">
+        <h4 className="timeline-title">Value Stream Timeline</h4>
         <div className="timeline">
           <div className="timeline-header">
-            <span>Total Lead Time: {data.metrics.currentState.totalLeadTime} days</span>
-            <span>Value-Added: {data.metrics.currentState.valueAddedPercentage}%</span>
+            <span>Total Lead Time: {metrics.totalLeadTime} days</span>
+            <span>Value-Added: {metrics.valueAddedPercentage}%</span>
           </div>
           <div className="timeline-bar">
             <div 
               className="value-added"
-              style={{ width: `${data.metrics.currentState.valueAddedPercentage}%` }}
+              style={{ width: `${metrics.valueAddedPercentage}%` }}
             >
-              Value Added: {data.metrics.currentState.valueAddedTime} days
+              Value Added: {metrics.valueAddedTime} days
             </div>
             <div 
               className="non-value-added-necessary"
-              style={{ width: `${(data.metrics.currentState.nonValueAddedNecessaryTime / data.metrics.currentState.totalLeadTime) * 100}%` }}
+              style={{ width: `${(metrics.nonValueAddedNecessaryTime / metrics.totalLeadTime) * 100}%` }}
             >
-              Necessary Non-Value: {data.metrics.currentState.nonValueAddedNecessaryTime} days
+              Necessary Non-Value: {metrics.nonValueAddedNecessaryTime} days
             </div>
             <div 
               className="pure-waste"
-              style={{ width: `${(data.metrics.currentState.pureWasteTime / data.metrics.currentState.totalLeadTime) * 100}%` }}
+              style={{ width: `${(metrics.pureWasteTime / metrics.totalLeadTime) * 100}%` }}
             >
-              Waste: {data.metrics.currentState.pureWasteTime} days
+              Waste: {metrics.pureWasteTime} days
             </div>
           </div>
         </div>

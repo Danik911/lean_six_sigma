@@ -1,9 +1,39 @@
 .value-stream-map {
   position: relative;
   width: 100%;
-  height: 700px;
+  height: 100%;
+  min-height: 900px; /* Increased from 800px to 900px for more space */
   background-color: #f9f9f9;
   overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-content {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 800px; /* Increased from 700px to 800px */
+  margin-bottom: 100px; /* Increased from 40px to 100px for timeline spacing */
+}
+
+.supplier-node, .process-box, .inventory-triangle {
+  position: absolute;
+  z-index: 5;
+  margin: 5px;
+  transition: transform 0.2s;
+}
+
+.supplier-node:hover, .process-box:hover, .inventory-triangle:hover {
+  transform: scale(1.03);
+  z-index: 15;
+}
+
+.flow-arrow {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .customer-node {
@@ -34,15 +64,29 @@
   font-size: 12px;
 }
 
+.bottom-timeline {
+  position: relative;
+  margin-top: 50px; /* Added margin to push timeline down */
+  padding-top: 20px;
+  width: 100%;
+  clear: both; /* Ensures timeline is below all floating elements */
+}
+
+.timeline-title {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: bold; /* Added to make title more visible */
+}
+
 .timeline {
-  position: absolute;
-  bottom: 20px;
-  left: 50px;
-  right: 50px;
+  position: relative;
+  margin: 0 30px 20px 30px;
   padding: 10px;
   background-color: #ecf0f1;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 20;
 }
 
 .timeline-header {
@@ -111,6 +155,7 @@
   border: 1px solid #ddd;
   font-size: 12px;
   z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .legend-item {
@@ -147,4 +192,31 @@
   border-top: 2px dashed #e74c3c;
   height: 0;
   width: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bottom-timeline {
+    padding: 10px;
+  }
+  
+  .timeline {
+    margin: 0 10px 10px 10px;
+  }
+  
+  .map-legend {
+    position: relative;
+    top: 10px;
+    right: auto;
+    margin: 0 auto 20px auto;
+    width: fit-content;
+  }
+  
+  .map-content {
+    height: 600px; /* Increased from 500px to 600px */
+  }
+  
+  .value-stream-map {
+    min-height: 700px; /* Increased from 600px to 700px */
+  }
 }
