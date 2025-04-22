@@ -1,0 +1,35 @@
+/* Add styles for your App component here */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.map-container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.vsm-wrapper {
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 70vh; /* Adjust as needed */
+  overflow: auto; /* Add scroll if content overflows */
+  background-color: #f8f9fa;
+}
+
+.App-footer {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-top: 1px solid #dee2e6;
+}
+
+.metrics-summary .badge {
+  font-size: 1rem;
+  margin: 0 5px;
+}

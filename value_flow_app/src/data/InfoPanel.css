@@ -1,0 +1,45 @@
+.info-panel {
+  margin-top: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.supplier-header {
+  background-color: #e6ffe6;
+}
+
+.process-header {
+  background-color: #f0f8ff;
+}
+
+.inventory-header {
+  background-color: #fffacd;
+}
+
+.infoFlow-header {
+  background-color: #e6f7ff;
+}
+
+.materialFlow-header {
+  background-color: #f5f5f5;
+}
+
+.customer-header {
+  background-color: #ffe6e6;
+}
+
+.improvement-header {
+  background-color: #f9e79f;
+}
+
+.process-steps {
+  padding-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}

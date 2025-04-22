@@ -1,0 +1,22 @@
+.control-panel {
+  margin-bottom: 20px;
+}
+
+.what-if-section {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 4px solid #17a2b8;
+}
+
+.what-if-header {
+  font-weight: bold;
+  color: #0d6efd;
+  margin-bottom: 10px;
+}
+
+.what-if-results {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+}
