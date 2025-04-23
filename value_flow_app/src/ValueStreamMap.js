@@ -5,12 +5,12 @@ import InventoryTriangle from './InventoryTriangle';
 import FlowArrow from './FlowArrow';
 import ProcessDetailModal from './ProcessDetailModal';
 import { FaExclamationTriangle } from 'react-icons/fa';
+import { AiFillTool } from 'react-icons/ai';
 import { 
   MdOutlineWarning, 
   MdOutlineCheckBox, 
   MdTimeline, 
-  MdSpeed,
-  MdAutorenew
+  MdSpeed 
 } from 'react-icons/md';
 import './ValueStreamMap.css';
 
@@ -36,15 +36,6 @@ const ValueStreamMap = ({
   // Use the viewState prop to determine which data to display
   const metrics = viewState === 'future' ? data.metrics.futureState : data.metrics.currentState;
 
-  // Make sure future state has the necessary timeline values or provide defaults
-  const timelineData = {
-    totalLeadTime: metrics.totalLeadTime || 3.2, // Default value for future state
-    valueAddedTime: metrics.valueAddedTime || 1.1, // Default value for future state
-    nonValueAddedNecessaryTime: metrics.nonValueAddedNecessaryTime || 0.8, // Default value for future state
-    pureWasteTime: metrics.pureWasteTime || 1.3, // Default value for future state
-    valueAddedPercentage: metrics.valueAddedPercentage || 35, // Default value for future state
-  };
-
   // Default filter settings
   const filterSettings = {
     showSuppliers: true,
@@ -68,7 +59,7 @@ const ValueStreamMap = ({
       case 'automation':
         return <MdSpeed className="opportunity-icon" />;
       default:
-        return <MdAutorenew className="opportunity-icon" />;
+        return <AiFillTool className="opportunity-icon" />;
     }
   };
 
@@ -103,7 +94,7 @@ const ValueStreamMap = ({
             <span>Problem Area</span>
           </div>
           <div className="legend-item">
-            <MdAutorenew className="legend-icon legend-opportunity" />
+            <AiFillTool className="legend-icon legend-opportunity" />
             <span>Improvement Opportunity</span>
           </div>
         </div>
@@ -167,8 +158,8 @@ const ValueStreamMap = ({
           />
         ))}
 
-        {/* Problem Areas - only show in current state */}
-        {filterSettings.showProblemAreas && viewState === 'current' && data.problemAreas && data.problemAreas.map(problem => (
+        {/* Problem Areas */}
+        {filterSettings.showProblemAreas && data.problemAreas && data.problemAreas.map(problem => (
           <div 
             key={problem.id}
             className="problem-area"
@@ -238,27 +229,27 @@ const ValueStreamMap = ({
           <h4 className="timeline-title">Value Stream Timeline</h4>
           <div className="timeline">
             <div className="timeline-header">
-              <span>Total Lead Time: {timelineData.totalLeadTime} days</span>
-              <span>Value-Added: {timelineData.valueAddedPercentage}%</span>
+              <span>Total Lead Time: {metrics.totalLeadTime} days</span>
+              <span>Value-Added: {metrics.valueAddedPercentage}%</span>
             </div>
             <div className="timeline-bar">
               <div 
                 className="value-added"
-                style={{ width: `${timelineData.valueAddedPercentage}%` }}
+                style={{ width: `${metrics.valueAddedPercentage}%` }}
               >
-                Value Added: {timelineData.valueAddedTime} days
+                Value Added: {metrics.valueAddedTime} days
               </div>
               <div 
                 className="non-value-added-necessary"
-                style={{ width: `${(timelineData.nonValueAddedNecessaryTime / timelineData.totalLeadTime) * 100}%` }}
+                style={{ width: `${(metrics.nonValueAddedNecessaryTime / metrics.totalLeadTime) * 100}%` }}
               >
-                Necessary Non-Value: {timelineData.nonValueAddedNecessaryTime} days
+                Necessary Non-Value: {metrics.nonValueAddedNecessaryTime} days
               </div>
               <div 
                 className="pure-waste"
-                style={{ width: `${(timelineData.pureWasteTime / timelineData.totalLeadTime) * 100}%` }}
+                style={{ width: `${(metrics.pureWasteTime / metrics.totalLeadTime) * 100}%` }}
               >
-                Waste: {timelineData.pureWasteTime} days
+                Waste: {metrics.pureWasteTime} days
               </div>
             </div>
           </div>

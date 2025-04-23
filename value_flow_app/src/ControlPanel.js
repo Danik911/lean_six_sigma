@@ -1,206 +1,104 @@
 import React from 'react';
-import { Card, Form, Row, Col, Badge } from 'react-bootstrap';
 import './ControlPanel.css';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { AiFillTool } from 'react-icons/ai';
 
 const ControlPanel = ({ 
-  selectedMetric, 
-  onMetricChange,
-  filterSettings,
-  onFilterChange,
-  whatIfSettings,
-  onWhatIfChange,
-  timelineRange,
-  onTimelineRangeChange 
+  viewState, 
+  setViewState,
+  showProblemAreas,
+  setShowProblemAreas,
+  showLeanOpportunities,
+  setShowLeanOpportunities,
+  showMetrics,
+  setShowMetrics
 }) => {
   return (
-    <Card className="control-panel">
-      <Card.Header className="d-flex justify-content-between align-items-center">
-        <span>Control Panel</span>
-        <Badge bg="info">What-If Analysis Active</Badge>
-      </Card.Header>
-      <Card.Body>
-        <Form>
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm={4}>
-              Display Metric:
-            </Form.Label>
-            <Col sm={8}>
-              <Form.Select 
-                value={selectedMetric}
-                onChange={(e) => onMetricChange(e.target.value)}
-              >
-                <option value="time">Time</option>
-                <option value="value">Value-Added</option>
-                <option value="staff">Staff</option>
-                <option value="cost">Cost</option>
-              </Form.Select>
-            </Col>
-          </Form.Group>
-          
-          <Form.Group className="mb-3">
-            <Form.Label>Filter Display:</Form.Label>
-            <div>
-              <Form.Check 
-                inline
-                type="checkbox"
-                id="show-suppliers"
-                label="Suppliers"
-                checked={filterSettings?.showSuppliers}
-                onChange={(e) => onFilterChange('showSuppliers', e.target.checked)}
-              />
-              <Form.Check 
-                inline
-                type="checkbox"
-                id="show-processes"
-                label="Processes"
-                checked={filterSettings?.showProcesses}
-                onChange={(e) => onFilterChange('showProcesses', e.target.checked)}
-              />
-              <Form.Check 
-                inline
-                type="checkbox"
-                id="show-inventory"
-                label="Inventory"
-                checked={filterSettings?.showInventory}
-                onChange={(e) => onFilterChange('showInventory', e.target.checked)}
-              />
-              <Form.Check 
-                inline
-                type="checkbox"
-                id="show-information"
-                label="Info Flow"
-                checked={filterSettings?.showInfoFlow}
-                onChange={(e) => onFilterChange('showInfoFlow', e.target.checked)}
-              />
-              <Form.Check 
-                inline
-                type="checkbox"
-                id="show-material"
-                label="Material Flow"
-                checked={filterSettings?.showMaterialFlow}
-                onChange={(e) => onFilterChange('showMaterialFlow', e.target.checked)}
-              />
-            </div>
-          </Form.Group>
-          
-          <Form.Group className="mb-3">
-            <Form.Label>Timeline View: {timelineRange} days</Form.Label>
-            <Form.Range 
-              min={1}
-              max={14}
-              value={timelineRange}
-              step={1}
-              onChange={(e) => onTimelineRangeChange(parseInt(e.target.value, 10))}
+    <div className="control-panel">
+      <h3>Control Panel</h3>
+      
+      <div className="control-section">
+        <h4>View State</h4>
+        <div className="button-group">
+          <button 
+            className={viewState === 'current' ? 'active' : ''} 
+            onClick={() => setViewState('current')}
+          >
+            Current
+          </button>
+          <button 
+            className={viewState === 'future' ? 'active' : ''} 
+            onClick={() => setViewState('future')}
+          >
+            Future
+          </button>
+          <button 
+            className={viewState === 'ideal' ? 'active' : ''} 
+            onClick={() => setViewState('ideal')}
+          >
+            Ideal
+          </button>
+        </div>
+      </div>
+      
+      <div className="control-section">
+        <h4>Display Options</h4>
+        <div className="checkbox-group">
+          <label>
+            <input 
+              type="checkbox" 
+              checked={showProblemAreas} 
+              onChange={(e) => setShowProblemAreas(e.target.checked)} 
             />
-            <div className="d-flex justify-content-between">
-              <small>1 Day</small>
-              <small>14 Days</small>
-            </div>
-          </Form.Group>
+            <FaExclamationTriangle className="icon-problem" /> Problem Areas
+          </label>
           
-          <Form.Group className="mb-3 what-if-section">
-            <Form.Label className="what-if-header">What-If Analysis:</Form.Label>
-            <Row>
-              <Col sm={8}>
-                <Form.Label>Staff Training Level:</Form.Label>
-              </Col>
-              <Col sm={4}>
-                <Form.Select 
-                  size="sm"
-                  value={whatIfSettings?.trainingLevel}
-                  onChange={(e) => onWhatIfChange('trainingLevel', e.target.value)}
-                >
-                  <option value="basic">Basic</option>
-                  <option value="intermediate">Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                </Form.Select>
-              </Col>
-            </Row>
-            <div className="mt-1 mb-2 small text-muted">
-              <strong>Impact:</strong> Advanced training improves count accuracy by 20% and reduces count time by 20%
-            </div>
-            
-            <Row className="mt-2">
-              <Col sm={8}>
-                <Form.Label>Scanner Model:</Form.Label>
-              </Col>
-              <Col sm={4}>
-                <Form.Select 
-                  size="sm"
-                  value={whatIfSettings?.scannerModel}
-                  onChange={(e) => onWhatIfChange('scannerModel', e.target.value)}
-                >
-                  <option value="oldModel">Old Model</option>
-                  <option value="currentModel">Current Model</option>
-                  <option value="newModel">New Model</option>
-                </Form.Select>
-              </Col>
-            </Row>
-            <div className="mt-1 mb-2 small text-muted">
-              <strong>Impact:</strong> New scanners reduce scan time by 30% and improve accuracy by 10%
-            </div>
-            
-            <Row className="mt-2">
-              <Col sm={8}>
-                <Form.Label>Count Method:</Form.Label>
-              </Col>
-              <Col sm={4}>
-                <Form.Select 
-                  size="sm"
-                  value={whatIfSettings?.countMethod}
-                  onChange={(e) => onWhatIfChange('countMethod', e.target.value)}
-                >
-                  <option value="manual">Manual Count</option>
-                  <option value="scanner">Scanner Count</option>
-                  <option value="combined">Combined</option>
-                  <option value="rfid">RFID System</option>
-                </Form.Select>
-              </Col>
-            </Row>
-            <div className="mt-1 mb-2 small text-muted">
-              <strong>Impact:</strong> RFID reduces count time by 85% and improves accuracy to 95%
-            </div>
-            
-            <div className="mt-3 what-if-results">
-              <h6>Estimated Impact of Changes:</h6>
-              <Row>
-                <Col>
-                  <Badge bg="success" className="w-100 p-2 mb-1">
-                    Inventory Accuracy: 
-                    {whatIfSettings?.countMethod === 'rfid' ? '95%' : 
-                     whatIfSettings?.trainingLevel === 'advanced' && whatIfSettings?.scannerModel === 'newModel' ? '91%' :
-                     whatIfSettings?.trainingLevel === 'advanced' ? '87%' :
-                     whatIfSettings?.scannerModel === 'newModel' ? '85%' : '77%'}
-                  </Badge>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Badge bg="info" className="w-100 p-2 mb-1">
-                    Stock Take Time: 
-                    {whatIfSettings?.countMethod === 'rfid' ? '1.2 hours' : 
-                     whatIfSettings?.trainingLevel === 'advanced' && whatIfSettings?.scannerModel === 'newModel' ? '5.8 hours' :
-                     whatIfSettings?.trainingLevel === 'advanced' ? '6.5 hours' :
-                     whatIfSettings?.scannerModel === 'newModel' ? '7.0 hours' : '8.1 hours'}
-                  </Badge>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Badge bg="warning" className="w-100 p-2">
-                    Resource Savings: 
-                    {whatIfSettings?.countMethod === 'rfid' ? '€6,500/yr' : 
-                     whatIfSettings?.trainingLevel === 'advanced' && whatIfSettings?.scannerModel === 'newModel' ? '€3,800/yr' :
-                     whatIfSettings?.trainingLevel === 'advanced' ? '€2,500/yr' :
-                     whatIfSettings?.scannerModel === 'newModel' ? '€1,700/yr' : '€0/yr'}
-                  </Badge>
-                </Col>
-              </Row>
-            </div>
-          </Form.Group>
-        </Form>
-      </Card.Body>
-    </Card>
+          <label>
+            <input 
+              type="checkbox" 
+              checked={showLeanOpportunities} 
+              onChange={(e) => setShowLeanOpportunities(e.target.checked)} 
+            />
+            <AiFillTool className="icon-opportunity" /> Lean Opportunities
+          </label>
+          
+          <label>
+            <input 
+              type="checkbox" 
+              checked={showMetrics} 
+              onChange={(e) => setShowMetrics(e.target.checked)} 
+            />
+            Metrics
+          </label>
+        </div>
+      </div>
+      
+      <div className="metrics-summary">
+        <h4>Current Metrics</h4>
+        <div className="metric-item">
+          <span className="metric-label">Inventory Accuracy:</span>
+          <span className="metric-value">76.5%</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">Lead Time:</span>
+          <span className="metric-value">5.5 days</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">Value-Added Time:</span>
+          <span className="metric-value">0.8 days (14.5%)</span>
+        </div>
+      </div>
+      
+      <div className="improvement-summary">
+        <h4>Key Improvement Opportunities</h4>
+        <ul>
+          <li>RFID Implementation</li>
+          <li>Kanban System</li>
+          <li>5S Organization</li>
+          <li>SMED for Stock-take</li>
+        </ul>
+      </div>
+    </div>
   );
 };
 

@@ -43,7 +43,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 40, // percentage
-      position: {x: 280, y: 350}, // Adjusted position
+      position: {x: 280, y: 350}, // Starting position
       details: "Inward goods arrival"
     },
     {
@@ -56,7 +56,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 20, // percentage
-      position: {x: 380, y: 350}, // Adjusted position
+      position: {x: 460, y: 350}, // Increased spacing
       details: "Verification of delivery"
     },
     {
@@ -69,7 +69,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 15, // percentage
-      position: {x: 480, y: 350}, // Adjusted position
+      position: {x: 640, y: 350}, // Increased spacing
       details: "Storing medical devices"
     },
     {
@@ -82,7 +82,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 15, // percentage
-      position: {x: 580, y: 350}, // Adjusted position
+      position: {x: 820, y: 350}, // Increased spacing
       details: "Moving products to shop"
     },
     {
@@ -95,7 +95,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 20, // percentage
-      position: {x: 680, y: 350}, // Adjusted position
+      position: {x: 1000, y: 350}, // Increased spacing
       details: "Placing on shelves"
     },
     {
@@ -108,7 +108,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 90, // percentage - high value added
-      position: {x: 780, y: 350}, // Adjusted position
+      position: {x: 1180, y: 350}, // Increased spacing
       details: "Sales process"
     },
     {
@@ -121,7 +121,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 30, // percentage
-      position: {x: 680, y: 250}, // Adjusted position
+      position: {x: 1000, y: 200}, // Moved up to avoid overlap
       details: "Monitoring inventory"
     },
     {
@@ -134,7 +134,7 @@ export const valueStreamData = {
       FPY: 76.5, // percentage - from baseline data
       staff: 6,
       valueAddedRatio: 10, // percentage - low value
-      position: {x: 580, y: 250}, // Adjusted position
+      position: {x: 820, y: 200}, // Moved up to avoid overlap
       details: "Stock-take counting"
     },
     {
@@ -147,7 +147,7 @@ export const valueStreamData = {
       FPY: 85, // percentage - approximate
       staff: 6,
       valueAddedRatio: 15, // percentage
-      position: {x: 480, y: 250}, // Adjusted position
+      position: {x: 640, y: 200}, // Moved up to avoid overlap
       details: "Barcode scanning during stock-take"
     },
     {
@@ -160,7 +160,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 50, // percentage
-      position: {x: 880, y: 350}, // Adjusted position
+      position: {x: 1360, y: 350}, // Far right for final process
       details: "Products leaving pharmacy"
     }
   ],
@@ -364,6 +364,21 @@ export const valueStreamData = {
       communicationIssues: 15 // percentage requiring clarification
     },
     futureState: {
+      totalLeadTime: 3.2, // days - reduced from current 5.5
+      valueAddedTime: 1.1, // days - increased from current 0.8
+      nonValueAddedNecessaryTime: 0.8, // days - reduced from current 1.4
+      pureWasteTime: 1.3, // days - significantly reduced from current 3.3
+      valueAddedPercentage: 35, // target percentage - up from 14.5%
+      processingTimeTarget: 0.8, // hours
+      receivingAccuracyTarget: 99.5, // percentage
+      inventoryTrackingMethod: "Real-time with RFID",
+      storageAccuracyTarget: 99, // percentage
+      inventoryAccuracyTarget: 99, // percentage
+      rfidImplementation: true,
+      digitalProofOfDelivery: true,
+      automatedVerification: true,
+      
+      // Future OEE/Utilization targets
       forecast: {
         method: "AI-powered demand forecasting",
         accuracy: 95 // percentage
@@ -506,23 +521,23 @@ export const valueStreamData = {
       id: "problem-manual-count",
       process: "process-manual-count",
       description: "Inefficient manual counting with sticky notes",
-      position: {x: 580, y: 220}
+      position: {x: 580, y: 180} // Adjusted position
     },
     {
       id: "problem-scanning",
       process: "process-scanning",
       description: "Delays in scanning and data upload",
-      position: {x: 480, y: 220}
+      position: {x: 480, y: 180} // Adjusted position
     },
     {
       id: "problem-info-flow",
       description: "Information flow between warehouse and shop",
-      position: {x: 530, y: 300}
+      position: {x: 530, y: 380} // Adjusted position for better spacing
     },
     {
       id: "problem-stock-take",
       description: "Stock-take scheduling (quarterly closures)",
-      position: {x: 530, y: 160}
+      position: {x: 530, y: 120} // Adjusted position
     }
   ],
   
@@ -532,25 +547,25 @@ export const valueStreamData = {
       id: "lean-kanban",
       type: "kanban",
       description: "Kanban implementation opportunity",
-      position: {x: 580, y: 450}
+      position: {x: 640, y: 450} // Adjusted position
     },
     {
       id: "lean-5s",
       type: "5s",
       description: "5S implementation opportunity",
-      position: {x: 680, y: 500}
+      position: {x: 740, y: 500} // Adjusted position
     },
     {
       id: "lean-smed",
       type: "smed",
       description: "SMED opportunity for reducing setup times",
-      position: {x: 480, y: 200}
+      position: {x: 420, y: 180} // Adjusted position
     },
     {
       id: "lean-automation",
       type: "automation",
       description: "RFID implementation opportunity",
-      position: {x: 580, y: 200}
+      position: {x: 650, y: 180} // Adjusted position
     }
   ]
 };

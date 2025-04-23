@@ -26,7 +26,7 @@
 .customer-node {
   position: absolute;
   z-index: 20; /* Higher base z-index for all nodes */
-  margin: 50px; /* Increased margin for better spacing */
+  margin: 40px; /* Significantly increased margin for more spacing */
   transition: transform 0.2s;
   box-sizing: border-box;
   min-width: 160px; /* Ensure minimum width */
@@ -47,20 +47,17 @@
   pointer-events: auto;
 }
 
-/* Problem Areas positioning with fixed dimensions */
+/* Problem Areas positioning */
 .problem-area {
   position: absolute;
   z-index: 30;
   cursor: pointer;
   transition: transform 0.2s;
-  width: 40px; /* Fixed width */
-  height: 40px; /* Fixed height */
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  border-radius: 50%; /* Circle shape for better visibility */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for depth */
 }
 
 .problem-icon {
@@ -72,10 +69,9 @@
 .problem-area:hover {
   transform: scale(1.2);
   z-index: 45;
-  background-color: rgba(255, 255, 255, 0.9); /* More opaque on hover */
 }
 
-/* Lean Opportunities positioning with fixed dimensions */
+/* Lean Opportunities positioning */
 .lean-opportunity {
   position: absolute;
   z-index: 30;
@@ -84,39 +80,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 55px; /* Fixed width */
-  height: 55px; /* Fixed height */
-  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  border-radius: 8px; /* Rounded corners */
-  padding: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for depth */
+  width: 40px;
+  height: 40px;
 }
 
 .opportunity-icon {
   font-size: 22px;
   color: #27ae60;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
-  margin-bottom: 3px;
 }
 
 .opportunity-label {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: bold;
   color: #2c3e50;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 1px 3px;
+  margin-top: 2px;
+  background-color: rgba(255, 255, 255, 0.9); /* More opaque */
+  padding: 2px 4px;
   border-radius: 3px;
-  white-space: nowrap;
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 .lean-opportunity:hover {
   transform: scale(1.2);
   z-index: 45;
-  background-color: rgba(255, 255, 255, 0.9); /* More opaque on hover */
 }
 
 /* Map legend should be on top of everything */

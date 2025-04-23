@@ -3,16 +3,18 @@
   height: 2px;
   cursor: pointer;
   z-index: 10;
+  pointer-events: auto;
+  transition: all 0.2s ease;
 }
 
 .material-flow {
-  background-color: #3498db;
+  background-color: #e74c3c; /* Changed to red for material flow */
   height: 3px;
 }
 
 .information-flow {
-  background-color: #e74c3c;
-  border-top: 2px dashed #e74c3c;
+  background-color: #3498db; /* Changed to blue for information flow */
+  border-top: 2px dashed #3498db;
   height: 0;
 }
 
@@ -25,13 +27,13 @@
 }
 
 .material-flow .arrow-head {
-  border-left: 10px solid #3498db;
+  border-left: 10px solid #e74c3c; /* Matching material flow color */
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
 
 .information-flow .arrow-head {
-  border-left: 10px solid #e74c3c;
+  border-left: 10px solid #3498db; /* Matching information flow color */
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
 }
@@ -43,7 +45,6 @@
   border-radius: 4px;
   font-size: 11px;
   z-index: 15; /* Above arrows but below nodes */
-  transform: translate(-50%, -25px); /* Move label higher above the line */
   cursor: pointer;
   border: 1px solid #ddd;
   white-space: nowrap; /* Prevent text wrapping */
@@ -51,16 +52,27 @@
   overflow: hidden;
   text-overflow: ellipsis;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
 }
 
 .flow-arrow:hover {
-  filter: brightness(0.8);
+  filter: brightness(1.2);
+  height: 5px; /* Thicker on hover */
   z-index: 25; /* Higher z-index when hovered */
+}
+
+.material-flow:hover {
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.8); /* Glow effect for red arrows */
+}
+
+.information-flow:hover {
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.8); /* Glow effect for blue arrows */
 }
 
 .flow-label:hover {
   background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 35; /* Above everything else when hovered */
   max-width: none; /* Show full text on hover */
+  transform: scale(1.05);
 }

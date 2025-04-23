@@ -7,7 +7,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-2 days",
       processTime: 0.5, // days
-      position: {x: 80, y: 150},
+      position: {x: 430, y: 250}, // Top left section
       details: "Delivery to inward goods zone"
     },
     {
@@ -17,7 +17,7 @@ export const valueStreamData = {
       deliveryFrequency: "3 TIMES/WEEK",
       leadTime: "1 day",
       processTime: 0.3, // days
-      position: {x: 80, y: 350}, 
+      position: {x: 430, y: 450}, // Middle left section
       details: "Delivery to inward goods zone"
     },
     {
@@ -27,7 +27,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-3 days",
       processTime: 0.4, // days
-      position: {x: 80, y: 550}, 
+      position: {x: 430, y: 650}, // Bottom left section
       details: "Delivery to inward goods zone"
     }
   ],
@@ -43,7 +43,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 40, // percentage
-      position: {x: 280, y: 350}, // Adjusted position
+      position: {x: 700, y: 450}, // Main flow row
       details: "Inward goods arrival"
     },
     {
@@ -56,7 +56,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 20, // percentage
-      position: {x: 380, y: 350}, // Adjusted position
+      position: {x: 850, y: 450}, // Main flow row
       details: "Verification of delivery"
     },
     {
@@ -69,7 +69,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 15, // percentage
-      position: {x: 480, y: 350}, // Adjusted position
+      position: {x: 1000, y: 450}, // Main flow row
       details: "Storing medical devices"
     },
     {
@@ -82,7 +82,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 15, // percentage
-      position: {x: 580, y: 350}, // Adjusted position
+      position: {x: 1150, y: 450}, // Main flow row
       details: "Moving products to shop"
     },
     {
@@ -95,7 +95,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 20, // percentage
-      position: {x: 680, y: 350}, // Adjusted position
+      position: {x: 1300, y: 450}, // Main flow row
       details: "Placing on shelves"
     },
     {
@@ -108,7 +108,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 90, // percentage - high value added
-      position: {x: 780, y: 350}, // Adjusted position
+      position: {x: 1450, y: 450}, // Main flow row
       details: "Sales process"
     },
     {
@@ -121,7 +121,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 30, // percentage
-      position: {x: 680, y: 250}, // Adjusted position
+      position: {x: 1270, y: 250}, // Top row - based on screenshot
       details: "Monitoring inventory"
     },
     {
@@ -134,7 +134,7 @@ export const valueStreamData = {
       FPY: 76.5, // percentage - from baseline data
       staff: 6,
       valueAddedRatio: 10, // percentage - low value
-      position: {x: 580, y: 250}, // Adjusted position
+      position: {x: 1070, y: 250}, // Top row - based on screenshot
       details: "Stock-take counting"
     },
     {
@@ -147,7 +147,7 @@ export const valueStreamData = {
       FPY: 85, // percentage - approximate
       staff: 6,
       valueAddedRatio: 15, // percentage
-      position: {x: 480, y: 250}, // Adjusted position
+      position: {x: 870, y: 250}, // Top row - based on screenshot
       details: "Barcode scanning during stock-take"
     },
     {
@@ -160,7 +160,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 50, // percentage
-      position: {x: 880, y: 350}, // Adjusted position
+      position: {x: 1600, y: 450}, // End of main flow row
       details: "Products leaving pharmacy"
     }
   ],
@@ -173,7 +173,7 @@ export const valueStreamData = {
       averageQuantity: 500,
       storageCapacityUtilization: 70, // percentage
       stockoutRate: 0, // percentage
-      position: {x: 280, y: 200}, // Adjusted Y position further up
+      position: {x: 600, y: 400}, // Between suppliers and receiving
       details: "Temporary storage at receiving area"
     },
     {
@@ -183,7 +183,7 @@ export const valueStreamData = {
       averageQuantity: 2500,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 480, y: 480}, // Adjusted Y position down
+      position: {x: 925, y: 550}, // Below main warehouse - based on screenshot
       details: "Main storage location for inventory"
     },
     {
@@ -192,7 +192,7 @@ export const valueStreamData = {
       location: "Shop Building",
       averageQuantity: 1200,
       storageCapacityUtilization: 65, // percentage
-      position: {x: 680, y: 480}, // Adjusted Y position down
+      position: {x: 1225, y: 550}, // Below store in shop - based on screenshot
       details: "Products on display or in shop storage"
     }
   ],
@@ -364,6 +364,21 @@ export const valueStreamData = {
       communicationIssues: 15 // percentage requiring clarification
     },
     futureState: {
+      totalLeadTime: 3.2, // days - reduced from current 5.5
+      valueAddedTime: 1.1, // days - increased from current 0.8
+      nonValueAddedNecessaryTime: 0.8, // days - reduced from current 1.4
+      pureWasteTime: 1.3, // days - significantly reduced from current 3.3
+      valueAddedPercentage: 35, // target percentage - up from 14.5%
+      processingTimeTarget: 0.8, // hours
+      receivingAccuracyTarget: 99.5, // percentage
+      inventoryTrackingMethod: "Real-time with RFID",
+      storageAccuracyTarget: 99, // percentage
+      inventoryAccuracyTarget: 99, // percentage
+      rfidImplementation: true,
+      digitalProofOfDelivery: true,
+      automatedVerification: true,
+      
+      // Future OEE/Utilization targets
       forecast: {
         method: "AI-powered demand forecasting",
         accuracy: 95 // percentage
@@ -373,14 +388,14 @@ export const valueStreamData = {
       supplierIntegration: "API",
       orderAccuracyTarget: 99 // percentage
     },
-    position: {x: 580, y: 60} // Adjusted Y position slightly up
+    position: {x: 850, y: 120} // Top of the map - based on screenshot
   },
   
   customer: {
     id: "customer",
     name: "SimplePharma Customers",
     satisfaction: 86, // percentage
-    position: {x: 950, y: 350}, 
+    position: {x: 1400, y: 350}, // Right side of map, above main flow
     details: "Medical devices and drugs, Various packaging, Daily average sales"
   },
   
@@ -506,23 +521,23 @@ export const valueStreamData = {
       id: "problem-manual-count",
       process: "process-manual-count",
       description: "Inefficient manual counting with sticky notes",
-      position: {x: 580, y: 300} // Adjusted Y position further down
+      position: {x: 580, y: 180} // Adjusted position
     },
     {
       id: "problem-scanning",
       process: "process-scanning",
       description: "Delays in scanning and data upload",
-      position: {x: 480, y: 300} // Adjusted Y position further down
+      position: {x: 480, y: 180} // Adjusted position
     },
     {
       id: "problem-info-flow",
       description: "Information flow between warehouse and shop",
-      position: {x: 530, y: 400} // Adjusted Y position down
+      position: {x: 530, y: 380} // Adjusted position for better spacing
     },
     {
       id: "problem-stock-take",
       description: "Stock-take scheduling (quarterly closures)",
-      position: {x: 510, y: 110} // Adjusted Y position slightly up
+      position: {x: 530, y: 120} // Adjusted position
     }
   ],
   
@@ -532,25 +547,25 @@ export const valueStreamData = {
       id: "lean-kanban",
       type: "kanban",
       description: "Kanban implementation opportunity",
-      position: {x: 580, y: 530} // Adjusted Y position down
+      position: {x: 640, y: 450} // Adjusted position
     },
     {
       id: "lean-5s",
       type: "5s",
       description: "5S implementation opportunity",
-      position: {x: 720, y: 530} // Adjusted Y position down
+      position: {x: 740, y: 500} // Adjusted position
     },
     {
       id: "lean-smed",
       type: "smed",
       description: "SMED opportunity for reducing setup times",
-      position: {x: 460, y: 190} // Adjusted X and Y position
+      position: {x: 420, y: 180} // Adjusted position
     },
     {
       id: "lean-automation",
       type: "automation",
       description: "RFID implementation opportunity",
-      position: {x: 630, y: 110} // Adjusted X position slightly right
+      position: {x: 650, y: 180} // Adjusted position
     }
   ]
 };
