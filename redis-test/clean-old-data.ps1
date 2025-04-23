@@ -79,7 +79,7 @@ foreach ($key in $keys) {
             Write-Host "Deleted old key: $key (created on $($keyDate.ToString('yyyy-MM-dd')))" -ForegroundColor Green
             $removedKeys++
         } else {
-            Write-Host "Error deleting key $key: $deleteResult" -ForegroundColor Red
+            Write-Host "Error deleting key ${key}: $deleteResult" -ForegroundColor Red
         }
     }
     
