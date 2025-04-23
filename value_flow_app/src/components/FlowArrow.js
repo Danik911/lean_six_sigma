@@ -8,14 +8,20 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
     if (!node) return null;
     
     // Get node dimensions (approximate based on type)
-    let width = 150;
-    let height = 80;
+    let width = 160; // Default width
+    let height = 80;  // Default height
     
     if (id.includes('supplier')) {
       width = 120;
       height = 100;
     } else if (id.includes('inventory')) {
       width = 100;
+      height = 80;
+    } else if (id.includes('customer')) {
+      width = 180;
+      height = 120;
+    } else if (id.includes('dispatch')) {
+      width = 160;
       height = 80;
     }
     
@@ -49,38 +55,61 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
   const nx = dx / length;
   const ny = dy / length;
 
-  // Calculate intersection points with node boundaries
-  // From node
-  let fromX, fromY, toX, toY;
-  
-  // Simple calculation for edge points
-  if (Math.abs(nx) > Math.abs(ny)) {
-    // Horizontal predominant direction
-    fromX = fromCenter.x + (nx > 0 ? fromNode.width / 2 : -fromNode.width / 2);
-    fromY = fromCenter.y + ny * Math.abs(fromNode.width / 2 / nx);
+  // Adjust connection points for specific node types
+  const getConnectionPoint = (node, isFrom, nx, ny) => {
+    // Special case for customer at the top
+    if (node.id?.includes('customer') && !isFrom) {
+      return {
+        x: node.x + node.width / 2,
+        y: node.y + node.height * 0.8 // Connect to bottom of customer node
+      };
+    }
     
-    toX = toCenter.x + (nx < 0 ? toNode.width / 2 : -toNode.width / 2);
-    toY = toCenter.y - ny * Math.abs(toNode.width / 2 / nx);
-  } else {
-    // Vertical predominant direction
-    fromX = fromCenter.x + nx * Math.abs(fromNode.height / 2 / ny);
-    fromY = fromCenter.y + (ny > 0 ? fromNode.height / 2 : -fromNode.height / 2);
+    // For dispatch, connect closer to the previous element
+    if (node.id?.includes('dispatch') && !isFrom) {
+      return {
+        x: node.x - 5, // Connect to left side of dispatch
+        y: node.y + node.height / 2
+      };
+    }
     
-    toX = toCenter.x - nx * Math.abs(toNode.height / 2 / ny);
-    toY = toCenter.y + (ny < 0 ? toNode.height / 2 : -toNode.height / 2);
-  }
+    // For material flows, prefer horizontal connections
+    if (Math.abs(nx) > Math.abs(ny) * 1.2) {
+      // Horizontal predominant direction
+      const x = isFrom ? 
+        node.x + (nx > 0 ? node.width : 0) :
+        node.x + (nx < 0 ? node.width : 0);
+      return {
+        x: x,
+        y: node.y + node.height / 2
+      };
+    } else {
+      // Vertical predominant direction
+      const y = isFrom ?
+        node.y + (ny > 0 ? node.height : 0) :
+        node.y + (ny < 0 ? node.height : 0);
+      return {
+        x: node.x + node.width / 2,
+        y: y
+      };
+    }
+  };
 
-  // Calculate the angle and adjusted length for the arrow
-  const actualDx = toX - fromX;
-  const actualDy = toY - fromY;
-  const actualLength = Math.sqrt(actualDx * actualDx + actualDy * actualDy) - 15; // Subtract a bit to make arrowhead visible
+  // Get actual connection points
+  const fromPoint = getConnectionPoint(fromNode, true, nx, ny);
+  const toPoint = getConnectionPoint(toNode, false, nx, ny);
+  
+  // Calculate new direction and length
+  const actualDx = toPoint.x - fromPoint.x;
+  const actualDy = toPoint.y - fromPoint.y;
+  const actualLength = Math.sqrt(actualDx * actualDx + actualDy * actualDy) - 10; // Small offset for arrow head
   const angle = Math.atan2(actualDy, actualDx) * (180 / Math.PI);
 
   const arrowStyle = {
     width: `${actualLength}px`,
     transform: `rotate(${angle}deg)`,
-    left: `${fromX}px`,
-    top: `${fromY}px`,
+    left: `${fromPoint.x}px`,
+    top: `${fromPoint.y}px`,
     transformOrigin: 'left center',
     position: 'absolute',
     zIndex: 5
@@ -88,13 +117,13 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
 
   // Create a label position in the middle of the arrow
   const midPoint = {
-    x: fromX + actualDx * 0.5,
-    y: fromY + actualDy * 0.5
+    x: fromPoint.x + actualDx * 0.5,
+    y: fromPoint.y + actualDy * 0.5
   };
   
   // Offset label perpendicular to the arrow for better visibility
   const perpAngle = angle + 90;
-  const perpDistance = type === 'information' ? -20 : 20; // Different offset for different arrow types
+  const perpDistance = type === 'information' ? -15 : 15; // Different offset for different arrow types
   const labelOffset = {
     x: Math.cos(perpAngle * Math.PI / 180) * perpDistance,
     y: Math.sin(perpAngle * Math.PI / 180) * perpDistance
@@ -102,12 +131,18 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
   
   const labelStyle = {
     left: `${midPoint.x + labelOffset.x}px`,
-    top: `${midPoint.y + labelOffset.y - 10}px`,
+    top: `${midPoint.y + labelOffset.y - 8}px`, // Adjusted vertical position
     position: 'absolute',
     zIndex: 6
   };
 
-  const arrowClass = type === 'information' ? 'flow-arrow information-flow' : 'flow-arrow material-flow';
+  // Determine arrow class based on flow type
+  let arrowClass = 'flow-arrow';
+  if (type === 'information') {
+    arrowClass += ' information-flow';
+  } else {
+    arrowClass += flow.type === 'push' ? ' material-flow push-flow' : ' material-flow pull-flow';
+  }
 
   return (
     <>

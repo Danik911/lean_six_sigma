@@ -2,10 +2,10 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 1500px; /* Significantly increased for more vertical space */
+  min-height: 1200px; /* Reduced from 1500px */
   background-color: #f9f9f9;
   overflow: auto;
-  padding: 20px;
+  padding: 15px; /* Reduced from 20px */
   display: flex;
   flex-direction: column;
 }
@@ -14,9 +14,9 @@
   position: relative;
   flex: 1;
   width: 100%;
-  min-width: 1600px; /* Increased minimum width for better spacing */
-  height: 1400px; /* Increased height significantly */
-  margin-bottom: 150px; /* More space for timeline */
+  min-width: 1200px; /* Reduced from 1600px for better fit on standard screens */
+  height: 1100px; /* Reduced from 1400px */
+  margin-bottom: 100px; /* Reduced from 150px */
 }
 
 /* Node positioning and spacing - increase distance between elements */
@@ -25,11 +25,11 @@
 .inventory-node, 
 .customer-node {
   position: absolute;
-  z-index: 20; /* Higher base z-index for all nodes */
-  margin: 50px; /* Increased margin for better spacing */
+  z-index: 20; /* Keep higher z-index for nodes */
+  margin: 30px; /* Reduced from 50px while still maintaining spacing */
   transition: transform 0.2s;
   box-sizing: border-box;
-  min-width: 160px; /* Ensure minimum width */
+  /* Minimum width already set in individual component CSS */
 }
 
 .supplier-node:hover, 
@@ -37,7 +37,7 @@
 .inventory-node:hover,
 .customer-node:hover {
   transform: scale(1.05);
-  z-index: 40; /* Even higher z-index when hovered */
+  z-index: 40; /* Higher z-index when hovered */
 }
 
 /* Flow arrows should be below nodes */
@@ -47,26 +47,26 @@
   pointer-events: auto;
 }
 
-/* Problem Areas positioning with fixed dimensions */
+/* Problem Areas with smaller dimensions */
 .problem-area {
   position: absolute;
   z-index: 30;
   cursor: pointer;
   transition: transform 0.2s;
-  width: 40px; /* Fixed width */
-  height: 40px; /* Fixed height */
+  width: 32px; /* Reduced from 40px */
+  height: 32px; /* Reduced from 40px */
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  border-radius: 50%; /* Circle shape for better visibility */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for depth */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lighter shadow */
 }
 
 .problem-icon {
-  font-size: 24px;
+  font-size: 18px; /* Reduced from 24px */
   color: #e74c3c;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15)); /* Lighter shadow */
 }
 
 .problem-area:hover {
@@ -75,7 +75,7 @@
   background-color: rgba(255, 255, 255, 0.9); /* More opaque on hover */
 }
 
-/* Lean Opportunities positioning with fixed dimensions */
+/* Lean Opportunities with smaller dimensions */
 .lean-opportunity {
   position: absolute;
   z-index: 30;
@@ -84,28 +84,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 55px; /* Fixed width */
-  height: 55px; /* Fixed height */
-  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  border-radius: 8px; /* Rounded corners */
-  padding: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for depth */
+  width: 45px; /* Reduced from 55px */
+  height: 45px; /* Reduced from 55px */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px; /* Reduced from 8px */
+  padding: 4px; /* Reduced from 5px */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Lighter shadow */
 }
 
 .opportunity-icon {
-  font-size: 22px;
+  font-size: 18px; /* Reduced from 22px */
   color: #27ae60;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
-  margin-bottom: 3px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15)); /* Lighter shadow */
+  margin-bottom: 2px; /* Reduced from 3px */
 }
 
 .opportunity-label {
-  font-size: 9px;
+  font-size: 8px; /* Reduced from 9px */
   font-weight: bold;
   color: #2c3e50;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 1px 3px;
-  border-radius: 3px;
+  padding: 1px 2px; /* Reduced from 1px 3px */
+  border-radius: 2px; /* Reduced from 3px */
   white-space: nowrap;
   text-align: center;
   max-width: 100%;
@@ -119,74 +119,74 @@
   background-color: rgba(255, 255, 255, 0.9); /* More opaque on hover */
 }
 
-/* Map legend should be on top of everything */
+/* Keep map legend the same */
 .map-legend {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px; /* Adjusted from 20px */
+  right: 15px; /* Adjusted from 20px */
   background-color: rgba(255, 255, 255, 0.98);
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #aaa; /* Darker border */
-  font-size: 12px;
-  z-index: 200; /* Ensure legend is well above everything */
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  padding: 10px; /* Reduced from 15px */
+  border-radius: 4px; /* Reduced from 5px */
+  border: 1px solid #aaa;
+  font-size: 10px; /* Reduced from 12px */
+  z-index: 200;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Lighter shadow */
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 4px; /* Reduced from 5px */
 }
 
-/* Bottom timeline */
+/* Adjust bottom timeline */
 .bottom-timeline {
   position: relative;
-  margin-top: 120px; /* Significantly increased margin to push timeline down */
-  padding-top: 30px;
+  margin-top: 80px; /* Reduced from 120px */
+  padding-top: 20px; /* Reduced from 30px */
   width: 100%;
-  clear: both; /* Ensures timeline is below all floating elements */
+  clear: both;
   z-index: 15;
 }
 
 .timeline-title {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Reduced from 15px */
   color: #333;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px; /* Reduced from 16px */
 }
 
 .timeline {
   position: relative;
-  margin: 0 40px 30px 40px; /* Increased margin */
+  margin: 0 30px 20px 30px; /* Reduced from 0 40px 30px 40px */
 }
 
-/* Responsive adjustments */
+/* Keep responsive adjustments */
 @media (max-width: 768px) {
   .bottom-timeline {
-    padding: 15px;
+    padding: 10px; /* Reduced from 15px */
   }
   
   .timeline {
-    margin: 0 15px 15px 15px;
+    margin: 0 10px 10px 10px; /* Reduced from 0 15px 15px 15px */
   }
   
   .map-legend {
     position: relative;
     top: 10px;
     right: auto;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 15px auto; /* Reduced from 20px */
     width: fit-content;
   }
   
   .map-content {
     height: auto;
-    min-height: 1000px;
-    min-width: auto; /* Allow content to fit screen width */
+    min-height: 800px; /* Reduced from 1000px */
+    min-width: auto;
   }
   
   .value-stream-map {
-    min-height: 1200px;
+    min-height: 1000px; /* Reduced from 1200px */
   }
 }

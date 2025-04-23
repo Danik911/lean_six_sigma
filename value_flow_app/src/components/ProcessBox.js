@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FaCogs, FaDatabase } from 'react-icons/fa';
 import './ProcessBox.css';
 
-const ProcessBox = ({ process, isERP = false, onClick }) => {
+const ProcessBox = forwardRef(({ id, process, isERP = false, onClick }, ref) => {
   const renderProcessTimes = () => {
     if (process.processTimes) {
       return (
@@ -27,6 +27,8 @@ const ProcessBox = ({ process, isERP = false, onClick }) => {
 
   return (
     <div 
+      ref={ref}
+      id={id}
       className="process-node"
       style={{
         position: 'absolute',
@@ -64,6 +66,6 @@ const ProcessBox = ({ process, isERP = false, onClick }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProcessBox;

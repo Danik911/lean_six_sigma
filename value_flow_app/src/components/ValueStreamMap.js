@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SupplierNode from './SupplierNode';
 import ProcessBox from './ProcessBox';
 import InventoryTriangle from './InventoryTriangle';
 import FlowArrow from './FlowArrow';
 import ProcessDetailModal from './ProcessDetailModal';
+import ProblemArea from './ProblemArea';
+import LeanOpportunity from './LeanOpportunity';
+import CustomerNode from './CustomerNode';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { 
   MdOutlineWarning, 
@@ -23,6 +26,7 @@ const ValueStreamMap = ({
 }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const processesRef = useRef({});
 
   const handleElementClick = (element) => {
     setSelectedElement(element);
@@ -71,6 +75,21 @@ const ValueStreamMap = ({
         return <MdAutorenew className="opportunity-icon" />;
     }
   };
+
+  // Get all nodes for flow arrows
+  const getAllNodes = () => {
+    const allNodes = [
+      ...(data.suppliers || []),
+      ...(data.processes || []),
+      ...(data.inventoryPoints || []),
+      data.customer,
+      data.processes_erp
+    ].filter(Boolean);
+    
+    return allNodes;
+  };
+
+  const nodes = getAllNodes();
 
   return (
     <div className="value-stream-map">
@@ -121,8 +140,10 @@ const ValueStreamMap = ({
         {filterSettings.showProcesses && data.processes.map(process => (
           <ProcessBox 
             key={process.id}
+            id={process.id} // Important to set ID for reference
             process={process}
             onClick={() => handleElementClick(process)}
+            ref={el => processesRef.current[process.id] = el}
           />
         ))}
 
@@ -130,9 +151,11 @@ const ValueStreamMap = ({
         {filterSettings.showProcesses && data.processes_erp && (
           <ProcessBox 
             key={data.processes_erp.id}
+            id={data.processes_erp.id}
             process={data.processes_erp}
             isERP={true}
             onClick={() => handleElementClick(data.processes_erp)}
+            ref={el => processesRef.current[data.processes_erp.id] = el}
           />
         )}
 
@@ -151,7 +174,7 @@ const ValueStreamMap = ({
             key={flow.id}
             flow={flow}
             type="material"
-            nodes={[...data.suppliers, ...data.processes, ...data.inventoryPoints]}
+            nodes={nodes}
             onClick={() => handleElementClick(flow)}
           />
         ))}
@@ -162,62 +185,36 @@ const ValueStreamMap = ({
             key={flow.id}
             flow={flow}
             type="information"
-            nodes={[...data.suppliers, ...data.processes, ...data.inventoryPoints, data.processes_erp]}
+            nodes={nodes}
             onClick={() => handleElementClick(flow)}
           />
         ))}
 
         {/* Problem Areas - only show in current state */}
         {filterSettings.showProblemAreas && viewState === 'current' && data.problemAreas && data.problemAreas.map(problem => (
-          <div 
+          <ProblemArea 
             key={problem.id}
-            className="problem-area"
-            style={{
-              position: 'absolute',
-              left: `${problem.position.x}px`,
-              top: `${problem.position.y}px`,
-            }}
+            problem={problem}
             onClick={() => handleElementClick(problem)}
-            title={problem.description}
-          >
-            <FaExclamationTriangle className="problem-icon" />
-          </div>
+          />
         ))}
 
         {/* Lean Opportunities */}
         {filterSettings.showLeanOpportunities && data.leanOpportunities && data.leanOpportunities.map(opportunity => (
-          <div 
+          <LeanOpportunity 
             key={opportunity.id}
-            className="lean-opportunity"
-            style={{
-              position: 'absolute',
-              left: `${opportunity.position.x}px`,
-              top: `${opportunity.position.y}px`,
-            }}
+            opportunity={opportunity}
+            allProcesses={processesRef.current}
             onClick={() => handleElementClick(opportunity)}
-            title={opportunity.description}
-          >
-            {getLeanOpportunityIcon(opportunity.type)}
-            <span className="opportunity-label">{opportunity.type.toUpperCase()}</span>
-          </div>
+          />
         ))}
 
         {/* Customer */}
         {data.customer && (
-          <div 
-            className="customer-node"
-            style={{
-              position: 'absolute',
-              left: `${data.customer.position.x}px`,
-              top: `${data.customer.position.y}px`,
-            }}
+          <CustomerNode 
+            customer={data.customer}
             onClick={() => handleElementClick(data.customer)}
-          >
-            <div className="customer-box">
-              <h4>{data.customer.name}</h4>
-              <p>{data.customer.details}</p>
-            </div>
-          </div>
+          />
         )}
 
         {/* Process Detail Modal */}

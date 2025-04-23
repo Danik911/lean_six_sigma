@@ -2,19 +2,29 @@
   position: absolute;
   height: 2px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 5;
   pointer-events: auto;
   transition: all 0.2s ease;
 }
 
 .material-flow {
-  background-color: #e74c3c; /* Changed to red for material flow */
-  height: 3px;
+  background-color: #e74c3c; /* Red for material flow */
+  height: 2px;
+}
+
+.push-flow {
+  border-top: none;
+  border-bottom: none;
+}
+
+.pull-flow {
+  border-top: 0.5px dashed #333;
+  border-bottom: none;
 }
 
 .information-flow {
-  background-color: #3498db; /* Changed to blue for information flow */
-  border-top: 2px dashed #3498db;
+  background-color: #3498db; /* Blue for information flow */
+  border-top: 1.5px dashed #3498db;
   height: 0;
 }
 
@@ -22,57 +32,58 @@
   position: absolute;
   width: 0;
   height: 0;
-  right: -10px;
-  top: -4px;
+  right: -8px;
+  top: -3px;
 }
 
 .material-flow .arrow-head {
-  border-left: 10px solid #e74c3c; /* Matching material flow color */
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
+  border-left: 8px solid #e74c3c;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
 }
 
 .information-flow .arrow-head {
-  border-left: 10px solid #3498db; /* Matching information flow color */
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
+  border-left: 8px solid #3498db;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
 }
 
 .flow-label {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.98);
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  z-index: 15; /* Above arrows but below nodes */
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 1px 3px;
+  border-radius: 3px;
+  font-size: 8px;
+  z-index: 15;
   cursor: pointer;
-  border: 1px solid #ddd;
-  white-space: nowrap; /* Prevent text wrapping */
-  max-width: 150px; /* Increased width limit */
+  border: 1px solid #eee;
+  white-space: nowrap;
+  max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   pointer-events: auto;
 }
 
+/* Hover effects */
 .flow-arrow:hover {
   filter: brightness(1.2);
-  height: 5px; /* Thicker on hover */
-  z-index: 25; /* Higher z-index when hovered */
+  height: 3px;
+  z-index: 25;
 }
 
 .material-flow:hover {
-  box-shadow: 0 0 8px rgba(231, 76, 60, 0.8); /* Glow effect for red arrows */
+  box-shadow: 0 0 6px rgba(231, 76, 60, 0.6);
 }
 
 .information-flow:hover {
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.8); /* Glow effect for blue arrows */
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.6);
 }
 
 .flow-label:hover {
   background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  z-index: 35; /* Above everything else when hovered */
-  max-width: none; /* Show full text on hover */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 35;
+  max-width: none;
   transform: scale(1.05);
 }

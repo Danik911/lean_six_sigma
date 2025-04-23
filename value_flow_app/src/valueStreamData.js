@@ -7,7 +7,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-2 days",
       processTime: 0.5, // days
-      position: {x: 80, y: 150},
+      position: {x: 30, y: 150}, // Moved further left
       details: "Delivery to inward goods zone"
     },
     {
@@ -17,7 +17,7 @@ export const valueStreamData = {
       deliveryFrequency: "3 TIMES/WEEK",
       leadTime: "1 day",
       processTime: 0.3, // days
-      position: {x: 80, y: 350}, 
+      position: {x: 30, y: 350}, // Moved further left
       details: "Delivery to inward goods zone"
     },
     {
@@ -27,7 +27,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-3 days",
       processTime: 0.4, // days
-      position: {x: 80, y: 550}, 
+      position: {x: 30, y: 550}, // Moved further left
       details: "Delivery to inward goods zone"
     }
   ],
@@ -43,7 +43,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 40, // percentage
-      position: {x: 280, y: 350}, // Starting position
+      position: {x: 250, y: 350}, // Increased horizontal spacing
       details: "Inward goods arrival"
     },
     {
@@ -56,7 +56,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 20, // percentage
-      position: {x: 460, y: 350}, // Increased spacing
+      position: {x: 450, y: 350}, // Increased horizontal spacing
       details: "Verification of delivery"
     },
     {
@@ -69,7 +69,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 15, // percentage
-      position: {x: 640, y: 350}, // Increased spacing
+      position: {x: 650, y: 350}, // Increased horizontal spacing
       details: "Storing medical devices"
     },
     {
@@ -82,7 +82,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 15, // percentage
-      position: {x: 820, y: 350}, // Increased spacing
+      position: {x: 850, y: 350}, // Increased horizontal spacing
       details: "Moving products to shop"
     },
     {
@@ -95,7 +95,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 20, // percentage
-      position: {x: 1000, y: 350}, // Increased spacing
+      position: {x: 1050, y: 350}, // Increased horizontal spacing
       details: "Placing on shelves"
     },
     {
@@ -108,7 +108,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 90, // percentage - high value added
-      position: {x: 1180, y: 350}, // Increased spacing
+      position: {x: 1250, y: 350}, // Increased horizontal spacing
       details: "Sales process"
     },
     {
@@ -121,7 +121,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 30, // percentage
-      position: {x: 1000, y: 200}, // Moved up to avoid overlap
+      position: {x: 380, y: 200}, // Spaced out to the left
       details: "Monitoring inventory"
     },
     {
@@ -134,7 +134,7 @@ export const valueStreamData = {
       FPY: 76.5, // percentage - from baseline data
       staff: 6,
       valueAddedRatio: 10, // percentage - low value
-      position: {x: 820, y: 200}, // Moved up to avoid overlap
+      position: {x: 780, y: 200}, // Spaced out to the right
       details: "Stock-take counting"
     },
     {
@@ -147,7 +147,7 @@ export const valueStreamData = {
       FPY: 85, // percentage - approximate
       staff: 6,
       valueAddedRatio: 15, // percentage
-      position: {x: 640, y: 200}, // Moved up to avoid overlap
+      position: {x: 580, y: 200}, // Centered
       details: "Barcode scanning during stock-take"
     },
     {
@@ -160,7 +160,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 50, // percentage
-      position: {x: 1360, y: 350}, // Far right for final process
+      position: {x: 1450, y: 350}, // Increased horizontal spacing
       details: "Products leaving pharmacy"
     }
   ],
@@ -173,7 +173,7 @@ export const valueStreamData = {
       averageQuantity: 500,
       storageCapacityUtilization: 70, // percentage
       stockoutRate: 0, // percentage
-      position: {x: 280, y: 250}, // Adjusted position
+      position: {x: 250, y: 450}, // Match with Receiving position
       details: "Temporary storage at receiving area"
     },
     {
@@ -183,7 +183,7 @@ export const valueStreamData = {
       averageQuantity: 2500,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 480, y: 450}, // Adjusted position
+      position: {x: 650, y: 450}, // Match with Main Warehouse position
       details: "Main storage location for inventory"
     },
     {
@@ -192,7 +192,7 @@ export const valueStreamData = {
       location: "Shop Building",
       averageQuantity: 1200,
       storageCapacityUtilization: 65, // percentage
-      position: {x: 680, y: 450}, // Adjusted position
+      position: {x: 850, y: 450}, // Match with Transfer to Shop position
       details: "Products on display or in shop storage"
     }
   ],
@@ -388,14 +388,14 @@ export const valueStreamData = {
       supplierIntegration: "API",
       orderAccuracyTarget: 99 // percentage
     },
-    position: {x: 580, y: 80}
+    position: {x: 580, y: 80} // Adjusted to match screenshot
   },
   
   customer: {
     id: "customer",
     name: "SimplePharma Customers",
     satisfaction: 86, // percentage
-    position: {x: 950, y: 350}, 
+    position: {x: 1180, y: 120}, // Moved to top of map
     details: "Medical devices and drugs, Various packaging, Daily average sales"
   },
   
@@ -521,23 +521,24 @@ export const valueStreamData = {
       id: "problem-manual-count",
       process: "process-manual-count",
       description: "Inefficient manual counting with sticky notes",
-      position: {x: 580, y: 180} // Adjusted position
+      position: {x: 0, y: 0} // Top-left of Manual Count
     },
     {
       id: "problem-scanning",
       process: "process-scanning",
       description: "Delays in scanning and data upload",
-      position: {x: 480, y: 180} // Adjusted position
+      position: {x: 0, y: 0} // Top-left of Scanning
     },
     {
       id: "problem-info-flow",
       description: "Information flow between warehouse and shop",
-      position: {x: 530, y: 380} // Adjusted position for better spacing
+      position: {x: 0, y: 0} // Top-left of Main Warehouse
     },
     {
       id: "problem-stock-take",
       description: "Stock-take scheduling (quarterly closures)",
-      position: {x: 530, y: 120} // Adjusted position
+      process: "process-erp", // Associate with process 
+      position: {x: 0, y: 0} // Top-left of Production Control
     }
   ],
   
@@ -547,25 +548,29 @@ export const valueStreamData = {
       id: "lean-kanban",
       type: "kanban",
       description: "Kanban implementation opportunity",
-      position: {x: 640, y: 450} // Adjusted position
+      process: "process-main-warehouse", // Associate with Main Warehouse
+      position: { x: 0, y: 0 } // Position will be calculated relative to process
     },
     {
       id: "lean-5s",
       type: "5s",
       description: "5S implementation opportunity",
-      position: {x: 740, y: 500} // Adjusted position
+      process: "process-stock-control", // Associate with Stock Control
+      position: { x: 0, y: 0 } // Position will be calculated relative to process
     },
     {
       id: "lean-smed",
       type: "smed",
       description: "SMED opportunity for reducing setup times",
-      position: {x: 420, y: 180} // Adjusted position
+      process: "process-receiving", // Changed to associate with Receiving
+      position: { x: 0, y: 0 } // Position will be calculated relative to process
     },
     {
       id: "lean-automation",
       type: "automation",
       description: "RFID implementation opportunity",
-      position: {x: 650, y: 180} // Adjusted position
+      process: "process-erp", // Associate with Production Control
+      position: { x: 0, y: 0 } // Position will be calculated relative to process
     }
   ]
 };
