@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 900px; /* Increased from 800px to 900px for more space */
+  min-height: 1000px; /* Increased for more vertical space */
   background-color: #f9f9f9;
   overflow: auto;
   padding: 20px;
@@ -14,12 +14,9 @@
   position: relative;
   flex: 1;
   width: 100%;
-  height: 800px; /* Increased from 700px to 800px */
-  margin-bottom: 100px; /* Increased from 40px to 100px for timeline spacing */
-  /* Add a container-relative coordinate system */
-  transform-origin: top left;
-  transform: scale(1); /* Will be adjusted via JS for zoom functionality if needed */
-  overflow: visible; /* Allow elements to be visible outside the container */
+  min-width: 900px; /* Added minimum width to prevent squeezing */
+  height: 900px; /* Increased height for better spacing */
+  margin-bottom: 100px;
 }
 
 .supplier-node, .process-box, .inventory-triangle {
@@ -27,22 +24,14 @@
   z-index: 5;
   margin: 5px;
   transition: transform 0.2s;
-  /* Add offset to center nodes on their coordinates */
-  transform: translate(-50%, -50%);
+  /* Added a minimum distance between elements */
+  min-width: 160px;
+  box-sizing: border-box;
 }
 
 .supplier-node:hover, .process-box:hover, .inventory-triangle:hover {
-  /* Modify transform to maintain centering while scaling */
-  transform: translate(-50%, -50%) scale(1.03);
+  transform: scale(1.03);
   z-index: 15;
-}
-
-/* Add specific container sizing for better icon spacing */
-.supplier-icon, .process-icon, .inventory-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5px;
 }
 
 .flow-arrow {

@@ -1,0 +1,88 @@
+{
+    "hediet.vscode-drawio.resizeImages": null,
+    "editor.largeFileOptimizations": false,
+    "workbench.editorAssociations": {
+        "*.sqlite": "default"
+    },
+    "remoteHub.commitDirectlyWarning": "off",
+    "database-client.autoSync": true,
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "notebook.output.textLineLimit": 50,
+    "mssql.connectionGroups": [
+        {
+            "name": "ROOT",
+            "id": "9363A285-0189-4A0B-98AE-338CBB1587F1"
+        }
+    ],
+    "mssql.connections": [],
+    "jupyter.askForKernelRestart": false,
+    "mcp": {
+		// "servers": {
+		// 	"tavily-mcp": {
+		// 		"command": "npx",
+		// 		"args": [
+		// 			"-y",
+		// 			"tavily-mcp@0.1.2"
+		// 		],
+		// 		"env": {
+		// 			"TAVILY_API_KEY": "${env:TAVILY_API_KEY}"
+		// 		}
+		// 	},
+		// 	"React Icons MCP": {
+		// 		"command": "cmd",
+		// 		"args": [
+		// 			"/c",
+		// 			"npx",
+		// 			"-y",
+		// 			"react-icons-mcp",
+		// 			"--stdio"
+		// 		]
+		// 	},
+		// 	"excel": {
+		// 		"command": "cmd",
+		// 		"args": [
+		// 			"/c",
+		// 			"npx",
+		// 			"--yes",
+		// 			"@negokaz/excel-mcp-server"
+		// 		],
+		// 		"env": {
+		// 			"EXCEL_MCP_PAGING_CELLS_LIMIT": "4000"
+		// 		}
+		// 	},
+		// 	"perplexity-ask": {
+		// 		"command": "docker",
+		// 		"args": [
+		// 			"run",
+		// 			"-i",
+		// 			"--rm",
+		// 			"-e",
+		// 			"PERPLEXITY_API_KEY",
+		// 			"mcp/perplexity-ask"
+		// 		],
+		// 		"env": {
+		// 			"PERPLEXITY_API_KEY": "${env:PERPLEXITY_API_KEY}"
+		// 		}
+		// 	},
+		// 	"sequentialthinking": {
+		// 		"command": "docker",
+		// 		"args": [
+		// 			"run",
+		// 			"-i",
+		// 			"--rm",
+		// 			"mcp/sequentialthinking"
+		// 		]
+		// 	},
+            
+		// 	"playwright": {
+		// 		"command": "npx",
+		// 		"args": [
+		// 			"@playwright/mcp@latest"
+		// 		]
+		// 	}
+		// }
+	},
+    "chat.mcp.discovery.enabled": true,
+    "C:\\Users\\anteb\\AppData\\Roaming\\Code\\User\\settings.json": null
+}

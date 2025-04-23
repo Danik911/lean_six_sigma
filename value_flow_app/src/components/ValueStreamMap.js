@@ -120,7 +120,6 @@ const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTak
               position: 'absolute',
               left: `${data.customer.position.x}px`,
               top: `${data.customer.position.y}px`,
-              transform: 'translate(-50%, -50%)' // Center the node on its coordinates
             }}
             onClick={() => handleElementClick(data.customer)}
           >

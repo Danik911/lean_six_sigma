@@ -17,7 +17,7 @@ export const valueStreamData = {
       deliveryFrequency: "3 times/week",
       leadTime: "1 day",
       processTime: 0.3, // days
-      position: {x: 80, y: 350}, // Moved down to 350 from 300
+      position: {x: 80, y: 350}, 
       details: "Pharmaceutical supplier with consistent delivery schedule"
     },
     {
@@ -27,7 +27,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 times/week",
       leadTime: "1-3 days",
       processTime: 0.4, // days
-      position: {x: 80, y: 550}, // Moved down to 550 from 450
+      position: {x: 80, y: 550}, 
       details: "Supplies miscellaneous healthcare products"
     }
   ],
@@ -57,7 +57,7 @@ export const valueStreamData = {
         equipment: ["Pallet trucks", "Trolleys"]
       },
       valueAddedRatio: 40, // percentage
-      position: {x: 300, y: 350}, // Adjusted to x: 300, y: 350
+      position: {x: 280, y: 350}, // Adjusted position
       details: "Receiving process involves manual verification of incoming goods against delivery documents"
     },
     {
@@ -82,7 +82,7 @@ export const valueStreamData = {
         }
       },
       valueAddedRatio: 15, // percentage
-      position: {x: 520, y: 350}, // Adjusted to x: 520, y: 350
+      position: {x: 500, y: 350}, // Adjusted position
       details: "Storage in two locations: medical devices in main warehouse (3rd floor), drugs and miscellaneous in shop building (ground floor)"
     }
   ],
@@ -95,7 +95,7 @@ export const valueStreamData = {
       averageQuantity: 2500,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 410, y: 200}, // Adjusted to x: 410, y: 200
+      position: {x: 390, y: 160}, // Adjusted position
       details: "Main storage location for medical devices"
     },
     {
@@ -105,7 +105,7 @@ export const valueStreamData = {
       averageQuantity: 3800,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 410, y: 500}, // Adjusted to x: 410, y: 500
+      position: {x: 390, y: 540}, // Adjusted position
       details: "Primary storage for pharmaceutical and miscellaneous products"
     },
     {
@@ -114,7 +114,7 @@ export const valueStreamData = {
       location: "Shop Building (1st Floor)",
       averageQuantity: 1200,
       storageCapacityUtilization: 65, // percentage
-      position: {x: 630, y: 350}, // Adjusted to x: 630, y: 350
+      position: {x: 610, y: 350}, // Adjusted position
       details: "Shop floor inventory with two separate storage rooms"
     }
   ],
@@ -246,7 +246,7 @@ export const valueStreamData = {
     id: "customer",
     name: "Pharmacy Customers",
     satisfaction: 86, // percentage
-    position: {x: 750, y: 350}, // Adjusted to x: 750, y: 350
+    position: {x: 750, y: 350}, 
     details: "End customers purchasing at the pharmacy shop floor"
   },
   
