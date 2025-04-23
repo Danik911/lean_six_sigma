@@ -1,0 +1,627 @@
+Step 1: Update Basic Information
+
+Change the process title:
+
+"Sage and onion stuffing" → "SimplePharma Inventory Management"
+Mark "Current" in the state indicators (Current/Future/Ideal)
+
+
+Update the date to the current date (April 2025)
+
+Step 2: Replace Suppliers
+
+Replace supplier information:
+
+"PURE" → "MedDev" (with "2 TIMES/WEEK" delivery frequency)
+"TMC" → "DrugSeek" (with "3 TIMES/WEEK" delivery frequency)
+"EVRON" → "VitaFast" (with "2 TIMES/WEEK" delivery frequency)
+
+
+Update supplier delivery notes:
+
+"Delivery to stock" → "Delivery to inward goods zone"
+"monthly forecast purchasing weekly delivery Daily" → "Orders based on previous year sales, online orders, and periodic events"
+
+
+
+Step 3: Update Customer Information
+
+Replace customer details:
+
+"Bally mun Depot" → "SimplePharma Customers"
+"Sage & onion 1000 x 400g daily" → "Medical devices and drugs"
+"10 x 454g/case" → "Various packaging"
+"100 cases" → "Daily average sales"
+
+
+
+Step 4: Replace Process Steps
+
+Replace process boxes with SimplePharma's processes:
+
+"Receiving" → Keep "Receiving" (inward goods arrival)
+"WEIGH UP" → "Check Dockets" (verification of delivery)
+"COOKING" → "Main Warehouse" (storing medical devices)
+"BLAST CHILLING" → "Transfer to Shop" (moving products to shop)
+"MIXING" → "Store in Shop" (placing on shelves)
+"TUBBING" → "Sell to Customer" (sales process)
+"Weigh chk" → "Stock Control" (monitoring inventory)
+"packing" → "Manual Count" (stock-take counting)
+"freezing/temper" → "Scanning" (barcode scanning during stock-take)
+"Dispatch" → Keep "Dispatch" (products leaving pharmacy)
+
+
+
+Step 5: Update Process Data
+
+Fill in process data based on available information:
+a. For "Receiving":
+
+C/T: 30 mins (estimated time to receive goods)
+C/O: 15 mins (estimated time to prepare for next delivery)
+FPY: 100% (assuming all receipts are processed correctly)
+
+b. For "Check Dockets":
+
+C/T: 20 mins (time to verify delivery against documents)
+C/O: 10 mins
+FPY: 100%
+
+c. For "Main Warehouse":
+
+C/T: 45 mins (time to store goods in warehouse)
+C/O: 15 mins
+FPY: 100%
+
+d. For "Transfer to Shop":
+
+C/T: 25 mins (based on document stating time to transfer)
+C/O: 10 mins
+FPY: 100%
+
+e. For "Store in Shop":
+
+C/T: 20 mins (time to place goods on shelves)
+C/O: N/A
+FPY: 100%
+
+f. For "Stock Control":
+
+C/T: 15 mins (checking inventory twice daily)
+C/O: N/A
+FPY: 100%
+
+g. For "Manual Count" (during stock-take):
+
+C/T: 120 mins (estimated time for manual counting during stock-take)
+C/O: 60 mins (preparation time)
+FPY: 76.5% (from baseline_data_report showing "Overall Count Accuracy: 76.50%")
+
+h. For "Scanning":
+
+C/T: 90 mins (estimated scanning time during stock-take)
+C/O: 5 mins (time to upload data)
+FPY: 85% (approximate, based on Scanner Count accuracy from categorical_analysis_report)
+
+i. For "Dispatch":
+
+C/T: 15 mins
+C/O: N/A
+FPY: 100%
+
+
+
+Step 6: Update Staff Numbers
+
+Update the number of staff for each process:
+
+Receiving: 1 person
+Check Dockets: 1 person
+Main Warehouse: 2 people
+Transfer to Shop: 1 person
+Store in Shop: 2 people
+Sell to Customer: 2 people
+Stock Control: 1 person
+Manual Count: 6 people (all staff involved in stock-take)
+Scanning: 6 people (using 6 scanners mentioned in document)
+Dispatch: 1 person
+
+
+
+Step 7: Update Information Flow
+
+Update the information flow arrows:
+
+Keep "Production Control" in the center
+Connect to "PLANNING" and "PURCHASING"
+Add "ERP Omega" system information flow connecting all processes
+Add "Daily Orders" and "Monthly Forecast" from shop to production control
+Show information flow for stock requests from shop to warehouse
+
+
+
+Step 8: Add Notes on Non-Value Activities
+
+Add notes about non-value activities:
+
+"90 mins for washdown, 30mins set up" → "Staff search time for zones: 5 mins per group"
+"non added value aprox 80 mins" → "Manual counting and scanner upload time: 5 mins per scanner"
+"Quality checks = 200 mins lost per cycle" → "Recounting due to inconsistencies: 60-90 mins per stock-take"
+"non added value recording and checks 1 person full-time" → "Data verification and corrections: 1-2 hours per stock-take"
+
+
+
+Step 9: Highlight Problem Areas
+
+Mark the key problem areas with triangles:
+
+Manual Count process (inefficient manual counting with sticky notes)
+Scanning process (delays in scanning and data upload)
+Information flow between warehouse and shop
+Stock-take scheduling (quarterly closures)
+
+
+
+Step 10: Add Lean Opportunities
+
+Indicate potential Lean improvements:
+
+Add a Kanban symbol near the inventory management processes
+Add a 5S symbol near the storage areas
+Add SMED (Single Minute Exchange of Die) opportunities for reducing setup times
+Indicate opportunities for automation (RFID implementation)
+
+
+
+Step 11: Calculate Key Process Metrics
+
+Calculate and add overall process metrics:
+
+Total Lead Time: Sum of all process times
+Value-Added Time: Sum of value-adding process times
+Process Cycle Efficiency: Value-Added Time / Total Lead Time
+Current accuracy rate: 76.5% (from baseline data)
+
+Regular Operations (Non-Stock-Take Processes)
+
+Receiving (Inward goods arrival):
+
+OEE/Util: 92%
+Rationale: High accuracy in receipt process, but occasional delays when multiple deliveries arrive simultaneously.
+
+
+Check Dockets (Verification of delivery):
+
+OEE/Util: 95%
+Rationale: Documentation process is mostly standardized with minimal errors.
+
+
+Main Warehouse (Storing medical devices):
+
+OEE/Util: 88%
+Rationale: Based on warehouse accuracy rate of 70.89% from categorical analysis, with adjustments for general operations being more efficient than stock-taking.
+
+
+Transfer to Shop (Moving products to shop):
+
+OEE/Util: 85%
+Rationale: Some inefficiency due to movement between buildings and manual transfer processes.
+
+
+Store in Shop (Placing on shelves):
+
+OEE/Util: 82%
+Rationale: Shop floor operations show 78.81% accuracy during counts, adjusted for regular operations.
+
+
+Sell to Customer (Sales process):
+
+OEE/Util: 93%
+Rationale: Customer-facing process is well-maintained with high performance standards.
+
+
+Stock Control (Monitoring inventory):
+
+OEE/Util: 80%
+Rationale: Regular checks show moderate efficiency but lack real-time visibility.
+
+
+
+Stock-Taking Processes
+
+Manual Count (Stock-take counting):
+
+OEE/Util: 62%
+Rationale: Directly based on Manual Count accuracy of 62.19% from categorical analysis, reflecting inefficiencies in the current process.
+
+
+Scanning (Barcode scanning during stock-take):
+
+OEE/Util: 75%
+Rationale: Scanner Count accuracy is 85.10%, but reduced by data upload delays and waiting time between zones.
+
+
+Data Verification (Team leader checking):
+
+OEE/Util: 68%
+Rationale: Process involves duplication of effort and frequent inconsistencies requiring recounts.
+
+
+Dispatch (Products leaving pharmacy):
+
+OEE/Util: 90%
+Rationale: Outbound logistics are generally efficient with few errors.
+
+
+
+Overall System Efficiency
+The overall system OEE would be approximately 78% for regular operations, dropping to around 65% during stock-taking periods, which aligns with our observed baseline accuracy of 76.50% and accounts for the significant efficiency drops during quarterly stock-takes.
+These estimates highlight critical improvement opportunities, particularly in the manual count and scanning processes, where implementing RFID technology as proposed in the project charter could dramatically increase efficiency and eliminate the need for disruptive quarterly stock-takes.
+
+Element 1: Suppliers and Order Process
+Visual Components:
+
+Supplier Nodes: Three rectangular boxes representing suppliers (MedDev, DrugSeek, VitaFast) positioned on the left side of the map
+Information Flow Arrows: Dashed lines from SimplePharma to suppliers representing order placement
+Material Flow Arrows: Solid lines from suppliers to Receiving process
+
+Data Attributes:
+
+MedDev:
+
+Delivery frequency: Daily (working days)
+Lead time: 1-2 days
+Products: Medical devices
+Process time: 0.5 days
+
+
+DrugSeek:
+
+Delivery frequency: 3 times/week
+Lead time: 1 day
+Products: Pharmaceutical drugs
+Process time: 0.3 days
+
+
+VitaFast:
+
+Delivery frequency: 2 times/week
+Lead time: 1-3 days
+Products: Miscellaneous goods
+Process time: 0.4 days
+
+
+
+Process Details:
+
+Operation manager analyzes demand based on:
+
+Previous year's sales
+Online orders
+Seasonal events
+
+
+Orders created in ERP (Omega)
+Orders transmitted electronically to suppliers
+Suppliers confirm orders and delivery dates
+Orders arrive at inward goods zone between buildings
+
+Current State Metrics:
+
+Order processing time: 2 hours
+Order accuracy: 92%
+Communication inefficiencies: 15% of orders require clarification
+Manual ordering process with limited automation
+
+Future State Improvements:
+
+AI-powered demand forecasting (95% accuracy)
+Automated ordering system
+Real-time inventory visibility with RFID
+Supplier integration via API
+Order accuracy target: 99%
+
+Element 2: Receiving Process
+Visual Components:
+
+Process Box: Rectangular box labeled "Receiving" positioned after the supplier nodes
+Staff Icons: Representing warehouse team members
+Information Flow Arrows: Dashed lines connecting to ERP system
+Material Flow Arrows: Solid lines from receiving to respective storage locations
+Inventory Triangle: Representing WIP (Work in Progress) after receiving
+
+Data Attributes:
+
+Process Time:
+
+Medical devices: 1.5 hours
+Drugs: 1.2 hours
+Miscellaneous: 0.8 hours
+
+
+Wait Time: 2-4 hours (depending on delivery timing)
+Cycle Time: 3-6 hours total
+Resources: 2-3 warehouse staff members, pallet trucks, trolleys
+Value-Added Ratio: 40% (much time spent on manual verification)
+
+Process Details:
+
+Trucks arrive at inward goods zone between buildings
+For MedDev (medical devices):
+
+Warehouse team transfers goods to trolleys
+Goods brought to main warehouse (3rd floor)
+
+
+For drugs/miscellaneous:
+
+Team uses pallet trucks to transfer goods
+Items brought to drugs/miscellaneous warehouse (shop building, ground floor)
+
+
+Staff count received stock manually
+Quantities compared with paper delivery documents
+Inventory automatically updated in Omega ERP (shared database with suppliers)
+
+Current State Metrics:
+
+Receiving accuracy: 94%
+Average processing time: 3.5 hours per delivery
+Manual counting errors: 6%
+Documentation discrepancies: 8%
+Resource utilization: 65% (staff often waiting or searching)
+
+Future State Improvements:
+
+RFID-enabled receiving process (scan entire pallets)
+Digital proof of delivery system
+Automated quantity verification
+Reduced processing time target: 0.8 hours
+Receiving accuracy target: 99.5%
+Real-time inventory updates with location tracking
+
+Element 3: Storage Process
+Visual Components:
+
+Process Box: Rectangular box labeled "Storage" positioned after the Receiving process
+Building Icons: Representing different storage locations (main warehouse and shop building)
+Information Flow Arrows: Dashed lines showing inventory updates in Omega ERP
+Material Flow Arrows: Solid lines showing movement of goods to different storage locations
+Inventory Triangle: Representing stored inventory waiting to be moved to shop floor
+
+Data Attributes:
+
+Process Time:
+
+Medical devices storage: 0.8 hours
+Drugs/miscellaneous storage: 0.6 hours
+
+
+Wait Time:
+
+Medical devices: 2-5 days (average inventory turnover)
+Drugs: 1-3 days
+Miscellaneous: 3-7 days
+
+
+Cycle Time: Varies by product type, averaging 3 days
+Resources: Warehouse staff, storage shelves, ERP system
+Value-Added Ratio: 15% (mostly non-value added holding time)
+
+Process Details:
+
+Medical devices stored in main warehouse building (3rd floor)
+Drugs and miscellaneous items stored in shop building (ground floor)
+Items organized by type, size, and turnover frequency
+Warehouse team checks medical device storage room at least twice daily
+Team creates lists of devices to be transferred to shop floor
+For drug/miscellaneous, warehouse team inspects storage room twice daily
+Items transferred between locations must be recorded in Omega ERP
+
+Current State Metrics:
+
+Storage capacity utilization: 78%
+Stockout rate: 5.2%
+Overstock rate: 12%
+Average days of inventory: 21 days
+Storage accuracy: 76.5%
+Space efficiency: 65%
+
+Future State Improvements:
+
+RFID tagging for all inventory
+Real-time inventory visibility system
+Optimized storage layouts based on turnover
+Automated replenishment triggers
+Reduced average inventory to 14 days
+Storage accuracy target: 99%
+Space efficiency target: 85%
+
+Element 4: Internal Distribution Process
+Visual Components:
+
+Process Box: Rectangular box labeled "Internal Distribution" positioned after the Storage process
+Arrow Paths: Different colored paths showing movement between buildings and floors
+Staff Icons: Representing warehouse team members moving products
+Information Flow Arrows: Dashed lines showing requests and confirmations in ERP
+Material Flow Arrows: Solid lines showing physical movement of goods
+Inventory Triangle: Representing in-transit inventory between locations
+
+Data Attributes:
+
+Process Time:
+
+Medical devices transfer: 1.2 hours (includes picking, system transaction, physical movement)
+Drugs/miscellaneous transfer: 0.9 hours
+
+
+Wait Time:
+
+Request processing delay: 1-4 hours (depending on warehouse team availability)
+Time between request and fulfillment: Average 5 hours
+
+
+Cycle Time: 4.5-7 hours from request to delivery
+Resources: Warehouse staff, trolleys, ERP system, paper lists
+Value-Added Ratio: 25% (much non-value time in waiting and transport)
+
+Process Details:
+
+Shop personnel create product request lists in ERP Omega
+Warehouse team receives request and begins processing
+For medical devices:
+
+Staff checks quantities in main warehouse (3rd floor)
+Creates ERP transaction to transfer items
+Physically moves items via trolleys to shop building
+Delivers to medical device storage room on first floor
+
+
+For drugs/miscellaneous:
+
+Staff checks ground floor warehouse in shop building
+No ERP transaction needed (already shown as "in shop")
+Physically moves items to first floor storage room
+
+
+Items left in storage rooms for shop personnel to place on shelves
+
+Current State Metrics:
+
+Request fulfillment accuracy: 82%
+Average request fulfillment time: 5.5 hours
+Transportation waste: High (multiple trips between buildings)
+Double-handling instances: 35% of items
+Transfer transaction errors: 8%
+Stock request frequency: 5-8 times daily
+
+Future State Improvements:
+
+Mobile scanning app for real-time request processing
+RFID tracking to eliminate manual transfers in system
+Optimized delivery schedule (reducing trips)
+Automated priority queuing for requests
+Request fulfillment accuracy target: 98%
+Average fulfillment time target: 2 hours
+
+Element 5: Shop Floor Operations
+Visual Components:
+
+Process Box: Rectangular box labeled "Shop Floor Operations" following Internal Distribution
+Customer Icons: Representing different customer types (patients, healthcare providers)
+Staff Icons: Representing pharmacy shop personnel
+Information Flow Arrows: Dashed lines showing sales transactions in ERP
+Material Flow Arrows: Solid lines showing product movement to customers
+Inventory Triangle: Representing displayed inventory on shop floor shelves
+
+Data Attributes:
+
+Process Time:
+
+Shelving new products: 1.5 hours daily
+Average customer service time: 4-8 minutes per transaction
+
+
+Wait Time:
+
+Products in storage room before shelving: 2-8 hours
+Customer wait time during peak hours: 5-12 minutes
+
+
+Cycle Time: Products typically remain on shelves for 7-21 days
+Resources: Shop personnel, shelving units, POS system, ERP terminal
+Value-Added Ratio: 60% (customer interaction is value-added, shelving activities less so)
+
+Process Details:
+
+Shop personnel retrieve products from storage rooms
+Items arranged on shelves according to category and demand
+Staff responsible for maintaining shelf organization and appearance
+Customers select products or request assistance
+Sales transactions recorded in POS system linked to Omega ERP
+Inventory automatically decremented in system upon sale
+Shop personnel monitor stock levels visually
+When levels low, staff creates replenishment requests
+
+Current State Metrics:
+
+Customer service time: 6.2 minutes average
+Customer satisfaction: 82%
+Shelf availability rate: 93% (products requested are available)
+Out-of-stock occurrences: 7% of customer requests
+Product findability: 75% (customers can find products without assistance)
+Revenue per staff hour: €120
+
+Future State Improvements:
+
+Digital shelf labels with real-time inventory information
+Tablet-based inventory management for staff
+Automated replenishment triggers at pre-set thresholds
+Customer wait time target: max 3 minutes
+Shelf availability target: 99%
+Product findability target: 95%
+Revenue per staff hour target: €150
+
+Element 6: Stock Take Process
+Visual Components:
+
+Process Box: Rectangular box labeled "Stock Take" connected to Shop Floor Operations
+Timeline Bar: Visual representation showing quarterly frequency
+Staff Icons: Showing all personnel involved (shop and warehouse teams)
+Information Flow Arrows: Dashed lines showing data movement to/from scanners to ERP
+Material Flow Arrows: Minimal during this process as shop is partially closed
+Warning Indicators: Showing revenue loss periods during shop closure
+
+Data Attributes:
+
+Process Time:
+
+Manual counting: 2 hours (3-5 p.m.)
+Lunch break: 1 hour (5-6 p.m.)
+Scanning and verification: 3+ hours (6-9+ p.m.)
+Total: 6+ hours quarterly
+
+
+Wait Time:
+
+Scanner upload waiting time: 5+ minutes per group
+Staff idle time while waiting: 30+ minutes per person
+Recounting time due to errors: 1-2 hours typically
+
+
+Cycle Time: Entire process occurs quarterly (4 times per year)
+Resources: All staff, 6 scanners, Excel for verification, paper sticky notes, ERP system
+Value-Added Ratio: 15% (mostly non-value added activities)
+
+Process Details:
+
+Shop partially closes medical device section at 3 p.m.
+Shop completely closes at 5 p.m. (normal closing is 9 p.m.)
+All staff arrive at 2 p.m. to prepare
+Staff manually count all stock and place sticky notes with quantities
+Lunch break occurs from 5-6 p.m.
+Staff divided into 6 groups with scanners
+Each group assigned to zones (often unclear where zones are located)
+Items scanned and data uploaded to Omega ERP
+Team leader checks data in Excel, identifying inconsistencies
+Staff often need to recount items due to errors
+Process continues until accurate inventory is established
+
+Current State Metrics:
+
+Overall count accuracy: 76.5%
+Revenue loss during closure: Approximately 6 hours quarterly (24 hours annually)
+Staff efficiency during stock take: 45%
+Error rate requiring recounts: 25% of items
+Total labor hours per stock take: ~120 staff hours
+Process completion time: Often extends beyond planned 9 p.m. closure
+
+Future State Improvements:
+
+RFID-based real-time inventory system eliminating need for quarterly closures
+Continuous inventory accuracy verification without disrupting operations
+Tablet-based mobile verification for spot checks
+Elimination of revenue loss from closures
+Reduction of manual counting labor by 95%
+Inventory accuracy target: 99.5%
+Labor hour reduction: 95% (from 120 to ~6 hours for oversight)

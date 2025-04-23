@@ -2,7 +2,7 @@
   position: absolute;
   height: 2px;
   cursor: pointer;
-  z-index: 5;
+  z-index: 10;
 }
 
 .material-flow {
@@ -38,20 +38,29 @@
 
 .flow-label {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 2px 5px;
-  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.98);
+  padding: 3px 6px;
+  border-radius: 4px;
   font-size: 11px;
-  z-index: 6;
-  transform: translate(-50%, 0);
+  z-index: 15; /* Above arrows but below nodes */
+  transform: translate(-50%, -25px); /* Move label higher above the line */
   cursor: pointer;
+  border: 1px solid #ddd;
+  white-space: nowrap; /* Prevent text wrapping */
+  max-width: 150px; /* Increased width limit */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .flow-arrow:hover {
   filter: brightness(0.8);
+  z-index: 25; /* Higher z-index when hovered */
 }
 
 .flow-label:hover {
   background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 35; /* Above everything else when hovered */
+  max-width: none; /* Show full text on hover */
 }

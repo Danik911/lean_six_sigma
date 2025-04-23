@@ -15,7 +15,9 @@ function App() {
     showProcesses: true,
     showInventory: true,
     showInfoFlow: true,
-    showMaterialFlow: true
+    showMaterialFlow: true,
+    showProblemAreas: true,
+    showLeanOpportunities: true
   });
   const [timelineRange, setTimelineRange] = useState(7);
 
@@ -37,12 +39,15 @@ function App() {
   const toggleStockTakeSimulation = () => {
     setShowStockTakeSimulation(!showStockTakeSimulation);
   };
+  
+  // Current date for display
+  const currentDate = "April 2025";
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>SimplePharma Value Stream Map</h1>
-        <p>DMAIC Project Visualization</p>
+        <h1>SimplePharma Inventory Management</h1>
+        <p>Value Stream Mapping - {currentDate}</p>
         <Nav className="justify-content-center">
           <Nav.Item>
             <Button 
@@ -59,6 +64,13 @@ function App() {
             </Button>
           </Nav.Item>
           <Nav.Item className="mx-2">
+            <Button 
+              variant="outline-primary" 
+              disabled>
+              Ideal State
+            </Button>
+          </Nav.Item>
+          <Nav.Item className="ml-3">
             <Button 
               variant={showStockTakeSimulation ? 'warning' : 'outline-warning'}
               onClick={toggleStockTakeSimulation}>
@@ -96,7 +108,7 @@ function App() {
             </Col>
             <Col>
               <div className="bg-warning text-white p-2 mb-1">
-                Inventory Accuracy: {valueStreamData.metrics?.inventoryAccuracy || "N/A"}%
+                Inventory Accuracy: {valueStreamData.metrics?.currentState?.inventoryAccuracy || "N/A"}%
               </div>
             </Col>
           </Row>

@@ -4,6 +4,8 @@ import ProcessBox from './ProcessBox';
 import InventoryTriangle from './InventoryTriangle';
 import FlowArrow from './FlowArrow';
 import ProcessDetailModal from './ProcessDetailModal';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { AiFillTool } from 'react-icons/ai';
 import './ValueStreamMap.css';
 
 const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTakeSimulation, filterSettings }) => {
@@ -50,6 +52,14 @@ const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTak
           <div className="legend-item">
             <div className="legend-color legend-information"></div>
             <span>Information Flow</span>
+          </div>
+          <div className="legend-item">
+            <FaExclamationTriangle className="legend-icon legend-problem" />
+            <span>Problem Area</span>
+          </div>
+          <div className="legend-item">
+            <AiFillTool className="legend-icon legend-opportunity" />
+            <span>Improvement Opportunity</span>
           </div>
         </div>
         
@@ -112,6 +122,41 @@ const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTak
           />
         ))}
 
+        {/* Problem Areas */}
+        {filterSettings.showProblemAreas && data.problemAreas && data.problemAreas.map(problem => (
+          <div 
+            key={problem.id}
+            className="problem-area"
+            style={{
+              position: 'absolute',
+              left: `${problem.position.x}px`,
+              top: `${problem.position.y}px`,
+            }}
+            onClick={() => handleElementClick(problem)}
+            title={problem.description}
+          >
+            <FaExclamationTriangle className="problem-icon" />
+          </div>
+        ))}
+
+        {/* Lean Opportunities */}
+        {filterSettings.showLeanOpportunities && data.leanOpportunities && data.leanOpportunities.map(opportunity => (
+          <div 
+            key={opportunity.id}
+            className="lean-opportunity"
+            style={{
+              position: 'absolute',
+              left: `${opportunity.position.x}px`,
+              top: `${opportunity.position.y}px`,
+            }}
+            onClick={() => handleElementClick(opportunity)}
+            title={opportunity.description}
+          >
+            <AiFillTool className="opportunity-icon" />
+            <span className="opportunity-label">{opportunity.type.toUpperCase()}</span>
+          </div>
+        ))}
+
         {/* Customer */}
         {data.customer && (
           <div 
@@ -125,7 +170,7 @@ const ValueStreamMap = ({ data, view, selectedMetric, onNodeSelect, showStockTak
           >
             <div className="customer-box">
               <h4>{data.customer.name}</h4>
-              <p>Satisfaction: {data.customer.satisfaction}%</p>
+              <p>{data.customer.details}</p>
             </div>
           </div>
         )}

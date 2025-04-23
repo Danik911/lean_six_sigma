@@ -173,7 +173,7 @@ export const valueStreamData = {
       averageQuantity: 500,
       storageCapacityUtilization: 70, // percentage
       stockoutRate: 0, // percentage
-      position: {x: 280, y: 250}, // Adjusted position
+      position: {x: 280, y: 200}, // Adjusted Y position further up
       details: "Temporary storage at receiving area"
     },
     {
@@ -183,7 +183,7 @@ export const valueStreamData = {
       averageQuantity: 2500,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 480, y: 450}, // Adjusted position
+      position: {x: 480, y: 480}, // Adjusted Y position down
       details: "Main storage location for inventory"
     },
     {
@@ -192,7 +192,7 @@ export const valueStreamData = {
       location: "Shop Building",
       averageQuantity: 1200,
       storageCapacityUtilization: 65, // percentage
-      position: {x: 680, y: 450}, // Adjusted position
+      position: {x: 680, y: 480}, // Adjusted Y position down
       details: "Products on display or in shop storage"
     }
   ],
@@ -373,7 +373,7 @@ export const valueStreamData = {
       supplierIntegration: "API",
       orderAccuracyTarget: 99 // percentage
     },
-    position: {x: 580, y: 80}
+    position: {x: 580, y: 60} // Adjusted Y position slightly up
   },
   
   customer: {
@@ -506,23 +506,23 @@ export const valueStreamData = {
       id: "problem-manual-count",
       process: "process-manual-count",
       description: "Inefficient manual counting with sticky notes",
-      position: {x: 580, y: 220}
+      position: {x: 580, y: 300} // Adjusted Y position further down
     },
     {
       id: "problem-scanning",
       process: "process-scanning",
       description: "Delays in scanning and data upload",
-      position: {x: 480, y: 220}
+      position: {x: 480, y: 300} // Adjusted Y position further down
     },
     {
       id: "problem-info-flow",
       description: "Information flow between warehouse and shop",
-      position: {x: 530, y: 300}
+      position: {x: 530, y: 400} // Adjusted Y position down
     },
     {
       id: "problem-stock-take",
       description: "Stock-take scheduling (quarterly closures)",
-      position: {x: 530, y: 160}
+      position: {x: 510, y: 110} // Adjusted Y position slightly up
     }
   ],
   
@@ -532,25 +532,25 @@ export const valueStreamData = {
       id: "lean-kanban",
       type: "kanban",
       description: "Kanban implementation opportunity",
-      position: {x: 580, y: 450}
+      position: {x: 580, y: 530} // Adjusted Y position down
     },
     {
       id: "lean-5s",
       type: "5s",
       description: "5S implementation opportunity",
-      position: {x: 680, y: 500}
+      position: {x: 720, y: 530} // Adjusted Y position down
     },
     {
       id: "lean-smed",
       type: "smed",
       description: "SMED opportunity for reducing setup times",
-      position: {x: 480, y: 200}
+      position: {x: 460, y: 190} // Adjusted X and Y position
     },
     {
       id: "lean-automation",
       type: "automation",
       description: "RFID implementation opportunity",
-      position: {x: 580, y: 200}
+      position: {x: 630, y: 110} // Adjusted X position slightly right
     }
   ]
 };

@@ -15,25 +15,42 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
     return null; // Skip if we can't find positions
   }
 
+  // Add offset to connect to node edges instead of centers
+  const offsetFromPos = { x: fromPosition.x, y: fromPosition.y };
+  const offsetToPos = { x: toPosition.x, y: toPosition.y };
+
   // Calculate the angle and length of the arrow
-  const dx = toPosition.x - fromPosition.x;
-  const dy = toPosition.y - fromPosition.y;
-  const length = Math.sqrt(dx * dx + dy * dy);
+  const dx = offsetToPos.x - offsetFromPos.x;
+  const dy = offsetToPos.y - offsetFromPos.y;
+  const length = Math.sqrt(dx * dx + dy * dy) - 20; // Subtract 20px to avoid overlapping with nodes
   const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
   // Create a line with appropriate styling
   const arrowStyle = {
     width: `${length}px`,
     transform: `rotate(${angle}deg)`,
-    left: `${fromPosition.x}px`,
-    top: `${fromPosition.y}px`,
+    left: `${offsetFromPos.x + 10}px`, // Add small offset
+    top: `${offsetFromPos.y}px`,
     transformOrigin: 'left center',
   };
 
-  // Create a label position
+  // Create a label position - use a formula that keeps it away from nodes
+  const midPoint = {
+    x: offsetFromPos.x + dx * 0.5,
+    y: offsetFromPos.y + dy * 0.5
+  };
+  
+  // Offset label perpendicular to the arrow
+  const perpAngle = angle + 90;
+  const perpDistance = 20; // Distance perpendicular to arrow
+  const labelOffset = {
+    x: Math.cos(perpAngle * Math.PI / 180) * perpDistance,
+    y: Math.sin(perpAngle * Math.PI / 180) * perpDistance
+  };
+  
   const labelStyle = {
-    left: `${fromPosition.x + dx / 2}px`,
-    top: `${fromPosition.y + dy / 2 - 20}px`,
+    left: `${midPoint.x + labelOffset.x}px`,
+    top: `${midPoint.y + labelOffset.y - 15}px`, // Move up a bit
   };
 
   const arrowClass = type === 'information' ? 'flow-arrow information-flow' : 'flow-arrow material-flow';

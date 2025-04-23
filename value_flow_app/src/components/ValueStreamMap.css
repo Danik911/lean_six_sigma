@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 1000px; /* Increased for more vertical space */
+  min-height: 1500px; /* Significantly increased for more vertical space */
   background-color: #f9f9f9;
   overflow: auto;
   padding: 20px;
@@ -14,152 +14,109 @@
   position: relative;
   flex: 1;
   width: 100%;
-  min-width: 900px; /* Added minimum width to prevent squeezing */
-  height: 900px; /* Increased height for better spacing */
-  margin-bottom: 100px;
+  min-width: 1600px; /* Increased minimum width for better spacing */
+  height: 1400px; /* Increased height significantly */
+  margin-bottom: 150px; /* More space for timeline */
 }
 
-.supplier-node, .process-box, .inventory-triangle {
+/* Node positioning and spacing - increase distance between elements */
+.supplier-node, 
+.process-node,
+.inventory-node, 
+.customer-node {
   position: absolute;
-  z-index: 5;
-  margin: 5px;
+  z-index: 20; /* Higher base z-index for all nodes */
+  margin: 40px; /* Significantly increased margin for more spacing */
   transition: transform 0.2s;
-  /* Added a minimum distance between elements */
-  min-width: 160px;
   box-sizing: border-box;
+  min-width: 160px; /* Ensure minimum width */
 }
 
-.supplier-node:hover, .process-box:hover, .inventory-triangle:hover {
-  transform: scale(1.03);
-  z-index: 15;
+.supplier-node:hover, 
+.process-node:hover, 
+.inventory-node:hover,
+.customer-node:hover {
+  transform: scale(1.05);
+  z-index: 40; /* Even higher z-index when hovered */
 }
 
+/* Flow arrows should be below nodes */
 .flow-arrow {
   position: absolute;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.customer-node {
-  cursor: pointer;
-  width: 180px;
   z-index: 10;
+  pointer-events: auto;
 }
 
-.customer-box {
-  background-color: #ecf0f1;
-  border: 2px solid #3498db;
-  border-radius: 4px;
-  padding: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Problem Areas should be above nodes */
+.problem-area {
+  position: absolute;
+  z-index: 30;
+  cursor: pointer;
+  transition: transform 0.2s;
+  /* Offset to avoid direct overlap */
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
-.customer-box h4 {
-  margin: 0 0 5px 0;
-  font-size: 16px;
-  color: #2c3e50;
-  text-align: center;
-  border-bottom: 1px solid #bdc3c7;
-  padding-bottom: 5px;
+.problem-icon {
+  font-size: 24px;
+  color: #e74c3c;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
 }
 
-.customer-box p {
-  margin: 4px 0;
-  font-size: 12px;
+.problem-area:hover {
+  transform: scale(1.2);
+  z-index: 45;
 }
 
-.bottom-timeline {
-  position: relative;
-  margin-top: 50px; /* Added margin to push timeline down */
-  padding-top: 20px;
-  width: 100%;
-  clear: both; /* Ensures timeline is below all floating elements */
-}
-
-.timeline-title {
-  text-align: center;
-  margin-bottom: 10px;
-  color: #333;
-  font-weight: bold; /* Added to make title more visible */
-}
-
-.timeline {
-  position: relative;
-  margin: 0 30px 20px 30px;
-  padding: 10px;
-  background-color: #ecf0f1;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 20;
-}
-
-.timeline-header {
+/* Lean Opportunities should be above nodes */
+.lean-opportunity {
+  position: absolute;
+  z-index: 30;
+  cursor: pointer;
+  transition: transform 0.2s;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-  font-size: 14px;
+  flex-direction: column;
+  align-items: center;
+  /* Offset to avoid direct overlap */
+  margin-left: -10px;
+  margin-top: -10px;
+}
+
+.opportunity-icon {
+  font-size: 22px;
+  color: #27ae60;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.opportunity-label {
+  font-size: 10px;
   font-weight: bold;
-}
-
-.timeline-bar {
-  display: flex;
-  height: 30px;
-  width: 100%;
-  border: 1px solid #bdc3c7;
+  color: #2c3e50;
+  margin-top: 2px;
+  background-color: rgba(255, 255, 255, 0.9); /* More opaque */
+  padding: 2px 4px;
   border-radius: 3px;
-  overflow: hidden;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
-.value-added {
-  background-color: #2ecc71;
-  color: white;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.lean-opportunity:hover {
+  transform: scale(1.2);
+  z-index: 45;
 }
 
-.non-value-added-necessary {
-  background-color: #f39c12;
-  color: white;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pure-waste {
-  background-color: #e74c3c;
-  color: white;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
+/* Map legend should be on top of everything */
 .map-legend {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.98);
+  padding: 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #aaa; /* Darker border */
   font-size: 12px;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 200; /* Ensure legend is well above everything */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 .legend-item {
@@ -168,44 +125,37 @@
   margin-bottom: 5px;
 }
 
-.legend-color {
-  width: 15px;
-  height: 15px;
-  margin-right: 10px;
+/* Bottom timeline */
+.bottom-timeline {
+  position: relative;
+  margin-top: 120px; /* Significantly increased margin to push timeline down */
+  padding-top: 30px;
+  width: 100%;
+  clear: both; /* Ensures timeline is below all floating elements */
+  z-index: 15;
 }
 
-.legend-supplier {
-  background-color: #2c3e50;
+.timeline-title {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
 }
 
-.legend-process {
-  background-color: #27ae60;
-}
-
-.legend-inventory {
-  background-color: #e74c3c;
-}
-
-.legend-material {
-  background-color: #3498db;
-  height: 3px;
-  width: 20px;
-}
-
-.legend-information {
-  border-top: 2px dashed #e74c3c;
-  height: 0;
-  width: 20px;
+.timeline {
+  position: relative;
+  margin: 0 40px 30px 40px; /* Increased margin */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .bottom-timeline {
-    padding: 10px;
+    padding: 15px;
   }
   
   .timeline {
-    margin: 0 10px 10px 10px;
+    margin: 0 15px 15px 15px;
   }
   
   .map-legend {
@@ -217,10 +167,12 @@
   }
   
   .map-content {
-    height: 600px; /* Increased from 500px to 600px */
+    height: auto;
+    min-height: 1000px;
+    min-width: auto; /* Allow content to fit screen width */
   }
   
   .value-stream-map {
-    min-height: 700px; /* Increased from 600px to 700px */
+    min-height: 1200px;
   }
 }
