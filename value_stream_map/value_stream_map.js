@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 
+// Define waste icons and descriptions
+const wasteIcons = {
+  motion: { icon: '🔄', name: 'Motion Waste', color: 'bg-purple-200' },
+  waiting: { icon: '⏳', name: 'Waiting Waste', color: 'bg-blue-200' },
+  transportation: { icon: '🚚', name: 'Transportation Waste', color: 'bg-green-200' },
+  defects: { icon: '❌', name: 'Defects Waste', color: 'bg-red-200' },
+  overprocessing: { icon: '⚙️', name: 'Overprocessing Waste', color: 'bg-yellow-200' },
+  inventory: { icon: '📦', name: 'Inventory Waste', color: 'bg-orange-200' },
+  talent: { icon: '👤', name: 'Talent Waste', color: 'bg-indigo-200' }
+};
+
 // Main app component
 const ValueStreamMap = () => {
   // Basic state
@@ -47,8 +58,13 @@ const ValueStreamMap = () => {
             <div className="flex items-center">
               <div>→</div>
             </div>
-            <div className="bg-purple-100 border-2 border-purple-500 rounded p-4 m-2 text-center">
+            <div className="bg-purple-100 border-2 border-purple-500 rounded p-4 m-2 text-center relative">
               <div>Process</div>
+              {/* Example waste icons */}
+              <div className="absolute -top-2 -right-2 flex flex-wrap gap-1 max-w-[120px]">
+                <WasteIcon type="defects" data="23.5% error rate" />
+                <WasteIcon type="waiting" data="1hr lunch break" />
+              </div>
             </div>
             <div className="flex items-center">
               <div>→</div>
@@ -59,6 +75,30 @@ const ValueStreamMap = () => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+// Waste icon component with tooltip
+const WasteIcon = ({ type, data }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const waste = wasteIcons[type];
+  
+  if (!waste) return null;
+  
+  return (
+    <div 
+      className={`${waste.color} border rounded-full w-6 h-6 flex items-center justify-center cursor-help relative`}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+    >
+      <span>{waste.icon}</span>
+      {showTooltip && (
+        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-gray-800 text-white text-xs rounded shadow-lg whitespace-nowrap z-10">
+          <strong>{waste.name}</strong>
+          {data && <div>{data}</div>}
+        </div>
+      )}
     </div>
   );
 };
