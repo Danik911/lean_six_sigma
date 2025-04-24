@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimplePharma Stocktake Process Flow</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .container {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      transform-origin: top left;
+      transition: transform 0.3s ease;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    
+    .zoom-control {
+      display: flex;
+      align-items: center;
+    }
+    
+    .info-panels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+    
+    .legend, .metrics {
+      border: 1px solid #d1d5db;
+      padding: 15px;
+      flex: 1;
+    }
+    
+    .legend-title, .metrics-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    
+    .legend-box {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border-width: 2px;
+      border-style: solid;
+    }
+    
+    .metrics-list {
+      list-style-type: none;
+      padding-left: 15px;
+    }
+    
+    .metrics-item {
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .metrics-item:before {
+      content: "•";
+      position: absolute;
+      left: -15px;
+    }
+    
+    .process-flow {
+      border: 1px solid #d1d5db;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .phase-headers {
+      display: flex;
+      background-color: #f3f4f6;
+    }
+    
+    .phase-header {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      border-right: 1px solid white;
+    }
+    
+    .phase-content {
+      display: flex;
+      min-height: 800px;
+      position: relative;
+    }
+    
+    .phase {
+      flex: 1;
+      border-right: 1px solid #d1d5db;
+      padding: 20px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    
+    .phase:last-child {
+      border-right: none;
+    }
+    
+    .process-step {
+      text-align: center;
+      padding: 10px;
+      width: 150px;
+      margin-bottom: 20px;
+      position: relative;
+      font-size: 14px;
+      z-index: 5;
+    }
+    
+    .start-end {
+      background-color: #DCFCE7;
+      border: 2px solid #22C55E;
+      border-radius: 50px;
+    }
+    
+    .end {
+      background-color: #FEE2E2;
+      border: 2px solid #EF4444;
+      border-radius: 50px;
+    }
+    
+    .process {
+      background-color: #DBEAFE;
+      border: 2px solid #3B82F6;
+      border-radius: 4px;
+    }
+    
+    .non-value {
+      background-color: #FED7AA;
+      border: 2px solid #3B82F6;
+      border-radius: 4px;
+    }
+    
+    .document {
+      background-color: #E9D5FF;
+      border: 2px solid #9333EA;
+      border-bottom-width: 6px;
+    }
+    
+    .delay {
+      background-color: #F3F4F6;
+      border: 2px solid #6B7280;
+      font-style: italic;
+    }
+    
+    .non-value-added {
+      border-style: dashed;
+    }
+    
+    .annotation {
+      position: absolute;
+      right: -85px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    
+    .waste-type {
+      position: absolute;
+      left: -130px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #FECACA;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #B91C1C;
+      z-index: 10;
+    }
+    
+    .accuracy {
+      position: absolute;
+      left: 0px;
+      bottom: -25px;
+      background-color: #DBEAFE;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #1E40AF;
+      z-index: 10;
+    }
+    
+    .training-impact {
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(170%);
+      background-color: #D8B4FE;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #6B21A8;
+      z-index: 10;
+    }
+    
+    .timestamp {
+      position: absolute;
+      right: -130px;
+      top: -20px;
+      background-color: #E5E7EB;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      color: #374151;
+      z-index: 10;
+    }
+    
+    .connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 3;
+    }
+    
+    .connector-line {
+      width: 2px;
+      height: 20px;
+      background-color: #4B5563;
+      margin-bottom: 4px;
+    }
+    
+    .connector-arrow {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #4B5563;
+    }
+    
+    .decision {
+      width: 120px;
+      height: 120px;
+      background-color: #FEF3C7;
+      border: 2px solid #F59E0B;
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0 40px;
+      position: relative;
+      z-index: 5;
+    }
+    
+    .decision-text {
+      transform: rotate(-45deg);
+      text-align: center;
+      width: 100px;
+    }
+    
+    .stats-panel {
+      border: 1px solid #d1d5db;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .stats-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .stat-box {
+      border-left: 8px solid;
+      padding: 10px;
+      border-radius: 4px;
+      min-width: 240px;
+      flex: 1 1 calc(50% - 15px);
+    }
+    
+    .stat-box-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .stat-box-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+    }
+    
+    .takt-copq {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .takt, .copq {
+      flex: 1;
+      border: 1px solid #d1d5db;
+      padding: 15px;
+      background-color: #F9FAFB;
+    }
+    
+    .takt-title, .copq-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .takt-content, .copq-content {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    
+    .note {
+      margin-top: 15px;
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .toggle-controls {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .toggle-checkbox {
+      margin-right: 5px;
+    }
+    
+    /* Cross-column arrows */
+    .arrow {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .arrow-recount {
+      position: absolute;
+      top: 280px;
+      right: 180px;
+      z-index: 10;
+      font-size: 12px;
+      font-weight: bold;
+      color: #DC2626;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #FCA5A5;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .arrow-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+      /* Add this to ensure it scales with parent */
+      transform: inherit;
+      transform-origin: inherit;
+    }
+    
+    .process-step.elevated {
+      z-index: 6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="main-container">
+    <div class="header">
+      <div class="title">SimplePharma Quarterly Stocktake Process Flow</div>
+      <div class="controls">
+        <div class="zoom-control">
+          <span id="zoom-value">Zoom: 100%</span>
+          <input 
+            type="range" 
+            min="50" 
+            max="150" 
+            value="100" 
+            id="zoom-slider"
+            style="width: 150px; margin-left: 10px;"
+            aria-label="Zoom control"
+          />
+        </div>
+        <div class="toggle-controls">
+          <label class="toggle-label">
+            <input 
+              type="checkbox" 
+              id="highlight-waste-checkbox"
+              class="toggle-checkbox"
+            />
+            Highlight Waste
+          </label>
+          <label class="toggle-label">
+            <input 
+              type="checkbox" 
+              id="value-added-checkbox"
+              class="toggle-checkbox"
+            />
+            Show Value-Added Only
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="info-panels">
+      <div class="legend">
+        <div class="legend-title">LEGEND</div>
+        
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #DCFCE7; border-color: #22C55E; border-radius: 50%;"></div>
+          <span>Start/End</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #DBEAFE; border-color: #3B82F6;"></div>
+          <span>Process</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #FED7AA; border-color: #3B82F6;"></div>
+          <span>Non-Value Added Process</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #FEF3C7; border-color: #F59E0B; transform: rotate(45deg);"></div>
+          <span>Decision</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #E9D5FF; border-color: #9333EA; border-bottom-width: 4px;"></div>
+          <span>Document</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #F3F4F6; border-color: #6B7280;"></div>
+          <span>Storage/Delay</span>
+        </div>
+      </div>
+      
+      <div class="metrics">
+        <div class="metrics-title">PROCESS METRICS</div>
+        <ul class="metrics-list">
+          <li class="metrics-item">Total Duration: ~7 hours</li>
+          <li class="metrics-item">Lost Revenue Time: 6 hours</li>
+          <li class="metrics-item">Current Accuracy: 76.5%</li>
+          <li class="metrics-item">Staff Utilization: Low (multiple waiting periods)</li>
+          <li class="metrics-item">Recounting Rate: High (>20% of items)</li>
+          <li class="metrics-item">Value-Added Time: 3.5 hours (50%)</li>
+          <li class="metrics-item">Non-Value Added Time: 3.5 hours (50%)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div id="process-flow" class="process-flow">
+      <div class="phase-headers">
+        <div class="phase-header">Manual Counting Phase</div>
+        <div class="phase-header">Scanning Phase</div>
+        <div class="phase-header">Verification Phase</div>
+      </div>
+      
+      <div class="phase-content">
+        <!-- Phase 1: Manual Counting -->
+        <div id="phase-1" class="phase">
+          <div class="process-step process elevated" id="step-1-1">
+            Staff count inventory on shelves and storage rooms
+            <div class="annotation">~2 hours</div>
+            <div class="timestamp">3:00 PM - 5:00 PM</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step process non-value-added elevated" id="step-1-2">
+            Place sticky notes with counted quantities on shelves
+            <div class="timestamp">4:30 PM - 5:00 PM</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step delay non-value-added elevated" id="step-1-3">
+            Staff take lunch break (5:00-6:00 PM)
+            <div class="annotation">1 hour</div>
+            <div class="timestamp">5:00 PM - 6:00 PM</div>
+          </div>
+        </div>
+        
+        <!-- Phase 2: Scanning -->
+        <div id="phase-2" class="phase">
+          <div class="process-step process non-value-added elevated" id="step-2-1">
+            Staff divided into groups of two
+            <div class="timestamp">6:00 PM - 6:10 PM</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step process non-value-added elevated" id="step-2-2">
+            Six scanners distributed to groups
+            <div class="accuracy">Scanner Count accuracy: 85.1%</div>
+            <div class="timestamp">6:10 PM - 6:15 PM</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step process elevated" id="step-2-3">
+            Groups scan products in assigned zones
+            <div class="annotation">Variable</div>
+            <div class="timestamp">6:15 PM - 7:30 PM</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step process non-value-added elevated" id="step-2-4">
+            Return scanner to sales manager
+            <div class="timestamp">Variable</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step non-value non-value-added elevated" id="step-2-5">
+            Sales manager uploads data to Omega ERP
+            <div class="annotation">5 min</div>
+            <div class="waste-type" id="waste-1">Waiting Waste</div>
+            <div class="timestamp">Variable</div>
+          </div>
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step delay non-value-added elevated" id="step-2-6">
+            Staff wait for data upload
+            <div class="annotation">Non-Value</div>
+            <div class="waste-type" id="waste-2">Waiting Waste</div>
+            <div class="timestamp">Variable</div>
+          </div>
+        </div>
+        
+        <!-- Phase 3: Verification -->
+        <div id="phase-3" class="phase">
+          <div class="process-step process elevated" id="step-3-1">
+            Warehouse team leader checks data in Excel
+            <div class="training-impact">Team Leaders: Higher accuracy rate</div>
+            <div class="timestamp">7:30 PM - 8:00 PM</div>
+          </div>
+          
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="decision" id="decision-1">
+            <div class="decision-text">
+              Discrepancies found?
+            </div>
+          </div>
+          
+          <div id="final-steps" style="margin-top: 60px;">
+            <div class="process-step process elevated" id="step-3-2">
+              Update inventory records in Omega ERP
+              <div class="timestamp">8:00 PM - 8:30 PM</div>
+            </div>
+            
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step end non-value-added elevated" id="step-3-3">
+              End Stocktake Process
+              <div class="timestamp">8:30 PM - 9:00 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG Arrows Container -->
+        <div id="arrow-container" class="arrow-container"></div>
+        
+        <!-- Recount Note -->
+        <div class="arrow-recount" id="recount-note">
+          Staff sent to recount
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-panel">
+      <div class="stats-title">KEY STATISTICAL INSIGHTS</div>
+      
+      <div class="stats-container">
+        <div class="stat-box" style="border-color: #DBEAFE;">
+          <div class="stat-box-title">Staff Training Impact</div>
+          <ul class="stat-box-list">
+            <li>Advanced: 87.3% accuracy</li>
+            <li>Intermediate: 77.4% accuracy</li>
+            <li>Basic: 65.3% accuracy</li>
+          </ul>
+        </div>
+        
+        <div class="stat-box" style="border-color: #E9D5FF;">
+          <div class="stat-box-title">Count Method Comparison</div>
+          <ul class="stat-box-list">
+            <li>Scanner Count: 85.1% accuracy</li>
+            <li>Manual Count: 62.2% accuracy</li>
+            <li>Combined Method: 62.4% accuracy</li>
+          </ul>
+        </div>
+        
+        <div class="stat-box" style="border-color: #FED7AA;">
+          <div class="stat-box-title">Time of Day Effect</div>
+          <ul class="stat-box-list">
+            <li>Morning counts more accurate</li>
+            <li>Evening counts least accurate</li>
+            <li>Statistically significant (p=0.027)</li>
+          </ul>
+        </div>
+        
+        <div class="stat-box" style="border-color: #FEF3C7;">
+          <div class="stat-box-title">Waste Classification</div>
+          <ul class="stat-box-list">
+            <li>Waiting: 1+ hours per stocktake</li>
+            <li>Defects: 23.5% error rate</li>
+            <li>Transportation: Multiple building movements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="takt-copq">
+      <div class="takt">
+        <div class="takt-title">TAKT TIME ANALYSIS</div>
+        <div class="takt-content">
+          <div>
+            <div><strong>Available Time:</strong> 6 hours</div>
+            <div><strong>Customer Demand:</strong> 1 complete inventory</div>
+            <div><strong>Calculated TAKT:</strong> 6 hours</div>
+          </div>
+          <div>
+            <div><strong>Current Cycle Time:</strong> 7 hours</div>
+            <div><strong>TAKT Gap:</strong> 1 hour (16.7%)</div>
+            <div><strong>Process Efficiency:</strong> 50%</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="copq">
+        <div class="copq-title">COST OF POOR QUALITY (COPQ)</div>
+        <div class="copq-content">
+          <div>
+            <div><strong>Revenue Loss:</strong> €3,600 per stocktake</div>
+            <div><strong>Staff Overtime:</strong> €720 per stocktake</div>
+            <div><strong>Inventory Inaccuracy Cost:</strong> €4,200 per quarter</div>
+          </div>
+          <div>
+            <div><strong>Annual COPQ:</strong> €34,080</div>
+            <div><strong>Project Savings Target:</strong> €27,260 (80%)</div>
+            <div><strong>ROI Period:</strong> 5.5 months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="note">
+      <p>Note: Use the zoom slider to adjust the diagram size and toggle the checkboxes to analyze different aspects of the process.</p>
+    </div>
+  </div>
+
+  <script>
+    // Create and add SVG for cross-column arrows
+    function createSvgArrows() {
+      // Get the arrow container
+      const arrowContainer = document.getElementById('arrow-container');
+      
+      // Clear any existing content
+      while (arrowContainer.firstChild) {
+        arrowContainer.removeChild(arrowContainer.firstChild);
+      }
+      
+      // Create SVG element
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+      svg.style.position = 'absolute';
+      svg.style.top = '0';
+      svg.style.left = '0';
+      svg.style.pointerEvents = 'none';
+      
+      // Create marker definition
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      
+      const redMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      redMarker.setAttribute('id', 'red-arrowhead');
+      redMarker.setAttribute('markerWidth', '10');
+      redMarker.setAttribute('markerHeight', '7');
+      redMarker.setAttribute('refX', '9');
+      redMarker.setAttribute('refY', '3.5');
+      redMarker.setAttribute('orient', 'auto');
+      
+      const redPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      redPolygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+      redPolygon.setAttribute('fill', '#DC2626');
+      
+      redMarker.appendChild(redPolygon);
+      
+      const greenMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+      greenMarker.setAttribute('id', 'green-arrowhead');
+      greenMarker.setAttribute('markerWidth', '10');
+      greenMarker.setAttribute('markerHeight', '7');
+      greenMarker.setAttribute('refX', '9');
+      greenMarker.setAttribute('refY', '3.5');
+      greenMarker.setAttribute('orient', 'auto');
+      
+      const greenPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      greenPolygon.setAttribute('points', '0 0, 10 3.5, 0 7');
+      greenPolygon.setAttribute('fill', '#047857');
+      
+      greenMarker.appendChild(greenPolygon);
+      
+      defs.appendChild(redMarker);
+      defs.appendChild(greenMarker);
+      svg.appendChild(defs);
+      
+      // Get process flow container for relative positioning
+      const processFlowRect = document.getElementById('process-flow').getBoundingClientRect();
+      
+      // Get elements and calculate precise positions
+      const decision = document.getElementById('decision-1');
+      const decisionRect = decision.getBoundingClientRect();
+      const decisionCenterX = (decisionRect.left + decisionRect.right) / 2 - processFlowRect.left;
+      const decisionCenterY = (decisionRect.top + decisionRect.bottom) / 2 - processFlowRect.top;
+      
+      const scanningBox = document.getElementById('step-2-3');
+      const scanningBoxRect = scanningBox.getBoundingClientRect();
+      const scanningRightEdgeX = scanningBoxRect.right - processFlowRect.left;
+      const scanningCenterY = (scanningBoxRect.top + scanningBoxRect.bottom) / 2 - processFlowRect.top;
+      
+      const updateInventory = document.getElementById('step-3-2');
+      const updateInventoryRect = updateInventory.getBoundingClientRect();
+      const updateLeftEdgeX = updateInventoryRect.left - processFlowRect.left;
+      const updateCenterY = (updateInventoryRect.top + updateInventoryRect.bottom) / 2 - processFlowRect.top;
+      
+      // Create the first path (decision to recount/scanning)
+      const pathRecount = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const recountPath = `M ${decisionCenterX} ${decisionCenterY} L ${decisionCenterX - 170} ${decisionCenterY} L ${decisionCenterX - 170} ${scanningCenterY} L ${scanningRightEdgeX} ${scanningCenterY}`;
+      
+      pathRecount.setAttribute('d', recountPath);
+      pathRecount.setAttribute('stroke', '#DC2626');
+      pathRecount.setAttribute('stroke-width', '3px');
+      pathRecount.setAttribute('fill', 'none');
+      pathRecount.setAttribute('marker-end', 'url(#red-arrowhead)');
+      pathRecount.setAttribute('id', 'recount-path');
+      
+      // Create the second path (decision to update inventory)
+      const pathUpdate = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const updatePath = `M ${decisionCenterX} ${decisionCenterY} L ${decisionCenterX} ${updateCenterY} L ${updateLeftEdgeX} ${updateCenterY}`;
+      
+      pathUpdate.setAttribute('d', updatePath);
+      pathUpdate.setAttribute('stroke', '#047857');
+      pathUpdate.setAttribute('stroke-width', '3px');
+      pathUpdate.setAttribute('fill', 'none');
+      pathUpdate.setAttribute('marker-end', 'url(#green-arrowhead)');
+      pathUpdate.setAttribute('id', 'update-path');
+      
+      svg.appendChild(pathRecount);
+      svg.appendChild(pathUpdate);
+      
+      // Add SVG to the arrow container
+      arrowContainer.appendChild(svg);
+    }
+
+    // Initialize the diagram
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get DOM elements
+      const container = document.getElementById('main-container');
+      const zoomSlider = document.getElementById('zoom-slider');
+      const zoomValue = document.getElementById('zoom-value');
+      const highlightWasteCheckbox = document.getElementById('highlight-waste-checkbox');
+      const valueAddedCheckbox = document.getElementById('value-added-checkbox');
+      const processFlow = document.getElementById('process-flow');
+      const phase1 = document.getElementById('phase-1');
+      const phase2 = document.getElementById('phase-2');
+      const phase3 = document.getElementById('phase-3');
+      const decision1 = document.getElementById('decision-1');
+      const finalSteps = document.getElementById('final-steps');
+      const recountNote = document.getElementById('recount-note');
+      const waste1 = document.getElementById('waste-1');
+      const waste2 = document.getElementById('waste-2');
+      const arrowContainer = document.getElementById('arrow-container');
+      
+      // Create SVG arrows after the DOM is fully loaded
+      createSvgArrows();
+      
+      // Get all non-value-added steps
+      const nonValueAddedSteps = document.querySelectorAll('.non-value-added');
+      
+      // Make sure arrow container inherits transforms from main container
+      arrowContainer.style.transform = 'inherit';
+      arrowContainer.style.transformOrigin = 'inherit';
+      
+      // Zoom functionality - modified to not recreate arrows
+      zoomSlider.addEventListener('input', function() {
+        const zoom = this.value;
+        zoomValue.textContent = `Zoom: ${zoom}%`;
+        container.style.transform = `scale(${zoom/100})`;
+        container.style.transformOrigin = 'top left';
+        // No recreation of arrows needed
+      });
+      
+      // Highlight waste functionality
+      highlightWasteCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          processFlow.style.backgroundColor = '#FFFBEB';
+          phase1.style.backgroundColor = 'rgba(254, 215, 170, 0.2)';
+          phase2.style.backgroundColor = 'rgba(254, 215, 170, 0.4)';
+          phase3.style.backgroundColor = 'rgba(254, 215, 170, 0.1)';
+          waste1.style.display = 'block';
+          waste2.style.display = 'block';
+        } else {
+          processFlow.style.backgroundColor = 'white';
+          phase1.style.backgroundColor = 'transparent';
+          phase2.style.backgroundColor = 'transparent';
+          phase3.style.backgroundColor = 'transparent';
+          waste1.style.display = 'none';
+          waste2.style.display = 'none';
+        }
+      });
+      
+      // Initialize waste labels to be hidden
+      waste1.style.display = 'none';
+      waste2.style.display = 'none';
+      
+      // Show value-added only functionality - modified to toggle SVG path visibility
+      valueAddedCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          nonValueAddedSteps.forEach(step => {
+            step.style.display = 'none';
+          });
+          decision1.style.display = 'none';
+          finalSteps.style.marginTop = '0';
+          recountNote.style.display = 'none';
+          
+          // Hide arrows instead of recreating
+          document.getElementById('recount-path').style.display = 'none';
+          document.getElementById('update-path').style.display = 'none';
+        } else {
+          nonValueAddedSteps.forEach(step => {
+            step.style.display = 'block';
+          });
+          decision1.style.display = 'flex';
+          finalSteps.style.marginTop = '60px';
+          recountNote.style.display = 'block';
+          
+          // Show arrows
+          document.getElementById('recount-path').style.display = 'block';
+          document.getElementById('update-path').style.display = 'block';
+        }
+      });
+      
+      // Handle window resize without recreating arrows
+      window.addEventListener('resize', function() {
+        // Recreate arrows only when window size changes, not during zoom
+        createSvgArrows();
+      });
+    });
+  </script>
+</body>
+</html>

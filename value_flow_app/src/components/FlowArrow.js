@@ -7,25 +7,26 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
     const node = nodes.find(n => n?.id === id);
     if (!node) return null;
     
-    // Get node dimensions (approximate based on type)
+    // Get node dimensions (more accurate based on node type)
     let width = 160; // Default width
     let height = 80;  // Default height
     
     if (id.includes('supplier')) {
-      width = 120;
-      height = 100;
+      width = 160;
+      height = 120;
     } else if (id.includes('inventory')) {
-      width = 100;
-      height = 80;
+      width = 150;
+      height = 100;
     } else if (id.includes('customer')) {
       width = 180;
       height = 120;
-    } else if (id.includes('dispatch')) {
-      width = 160;
-      height = 80;
+    } else if (id.includes('process')) {
+      width = 170;
+      height = 100;
     }
     
     return { 
+      id,
       x: node.position.x, 
       y: node.position.y,
       width,
@@ -55,30 +56,84 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
   const nx = dx / length;
   const ny = dy / length;
 
-  // Adjust connection points for specific node types
+  // Adjust connection points for specific node types and flow direction
   const getConnectionPoint = (node, isFrom, nx, ny) => {
-    // Special case for customer at the top
-    if (node.id?.includes('customer') && !isFrom) {
-      return {
-        x: node.x + node.width / 2,
-        y: node.y + node.height * 0.8 // Connect to bottom of customer node
-      };
+    // Handle specific node types
+    if (node.id?.includes('customer')) {
+      if (!isFrom) {
+        // Connect to left side of customer node
+        return {
+          x: node.x,
+          y: node.y + node.height / 2
+        };
+      }
     }
     
-    // For dispatch, connect closer to the previous element
-    if (node.id?.includes('dispatch') && !isFrom) {
-      return {
-        x: node.x - 5, // Connect to left side of dispatch
-        y: node.y + node.height / 2
-      };
+    // For inventory nodes, adjust connection points based on shape
+    if (node.id?.includes('inventory')) {
+      if (isFrom) {
+        // From inventory, connect from the right side if flowing right
+        if (nx > 0) {
+          return {
+            x: node.x + node.width,
+            y: node.y + node.height / 2
+          };
+        }
+        // From inventory, connect from the bottom if flowing down
+        else if (ny > 0) {
+          return {
+            x: node.x + node.width / 2,
+            y: node.y + node.height
+          };
+        }
+      } else {
+        // To inventory, connect to the left side if flowing from left
+        if (nx > 0) {
+          return {
+            x: node.x,
+            y: node.y + node.height / 2
+          };
+        }
+        // To inventory, connect to the top if flowing from above
+        else if (ny > 0) {
+          return {
+            x: node.x + node.width / 2,
+            y: node.y
+          };
+        }
+      }
     }
     
-    // For material flows, prefer horizontal connections
-    if (Math.abs(nx) > Math.abs(ny) * 1.2) {
+    // For process nodes, adjust based on flow direction
+    if (node.id?.includes('process')) {
+      // Determine the best side based on flow direction
+      if (Math.abs(nx) > Math.abs(ny)) {
+        // Horizontal flow is dominant
+        const xPoint = isFrom ? 
+          (nx > 0 ? node.x + node.width : node.x) :
+          (nx > 0 ? node.x : node.x + node.width);
+        return {
+          x: xPoint,
+          y: node.y + node.height / 2
+        };
+      } else {
+        // Vertical flow is dominant
+        const yPoint = isFrom ?
+          (ny > 0 ? node.y + node.height : node.y) :
+          (ny > 0 ? node.y : node.y + node.height);
+        return {
+          x: node.x + node.width / 2,
+          y: yPoint
+        };
+      }
+    }
+    
+    // Default case - determine connection point based on direction vector
+    if (Math.abs(nx) > Math.abs(ny)) {
       // Horizontal predominant direction
       const x = isFrom ? 
-        node.x + (nx > 0 ? node.width : 0) :
-        node.x + (nx < 0 ? node.width : 0);
+        (nx > 0 ? node.x + node.width : node.x) :
+        (nx > 0 ? node.x : node.x + node.width);
       return {
         x: x,
         y: node.y + node.height / 2
@@ -86,8 +141,8 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
     } else {
       // Vertical predominant direction
       const y = isFrom ?
-        node.y + (ny > 0 ? node.height : 0) :
-        node.y + (ny < 0 ? node.height : 0);
+        (ny > 0 ? node.y + node.height : node.y) :
+        (ny > 0 ? node.y : node.y + node.height);
       return {
         x: node.x + node.width / 2,
         y: y
@@ -102,7 +157,7 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
   // Calculate new direction and length
   const actualDx = toPoint.x - fromPoint.x;
   const actualDy = toPoint.y - fromPoint.y;
-  const actualLength = Math.sqrt(actualDx * actualDx + actualDy * actualDy) - 10; // Small offset for arrow head
+  const actualLength = Math.sqrt(actualDx * actualDx + actualDy * actualDy) - 12; // Offset for arrow head
   const angle = Math.atan2(actualDy, actualDx) * (180 / Math.PI);
 
   const arrowStyle = {
@@ -112,7 +167,7 @@ const FlowArrow = ({ flow, type, nodes, onClick }) => {
     top: `${fromPoint.y}px`,
     transformOrigin: 'left center',
     position: 'absolute',
-    zIndex: 5
+    zIndex: flow.from.includes('production') || flow.to.includes('production') ? 11 : 5
   };
 
   // Create a label position in the middle of the arrow

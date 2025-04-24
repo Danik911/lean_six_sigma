@@ -7,7 +7,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-2 days",
       processTime: 0.5, // days
-      position: {x: 30, y: 150}, // Moved further left
+      position: {x: 260, y: 80}, // Positioned at the top
       details: "Delivery to inward goods zone"
     },
     {
@@ -17,7 +17,7 @@ export const valueStreamData = {
       deliveryFrequency: "3 TIMES/WEEK",
       leadTime: "1 day",
       processTime: 0.3, // days
-      position: {x: 30, y: 350}, // Moved further left
+      position: {x: 580, y: 80}, // Positioned at the top
       details: "Delivery to inward goods zone"
     },
     {
@@ -27,7 +27,7 @@ export const valueStreamData = {
       deliveryFrequency: "2 TIMES/WEEK",
       leadTime: "1-3 days",
       processTime: 0.4, // days
-      position: {x: 30, y: 550}, // Moved further left
+      position: {x: 900, y: 80}, // Positioned at the top
       details: "Delivery to inward goods zone"
     }
   ],
@@ -43,7 +43,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 40, // percentage
-      position: {x: 250, y: 350}, // Increased horizontal spacing
+      position: {x: 250, y: 550}, // Shifted down by 200px
       details: "Inward goods arrival"
     },
     {
@@ -56,7 +56,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 20, // percentage
-      position: {x: 450, y: 350}, // Increased horizontal spacing
+      position: {x: 450, y: 550}, // Shifted down by 200px
       details: "Verification of delivery"
     },
     {
@@ -69,7 +69,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 15, // percentage
-      position: {x: 650, y: 350}, // Increased horizontal spacing
+      position: {x: 650, y: 550}, // Shifted down by 200px
       details: "Storing medical devices"
     },
     {
@@ -82,7 +82,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 15, // percentage
-      position: {x: 850, y: 350}, // Increased horizontal spacing
+      position: {x: 850, y: 550}, // Shifted down by 200px
       details: "Moving products to shop"
     },
     {
@@ -95,7 +95,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 20, // percentage
-      position: {x: 1050, y: 350}, // Increased horizontal spacing
+      position: {x: 1050, y: 550}, // Shifted down by 200px
       details: "Placing on shelves"
     },
     {
@@ -108,7 +108,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 2,
       valueAddedRatio: 90, // percentage - high value added
-      position: {x: 1250, y: 350}, // Increased horizontal spacing
+      position: {x: 1250, y: 550}, // Shifted down by 200px
       details: "Sales process"
     },
     {
@@ -121,7 +121,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 30, // percentage
-      position: {x: 380, y: 200}, // Spaced out to the left
+      position: {x: 380, y: 400}, // Shifted down by 200px
       details: "Monitoring inventory"
     },
     {
@@ -134,7 +134,7 @@ export const valueStreamData = {
       FPY: 76.5, // percentage - from baseline data
       staff: 6,
       valueAddedRatio: 10, // percentage - low value
-      position: {x: 780, y: 200}, // Spaced out to the right
+      position: {x: 780, y: 400}, // Shifted down by 200px
       details: "Stock-take counting"
     },
     {
@@ -147,7 +147,7 @@ export const valueStreamData = {
       FPY: 85, // percentage - approximate
       staff: 6,
       valueAddedRatio: 15, // percentage
-      position: {x: 580, y: 200}, // Centered
+      position: {x: 580, y: 400}, // Shifted down by 200px
       details: "Barcode scanning during stock-take"
     },
     {
@@ -160,7 +160,7 @@ export const valueStreamData = {
       FPY: 100, // percentage
       staff: 1,
       valueAddedRatio: 50, // percentage
-      position: {x: 1450, y: 350}, // Increased horizontal spacing
+      position: {x: 1450, y: 550}, // Shifted down by 200px
       details: "Products leaving pharmacy"
     }
   ],
@@ -173,7 +173,7 @@ export const valueStreamData = {
       averageQuantity: 500,
       storageCapacityUtilization: 70, // percentage
       stockoutRate: 0, // percentage
-      position: {x: 250, y: 450}, // Match with Receiving position
+      position: {x: 250, y: 650}, // Shifted down by 200px
       details: "Temporary storage at receiving area"
     },
     {
@@ -183,7 +183,7 @@ export const valueStreamData = {
       averageQuantity: 2500,
       storageCapacityUtilization: 78, // percentage
       stockoutRate: 5.2, // percentage
-      position: {x: 650, y: 450}, // Match with Main Warehouse position
+      position: {x: 650, y: 650}, // Shifted down by 200px
       details: "Main storage location for inventory"
     },
     {
@@ -192,7 +192,7 @@ export const valueStreamData = {
       location: "Shop Building",
       averageQuantity: 1200,
       storageCapacityUtilization: 65, // percentage
-      position: {x: 850, y: 450}, // Match with Transfer to Shop position
+      position: {x: 850, y: 650}, // Shifted down by 200px
       details: "Products on display or in shop storage"
     }
   ],
@@ -388,14 +388,14 @@ export const valueStreamData = {
       supplierIntegration: "API",
       orderAccuracyTarget: 99 // percentage
     },
-    position: {x: 580, y: 80} // Adjusted to match screenshot
+    position: {x: 580, y: 280} // Positioned below suppliers
   },
   
   customer: {
     id: "customer",
     name: "SimplePharma Customers",
     satisfaction: 86, // percentage
-    position: {x: 1180, y: 120}, // Moved to top of map
+    position: {x: 1350, y: 350}, // Between Sell and Dispatch horizontally, above vertically
     details: "Medical devices and drugs, Various packaging, Daily average sales"
   },
   

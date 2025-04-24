@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import SupplierNode from './SupplierNode';
 import ProcessBox from './ProcessBox';
 import InventoryTriangle from './InventoryTriangle';
-import FlowArrow from './FlowArrow';
+import SVGArrow from './SVGArrow'; // Import our new SVGArrow component
 import ProcessDetailModal from './ProcessDetailModal';
 import ProblemArea from './ProblemArea';
 import LeanOpportunity from './LeanOpportunity';
@@ -168,9 +168,9 @@ const ValueStreamMap = ({
           />
         ))}
 
-        {/* Material Flows */}
+        {/* Material Flows - Using SVGArrow instead of FlowArrow */}
         {filterSettings.showMaterialFlow && data.materialFlows.map(flow => (
-          <FlowArrow 
+          <SVGArrow 
             key={flow.id}
             flow={flow}
             type="material"
@@ -179,9 +179,9 @@ const ValueStreamMap = ({
           />
         ))}
 
-        {/* Information Flows */}
+        {/* Information Flows - Using SVGArrow instead of FlowArrow */}
         {filterSettings.showInfoFlow && data.informationFlows.map(flow => (
-          <FlowArrow 
+          <SVGArrow 
             key={flow.id}
             flow={flow}
             type="information"
