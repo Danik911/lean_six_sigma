@@ -28,16 +28,19 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     
     .title {
       font-size: 24px;
       font-weight: bold;
+      margin-bottom: 10px;
     }
     
     .zoom-control {
       display: flex;
       align-items: center;
+      margin-right: 15px;
     }
     
     .info-panels {
@@ -45,12 +48,14 @@
       justify-content: space-between;
       margin-bottom: 20px;
       gap: 20px;
+      flex-wrap: wrap;
     }
     
     .legend, .metrics {
       border: 1px solid #d1d5db;
       padding: 15px;
       flex: 1;
+      min-width: 250px;
     }
     
     .legend-title, .metrics-title {
@@ -308,17 +313,18 @@
     
     .stats-container {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      flex-direction: row;
+      flex-wrap: nowrap;
       gap: 15px;
+      justify-content: space-between;
     }
     
     .stat-box {
       border-left: 8px solid;
       padding: 10px;
       border-radius: 4px;
-      min-width: 240px;
-      flex: 1 1 calc(50% - 15px);
+      min-width: 200px;
+      flex: 1;
     }
     
     .stat-box-title {
@@ -336,6 +342,7 @@
       display: flex;
       gap: 20px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     
     .takt, .copq {
@@ -343,6 +350,7 @@
       border: 1px solid #d1d5db;
       padding: 15px;
       background-color: #F9FAFB;
+      min-width: 400px;
     }
     
     .takt-title, .copq-title {
@@ -368,6 +376,7 @@
       display: flex;
       align-items: center;
       gap: 15px;
+      flex-wrap: wrap;
     }
     
     .toggle-controls {
@@ -395,7 +404,7 @@
     .arrow-recount {
       position: absolute;
       top: 280px;
-      right: 180px;
+      right: 245px;
       z-index: 10;
       font-size: 12px;
       font-weight: bold;
@@ -423,13 +432,284 @@
     .process-step.elevated {
       z-index: 6;
     }
+    
+    /* Process State Controls */
+    .process-state {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .radio-label {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    
+    .radio-label input {
+      margin-right: 5px;
+    }
+    
+    /* Display controls for the 3 process states */
+    .process-flow-container {
+      display: none;
+    }
+    
+    .process-flow-container.active {
+      display: block;
+    }
+    
+    /* Improvements and optimizations */
+    .improvement {
+      background-color: #D1FAE5;
+      border: 2px solid #059669;
+      border-radius: 4px;
+    }
+    
+    .automation {
+      background-color: #E0F2FE;
+      border: 2px solid #0284C7;
+      border-radius: 4px;
+    }
+    
+    .rfid-tag {
+      position: absolute;
+      right: 5;
+      bottom: -25px;
+      background-color: #DBEAFE;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #1E40AF;
+      z-index: 10;
+      border: 1px dashed #1E40AF;
+    }
+    
+    .aws-cloud {
+      position: absolute;
+      right: 5;
+      bottom: -25px;
+      background-color: #EFF6FF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #1D4ED8;
+      z-index: 10;
+      border: 1px solid #93C5FD;
+    }
+    
+    .ai-badge {
+      position: absolute;
+      right: 5px;
+      bottom: -25px;
+      background-color: #F0FDFA;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #065F46;
+      z-index: 10;
+      border: 1px solid #10B981;
+    }
+    
+    .state-disclaimer {
+      padding: 10px;
+      background-color: #FEF3C7;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      border-left: 4px solid #F59E0B;
+    }
+    
+    .metric-highlight {
+      background-color: #ECFDF5;
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: #065F46;
+      font-weight: bold;
+    }
+    
+    .metric-improvement {
+      color: #065F46;
+      font-weight: bold;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    
+    .parallel-process {
+      margin-top: 20px;
+      padding: 10px;
+      border: 2px dashed #3B82F6;
+      border-radius: 4px;
+      background-color: #EFF6FF;
+      width: 250px;
+      font-size: 12px;
+      font-style: italic;
+      text-align: center;
+    }
+    
+    .phase-note {
+      position: absolute;
+      top: -55px;
+      left: 30px;
+      padding: 3px 8px;
+      background-color: #FFEDD5;
+      border-radius: 4px;
+      font-size: 11px;
+      font-style: italic;
+      color: #9A3412;
+      border: 1px dashed #FB923C;
+    }
+    
+    .staff-badge {
+      position: absolute;
+      left: 25px;
+      bottom: -15px;
+      background-color: #FEF9C3;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #854D0E;
+      z-index: 10;
+      border: 1px solid #FDE047;
+    }
+    
+    .supplier-integration {
+      position: absolute;
+      left: -100px;
+      bottom: -30px;
+      background-color: #EDE9FE;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #6D28D9;
+      z-index: 10;
+      border: 1px solid #C4B5FD;
+    }
+    
+    .digital-twin {
+      position: absolute;
+      right: -90px;
+      top: -25px;
+      background-color: #F5F3FF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+      color: #7C3AED;
+      z-index: 10;
+      border: 1px dashed #A78BFA;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .controls {
+        margin-top: 10px;
+      }
+      
+      .info-panels {
+        flex-direction: column;
+      }
+      
+      .legend, .metrics {
+        width: 100%;
+      }
+      
+      .stats-container {
+        flex-wrap: wrap;
+      }
+      
+      .stat-box {
+        flex: 1 1 calc(50% - 15px);
+        min-width: 200px;
+      }
+      
+      .takt-copq {
+        flex-direction: column;
+      }
+      
+      .takt, .copq {
+        width: 100%;
+      }
+      
+      .phase-content {
+        flex-direction: column;
+        min-height: auto;
+      }
+      
+      .phase {
+        border-right: none;
+        border-bottom: 1px solid #d1d5db;
+        padding-bottom: 30px;
+      }
+      
+      .phase:last-child {
+        border-bottom: none;
+      }
+      
+      .phase-headers {
+        display: none;
+      }
+      
+      .annotation, .timestamp, .waste-type {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        transform: none;
+        margin: 5px auto;
+        display: inline-block;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .stats-container {
+        flex-direction: column;
+      }
+      
+      .stat-box {
+        flex: 1 1 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container" id="main-container">
     <div class="header">
-      <div class="title">SimplePharma Quarterly Stocktake Process Flow</div>
+      <div class="title">SimplePharma Stocktake Process Flow</div>
       <div class="controls">
+        <div class="process-state">
+          <span>Process State: </span>
+          <label class="radio-label">
+            <input type="radio" name="process-state" value="current" checked>
+            Current
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="process-state" value="improved">
+            Improved
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="process-state" value="ideal">
+            Ideal
+          </label>
+        </div>
         <div class="zoom-control">
           <span id="zoom-value">Zoom: 100%</span>
           <input 
@@ -491,140 +771,133 @@
           <div class="legend-box" style="background-color: #F3F4F6; border-color: #6B7280;"></div>
           <span>Storage/Delay</span>
         </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #D1FAE5; border-color: #059669;"></div>
+          <span>Improvement</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background-color: #E0F2FE; border-color: #0284C7;"></div>
+          <span>Automation</span>
+        </div>
       </div>
       
       <div class="metrics">
         <div class="metrics-title">PROCESS METRICS</div>
         <ul class="metrics-list">
-          <li class="metrics-item">Total Duration: ~7 hours</li>
-          <li class="metrics-item">Lost Revenue Time: 6 hours</li>
-          <li class="metrics-item">Current Accuracy: 76.5%</li>
-          <li class="metrics-item">Staff Utilization: Low (multiple waiting periods)</li>
-          <li class="metrics-item">Recounting Rate: High (>20% of items)</li>
-          <li class="metrics-item">Value-Added Time: 3.5 hours (50%)</li>
-          <li class="metrics-item">Non-Value Added Time: 3.5 hours (50%)</li>
+          <li class="metrics-item">Total Duration: <span id="metric-duration">~7 hours</span></li>
+          <li class="metrics-item">Lost Revenue Time: <span id="metric-revenue">6 hours</span></li>
+          <li class="metrics-item">Current Accuracy: <span id="metric-accuracy">76.5%</span></li>
+          <li class="metrics-item">Staff Utilization: <span id="metric-utilization">Low (multiple waiting periods)</span></li>
+          <li class="metrics-item">Recounting Rate: <span id="metric-recount">High (>20% of items)</span></li>
+          <li class="metrics-item">Value-Added Time: <span id="metric-value-added">3.5 hours (50%)</span></li>
+          <li class="metrics-item">Non-Value Added Time: <span id="metric-non-value">3.5 hours (50%)</span></li>
         </ul>
       </div>
     </div>
     
-    <div id="process-flow" class="process-flow">
-      <div class="phase-headers">
-        <div class="phase-header">Manual Counting Phase</div>
-        <div class="phase-header">Scanning Phase</div>
-        <div class="phase-header">Verification Phase</div>
-      </div>
-      
-      <div class="phase-content">
-        <!-- Phase 1: Manual Counting -->
-        <div id="phase-1" class="phase">
-          <div class="process-step process elevated" id="step-1-1">
-            Staff count inventory on shelves and storage rooms
-            <div class="annotation">~2 hours</div>
-            <div class="timestamp">3:00 PM - 5:00 PM</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step process non-value-added elevated" id="step-1-2">
-            Place sticky notes with counted quantities on shelves
-            <div class="timestamp">4:30 PM - 5:00 PM</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step delay non-value-added elevated" id="step-1-3">
-            Staff take lunch break (5:00-6:00 PM)
-            <div class="annotation">1 hour</div>
-            <div class="timestamp">5:00 PM - 6:00 PM</div>
-          </div>
+    <!-- CURRENT STATE PROCESS FLOW -->
+    <div id="current-flow" class="process-flow-container active">
+      <div class="process-flow">
+        <div class="phase-headers">
+          <div class="phase-header">Manual Counting Phase</div>
+          <div class="phase-header">Scanning Phase</div>
+          <div class="phase-header">Verification Phase</div>
         </div>
         
-        <!-- Phase 2: Scanning -->
-        <div id="phase-2" class="phase">
-          <div class="process-step process non-value-added elevated" id="step-2-1">
-            Staff divided into groups of two
-            <div class="timestamp">6:00 PM - 6:10 PM</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step process non-value-added elevated" id="step-2-2">
-            Six scanners distributed to groups
-            <div class="accuracy">Scanner Count accuracy: 85.1%</div>
-            <div class="timestamp">6:10 PM - 6:15 PM</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step process elevated" id="step-2-3">
-            Groups scan products in assigned zones
-            <div class="annotation">Variable</div>
-            <div class="timestamp">6:15 PM - 7:30 PM</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step process non-value-added elevated" id="step-2-4">
-            Return scanner to sales manager
-            <div class="timestamp">Variable</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step non-value non-value-added elevated" id="step-2-5">
-            Sales manager uploads data to Omega ERP
-            <div class="annotation">5 min</div>
-            <div class="waste-type" id="waste-1">Waiting Waste</div>
-            <div class="timestamp">Variable</div>
-          </div>
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="process-step delay non-value-added elevated" id="step-2-6">
-            Staff wait for data upload
-            <div class="annotation">Non-Value</div>
-            <div class="waste-type" id="waste-2">Waiting Waste</div>
-            <div class="timestamp">Variable</div>
-          </div>
-        </div>
-        
-        <!-- Phase 3: Verification -->
-        <div id="phase-3" class="phase">
-          <div class="process-step process elevated" id="step-3-1">
-            Warehouse team leader checks data in Excel
-            <div class="training-impact">Team Leaders: Higher accuracy rate</div>
-            <div class="timestamp">7:30 PM - 8:00 PM</div>
-          </div>
-          
-          <div class="connector">
-            <div class="connector-line"></div>
-            <div class="connector-arrow"></div>
-          </div>
-          
-          <div class="decision" id="decision-1">
-            <div class="decision-text">
-              Discrepancies found?
+        <div class="phase-content">
+          <!-- Phase 1: Manual Counting -->
+          <div id="phase-1" class="phase">
+            <div class="process-step process elevated" id="step-1-1">
+              Staff count inventory on shelves and storage rooms
+              <div class="annotation">~2 hours</div>
+              <div class="timestamp">3:00 PM - 5:00 PM</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step process non-value-added elevated" id="step-1-2">
+              Place sticky notes with counted quantities on shelves
+              <div class="timestamp">4:30 PM - 5:00 PM</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step delay non-value-added elevated" id="step-1-3">
+              Staff take lunch break (5:00-6:00 PM)
+              <div class="annotation">1 hour</div>
+              <div class="timestamp">5:00 PM - 6:00 PM</div>
             </div>
           </div>
           
-          <div id="final-steps" style="margin-top: 60px;">
-            <div class="process-step process elevated" id="step-3-2">
-              Update inventory records in Omega ERP
-              <div class="timestamp">8:00 PM - 8:30 PM</div>
+          <!-- Phase 2: Scanning -->
+          <div id="phase-2" class="phase">
+            <div class="process-step process non-value-added elevated" id="step-2-1">
+              Staff divided into groups of two
+              <div class="timestamp">6:00 PM - 6:10 PM</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step process non-value-added elevated" id="step-2-2">
+              Six scanners distributed to groups
+              <div class="accuracy">Scanner Count accuracy: 85.1%</div>
+              <div class="timestamp">6:10 PM - 6:15 PM</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step process elevated" id="step-2-3">
+              Groups scan products in assigned zones
+              <div class="annotation">Variable</div>
+              <div class="timestamp">6:15 PM - 7:30 PM</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step process non-value-added elevated" id="step-2-4">
+              Return scanner to sales manager
+              <div class="timestamp">Variable</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step non-value non-value-added elevated" id="step-2-5">
+              Sales manager uploads data to Omega ERP
+              <div class="annotation">5 min</div>
+              <div class="waste-type" id="waste-1">Waiting Waste</div>
+              <div class="timestamp">Variable</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step delay non-value-added elevated" id="step-2-6">
+              Staff wait for data upload
+              <div class="annotation">Non-Value</div>
+              <div class="waste-type" id="waste-2">Waiting Waste</div>
+              <div class="timestamp">Variable</div>
+            </div>
+          </div>
+          
+          <!-- Phase 3: Verification -->
+          <div id="phase-3" class="phase">
+            <div class="process-step process elevated" id="step-3-1">
+              Warehouse team leader checks data in Excel
+              <div class="training-impact">Team Leaders: Higher accuracy rate</div>
+              <div class="timestamp">7:30 PM - 8:00 PM</div>
             </div>
             
             <div class="connector">
@@ -632,114 +905,621 @@
               <div class="connector-arrow"></div>
             </div>
             
-            <div class="process-step end non-value-added elevated" id="step-3-3">
-              End Stocktake Process
-              <div class="timestamp">8:30 PM - 9:00 PM</div>
+            <div class="decision" id="decision-1">
+              <div class="decision-text">
+                Discrepancies found?
+              </div>
+            </div>
+            
+            <div id="final-steps" style="margin-top: 60px;">
+              <div class="process-step process elevated" id="step-3-2">
+                Update inventory records in Omega ERP
+                <div class="timestamp">8:00 PM - 8:30 PM</div>
+              </div>
+              
+              <div class="connector">
+                <div class="connector-line"></div>
+                <div class="connector-arrow"></div>
+              </div>
+              
+              <div class="process-step end non-value-added elevated" id="step-3-3">
+                End Stocktake Process
+                <div class="timestamp">8:30 PM - 9:00 PM</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SVG Arrows Container -->
+          <div id="arrow-container" class="arrow-container"></div>
+          
+          <!-- Recount Note -->
+          <div class="arrow-recount" id="recount-note">
+            Staff sent to recount
+          </div>
+        </div>
+      </div>
+      
+      <div class="stats-panel">
+        <div class="stats-title">KEY STATISTICAL INSIGHTS</div>
+        
+        <div class="stats-container">
+          <div class="stat-box" style="border-color: #DBEAFE;">
+            <div class="stat-box-title">Staff Training Impact</div>
+            <ul class="stat-box-list">
+              <li>Advanced: 87.3% accuracy</li>
+              <li>Intermediate: 77.4% accuracy</li>
+              <li>Basic: 65.3% accuracy</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #E9D5FF;">
+            <div class="stat-box-title">Count Method Comparison</div>
+            <ul class="stat-box-list">
+              <li>Scanner Count: 85.1% accuracy</li>
+              <li>Manual Count: 62.2% accuracy</li>
+              <li>Combined Method: 62.4% accuracy</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #FED7AA;">
+            <div class="stat-box-title">Time of Day Effect</div>
+            <ul class="stat-box-list">
+              <li>Morning counts more accurate</li>
+              <li>Evening counts least accurate</li>
+              <li>Statistically significant (p=0.027)</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #FEF3C7;">
+            <div class="stat-box-title">Waste Classification</div>
+            <ul class="stat-box-list">
+              <li>Waiting: 1+ hours per stocktake</li>
+              <li>Defects: 23.5% error rate</li>
+              <li>Transportation: Multiple building movements</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="takt-copq">
+        <div class="takt">
+          <div class="takt-title">TAKT TIME ANALYSIS</div>
+          <div class="takt-content">
+            <div>
+              <div><strong>Available Time:</strong> 6 hours</div>
+              <div><strong>Customer Demand:</strong> 1 complete inventory</div>
+              <div><strong>Calculated TAKT:</strong> 6 hours</div>
+            </div>
+            <div>
+              <div><strong>Current Cycle Time:</strong> 7 hours</div>
+              <div><strong>TAKT Gap:</strong> 1 hour (16.7%)</div>
+              <div><strong>Process Efficiency:</strong> 50%</div>
             </div>
           </div>
         </div>
+        
+        <div class="copq">
+          <div class="copq-title">COST OF POOR QUALITY (COPQ)</div>
+          <div class="copq-content">
+            <div>
+              <div><strong>Revenue Loss:</strong> €3,600 per stocktake</div>
+              <div><strong>Staff Overtime:</strong> €720 per stocktake</div>
+              <div><strong>Inventory Inaccuracy Cost:</strong> €4,200 per quarter</div>
+            </div>
+            <div>
+              <div><strong>Annual COPQ:</strong> €34,080</div>
+              <div><strong>Project Savings Target:</strong> €27,260 (80%)</div>
+              <div><strong>ROI Period:</strong> 5.5 months</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- IMPROVED STATE PROCESS FLOW -->
+    <!-- IMPROVED STATE PROCESS FLOW -->
+<div id="improved-flow" class="process-flow-container">
+  <div class="state-disclaimer">
+    This improved process state uses morning scheduling for better accuracy, implements zone-based counting, increases scanner availability, and introduces partial RFID tagging for high-value items. This represents Phase 1-2 of the improvement plan.
+  </div>
+  
+  <div class="process-flow">
+    <div class="phase-headers">
+      <div class="phase-header">Preparation Phase</div>
+      <div class="phase-header">Scanning & RFID Phase</div>
+      <div class="phase-header">Verification Phase</div>
+    </div>
+    
+    <div class="phase-content">
+      <!-- Phase 1: Preparation -->
+      <div id="imp-phase-1" class="phase">
+        <div class="phase-note">Now conducted in morning hours for higher accuracy (p=0.027)</div>
+        
+        <!-- The "No" text has been removed from here -->
+        
+        <div class="process-step improvement elevated" id="imp-step-1-1">
+          Enhanced staff training on tiered verification process
+          <div class="annotation">Pre-scheduled</div>
+          <div class="staff-badge">Certification-Based</div>
+          <div class="timestamp">Prior Day</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step start elevated" id="imp-step-1-2">
+          Zone-based partial shop closure for counting
+          <div class="annotation">Only one section closed</div>
+          <div class="timestamp">9:00 AM</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step improvement elevated" id="imp-step-1-3">
+          Staff assigned to pre-mapped zones via digital system
+          <div class="annotation">10 minutes</div>
+          <div class="timestamp">9:00 AM - 9:10 AM</div>
+        </div>
+        
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step improvement elevated" id="imp-step-1-4">
+          High-value items identified with RFID tags
+          <div class="rfid-tag">Partial RFID Implementation</div>
+          <div class="timestamp">Ongoing Process</div>
+        </div>
+      </div>
+      
+      <!-- Phase 2: Scanning & RFID -->
+      <div id="imp-phase-2" class="phase">
+        <div class="phase-note">Hybrid approach combining scanning & RFID</div>
+        
+        <div class="process-step improvement elevated" id="imp-step-2-1">
+          12 advanced scanners distributed (no waiting)
+          <div class="accuracy">Scanner Count accuracy: 92.5%</div>
+          <div class="timestamp">9:10 AM - 9:15 AM</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step process elevated" id="imp-step-2-2">
+          Advanced-trained staff supervise scanning teams
+          <div class="training-impact">Tiered verification reduces errors</div>
+          <div class="timestamp">9:15 AM - 9:30 AM</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step improvement elevated" id="imp-step-2-3">
+          Staff scan products by zone with predefined patterns
+          <div class="annotation">~1.5 hours</div>
+          <div class="timestamp">9:30 AM - 11:00 AM</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step improvement elevated" id="imp-step-2-4">
+          RFID readers scan tagged high-value items
+          <div class="rfid-tag">99% identification accuracy</div>
+          <div class="timestamp">Parallel Process</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step improvement elevated" id="imp-step-2-5">
+          Real-time data upload to AWS cloud
+          <div class="annotation">Continuous</div>
+          <div class="aws-cloud">AWS Cloud Integration</div>
+          <div class="timestamp">Continuous</div>
+        </div>
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <div class="process-step process elevated" id="imp-step-2-6">
+          System flags potential errors in real-time
+          <div class="waste-type" id="imp-waste-1">Defect Prevention</div>
+          <div class="timestamp">Continuous</div>
+        </div>
+      </div>
+      
+      <!-- Phase 3: Verification -->
+      <div id="imp-phase-3" class="phase">
+        <div class="phase-note">Exception-based verification reduces recounting</div>
+        
+        <div class="process-step improvement elevated" id="imp-step-3-1">
+          Automated data analysis with cloud-based analytics
+          <div class="annotation">~30 min</div>
+          <div class="aws-cloud">Integrated with Omega ERP</div>
+          <div class="timestamp">11:00 AM - 11:30 AM</div>
+        </div>
+        
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-arrow"></div>
+        </div>
+        
+        <!-- Added targeted verification text in the middle of the verification phase -->
+        <div style="text-align: center; margin: 15px 0; padding: 8px 12px; background-color: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; border-radius: 4px; font-weight: bold; width: 80%; font-size: 14px;">
+          Targeted verification by advanced staff
+        </div>
+        
+        <div class="decision" id="imp-decision-1">
+          <div class="decision-text">
+            Errors above threshold?
+          </div>
+        </div>
+        
+        <div id="imp-final-steps" style="margin-top: 60px;">
+          <div class="process-step improvement elevated" id="imp-step-3-2">
+            Generate exception report with AI-assisted anomaly detection
+            <div class="ai-badge">Pattern Recognition</div>
+            <div class="timestamp">11:30 AM - 11:45 AM</div>
+          </div>
+          
+          <div class="connector">
+            <div class="connector-line"></div>
+            <div class="connector-arrow"></div>
+          </div>
+          
+          <div class="process-step end elevated" id="imp-step-3-3">
+            End Stocktake Process
+            <div class="timestamp">12:00 PM</div>
+          </div>
+        </div>
+        
+        <div class="parallel-process">
+          <strong>Next Zone Preparation</strong><br>
+          While verification occurs, next zone preparation begins
+        </div>
+      </div>
 
-        <!-- SVG Arrows Container -->
-        <div id="arrow-container" class="arrow-container"></div>
-        
-        <!-- Recount Note -->
-        <div class="arrow-recount" id="recount-note">
-          Staff sent to recount
-        </div>
-      </div>
-    </div>
-    
-    <div class="stats-panel">
-      <div class="stats-title">KEY STATISTICAL INSIGHTS</div>
+      <!-- SVG Arrows Container -->
+      <div id="imp-arrow-container" class="arrow-container"></div>
       
-      <div class="stats-container">
-        <div class="stat-box" style="border-color: #DBEAFE;">
-          <div class="stat-box-title">Staff Training Impact</div>
-          <ul class="stat-box-list">
-            <li>Advanced: 87.3% accuracy</li>
-            <li>Intermediate: 77.4% accuracy</li>
-            <li>Basic: 65.3% accuracy</li>
-          </ul>
-        </div>
-        
-        <div class="stat-box" style="border-color: #E9D5FF;">
-          <div class="stat-box-title">Count Method Comparison</div>
-          <ul class="stat-box-list">
-            <li>Scanner Count: 85.1% accuracy</li>
-            <li>Manual Count: 62.2% accuracy</li>
-            <li>Combined Method: 62.4% accuracy</li>
-          </ul>
-        </div>
-        
-        <div class="stat-box" style="border-color: #FED7AA;">
-          <div class="stat-box-title">Time of Day Effect</div>
-          <ul class="stat-box-list">
-            <li>Morning counts more accurate</li>
-            <li>Evening counts least accurate</li>
-            <li>Statistically significant (p=0.027)</li>
-          </ul>
-        </div>
-        
-        <div class="stat-box" style="border-color: #FEF3C7;">
-          <div class="stat-box-title">Waste Classification</div>
-          <ul class="stat-box-list">
-            <li>Waiting: 1+ hours per stocktake</li>
-            <li>Defects: 23.5% error rate</li>
-            <li>Transportation: Multiple building movements</li>
-          </ul>
-        </div>
-      </div>
+      <!-- Removed this arrow-recount element since we've added the targeted verification in the middle of phase 3 -->
+      <!-- <div class="arrow-recount" id="imp-recount-note" style="top: 220px; right: 250px;">
+        Targeted verification by advanced staff
+      </div> -->
     </div>
-    
-    <div class="takt-copq">
-      <div class="takt">
-        <div class="takt-title">TAKT TIME ANALYSIS</div>
-        <div class="takt-content">
-          <div>
-            <div><strong>Available Time:</strong> 6 hours</div>
-            <div><strong>Customer Demand:</strong> 1 complete inventory</div>
-            <div><strong>Calculated TAKT:</strong> 6 hours</div>
+  </div>
+</div>
+      
+      <div class="stats-panel">
+        <div class="stats-title">KEY STATISTICAL INSIGHTS</div>
+        
+        <div class="stats-container">
+          <div class="stat-box" style="border-color: #DBEAFE;">
+            <div class="stat-box-title">Staff Training Impact</div>
+            <ul class="stat-box-list">
+              <li>Advanced: <span class="metric-highlight">96.0%</span> accuracy <span class="metric-improvement">(+8.7%)</span></li>
+              <li>Intermediate: <span class="metric-highlight">91.2%</span> accuracy <span class="metric-improvement">(+13.8%)</span></li>
+              <li>Basic: <span class="metric-highlight">85.0%</span> accuracy <span class="metric-improvement">(+19.7%)</span></li>
+            </ul>
           </div>
-          <div>
-            <div><strong>Current Cycle Time:</strong> 7 hours</div>
-            <div><strong>TAKT Gap:</strong> 1 hour (16.7%)</div>
-            <div><strong>Process Efficiency:</strong> 50%</div>
+          
+          <div class="stat-box" style="border-color: #E9D5FF;">
+            <div class="stat-box-title">Hybrid Counting Approach</div>
+            <ul class="stat-box-list">
+              <li>Advanced Scanner: <span class="metric-highlight">92.5%</span> accuracy <span class="metric-improvement">(+7.4%)</span></li>
+              <li>RFID-tagged items: <span class="metric-highlight">99.0%</span> accuracy</li>
+              <li>Morning counting: <span class="metric-highlight">+5.2%</span> accuracy boost</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #FED7AA;">
+            <div class="stat-box-title">Process Efficiency</div>
+            <ul class="stat-box-list">
+              <li>Total duration reduced by <span class="metric-highlight">57%</span></li>
+              <li>Lost revenue time reduced by <span class="metric-highlight">50%</span></li>
+              <li>Recounting reduced to <span class="metric-highlight">5%</span> of items</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #FEF3C7;">
+            <div class="stat-box-title">Waste Elimination</div>
+            <ul class="stat-box-list">
+              <li>Waiting: Reduced by <span class="metric-highlight">85%</span></li>
+              <li>Defects: Reduced to <span class="metric-highlight">7.5%</span> error rate</li>
+              <li>Value-Added Ratio: <span class="metric-highlight">75%</span> (vs. 50% current)</li>
+            </ul>
           </div>
         </div>
       </div>
       
-      <div class="copq">
-        <div class="copq-title">COST OF POOR QUALITY (COPQ)</div>
-        <div class="copq-content">
-          <div>
-            <div><strong>Revenue Loss:</strong> €3,600 per stocktake</div>
-            <div><strong>Staff Overtime:</strong> €720 per stocktake</div>
-            <div><strong>Inventory Inaccuracy Cost:</strong> €4,200 per quarter</div>
+      <div class="takt-copq">
+        <div class="takt">
+          <div class="takt-title">TAKT TIME ANALYSIS</div>
+          <div class="takt-content">
+            <div>
+              <div><strong>Available Time:</strong> 3 hours</div>
+              <div><strong>Customer Demand:</strong> 1 complete inventory</div>
+              <div><strong>Calculated TAKT:</strong> 3 hours</div>
+            </div>
+            <div>
+              <div><strong>Current Cycle Time:</strong> 3 hours</div>
+              <div><strong>TAKT Gap:</strong> 0 hours (on target)</div>
+              <div><strong>Process Efficiency:</strong> 75%</div>
+            </div>
           </div>
-          <div>
-            <div><strong>Annual COPQ:</strong> €34,080</div>
-            <div><strong>Project Savings Target:</strong> €27,260 (80%)</div>
-            <div><strong>ROI Period:</strong> 5.5 months</div>
+        </div>
+        
+        <div class="copq">
+          <div class="copq-title">COST OF POOR QUALITY (COPQ)</div>
+          <div class="copq-content">
+            <div>
+              <div><strong>Revenue Loss:</strong> €1,800 per stocktake</div>
+              <div><strong>Staff Overhead:</strong> €240 per stocktake</div>
+              <div><strong>Inventory Inaccuracy Cost:</strong> €1,050 per quarter</div>
+            </div>
+            <div>
+              <div><strong>Annual COPQ:</strong> €12,360</div>
+              <div><strong>Annual Savings:</strong> €21,720</div>
+              <div><strong>ROI Period:</strong> 3.5 months</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- IDEAL STATE PROCESS FLOW -->
+    <div id="ideal-flow" class="process-flow-container">
+      <div class="state-disclaimer">
+        This ideal process state represents Phase 3 of the plan, using comprehensive RFID technology and AI for continuous inventory management, eliminating the need for scheduled stocktakes and shop closures entirely.
+      </div>
+      
+      <div class="process-flow">
+        <div class="phase-headers">
+          <div class="phase-header">Continuous Tracking Phase</div>
+          <div class="phase-header">Exception Handling Phase</div>
+          <div class="phase-header">Analytics & Integration Phase</div>
+        </div>
+        
+        <div class="phase-content">
+          <!-- Phase 1: Continuous Tracking -->
+          <div id="ideal-phase-1" class="phase">
+            <div class="process-step automation elevated" id="ideal-step-1-1">
+              RFID readers continuously scan all inventory
+              <div class="annotation">24/7 operation</div>
+              <div class="rfid-tag">99.9% identification accuracy</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-1-2">
+              Edge computing performs initial processing
+              <div class="annotation">Instantaneous</div>
+              <div class="digital-twin">Real-time Processing</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-1-3">
+              Data transmitted to cloud architecture
+              <div class="annotation">Instantaneous</div>
+              <div class="aws-cloud">AWS Cloud Infrastructure</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-1-4">
+              Digital twin models inventory layout
+              <div class="digital-twin">Virtual Representation</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+          </div>
+          
+          <!-- Phase 2: Exception Handling -->
+          <div id="ideal-phase-2" class="phase">
+            <div class="process-step automation elevated" id="ideal-step-2-1">
+              AI detects anomalies in data patterns
+              <div class="ai-badge">Anomaly Detection</div>
+              <div class="timestamp">Real-time</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-2-2">
+              Prioritization by value and criticality
+              <div class="ai-badge">Machine Learning</div>
+              <div class="timestamp">Real-time</div>
+            </div>
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="decision" id="ideal-decision-1">
+              <div class="decision-text">
+                Exception detected?
+              </div>
+            </div>
+            
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step improvement elevated" id="ideal-step-2-3">
+              Targeted staff verification of exception
+              <div class="annotation">As needed</div>
+              <div class="staff-badge">Redeployed from counting</div>
+              <div class="timestamp">During normal hours</div>
+            </div>
+          </div>
+          
+          <!-- Phase 3: Analytics & Integration -->
+          <div id="ideal-phase-3" class="phase">
+            <div class="process-step automation elevated" id="ideal-step-3-1">
+              AI-driven demand forecasting & inventory optimization
+              <div class="ai-badge">Predictive Analytics</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-3-2">
+              Automated replenishment triggers to suppliers
+              <div class="annotation">No stockouts</div>
+              <div class="supplier-integration">API Integration</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-3-3">
+              Real-time performance dashboards
+              <div class="timestamp">Continuous</div>
+            </div>
+            
+            <div class="connector">
+              <div class="connector-line"></div>
+              <div class="connector-arrow"></div>
+            </div>
+            
+            <div class="process-step automation elevated" id="ideal-step-3-4">
+              Supplier integration via API for seamless supply chain
+              <div class="supplier-integration">MedDev, DrugSeek, VitaFast</div>
+              <div class="timestamp">Continuous</div>
+            </div>
+            
+            <div class="parallel-process">
+              <strong>Staff redeployed to customer service</strong><br>
+              All inventory management fully automated
+            </div>
+          </div>
+
+          <!-- SVG Arrows Container -->
+          <div id="ideal-arrow-container" class="arrow-container"></div>
+        </div>
+      </div>
+      
+      <div class="stats-panel">
+        <div class="stats-title">KEY STATISTICAL INSIGHTS</div>
+        
+        <div class="stats-container">
+          <div class="stat-box" style="border-color: #E0F2FE;">
+            <div class="stat-box-title">RFID Technology Impact</div>
+            <ul class="stat-box-list">
+              <li>Tag read accuracy: <span class="metric-highlight">99.9%</span></li>
+              <li>Real-time inventory visibility: <span class="metric-highlight">100%</span></li>
+              <li>Exception handling time: <span class="metric-highlight">5 min</span> per case</li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #D1FAE5;">
+            <div class="stat-box-title">AI-Driven Improvements</div>
+            <ul class="stat-box-list">
+              <li>Demand forecasting accuracy: <span class="metric-highlight">95%</span></li>
+              <li>Anomaly detection precision: <span class="metric-highlight">98.7%</span></li>
+              <li>Digital twin precision: <span class="metric-highlight">99.5%</span></li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #DBEAFE;">
+            <div class="stat-box-title">Business Impact</div>
+            <ul class="stat-box-list">
+              <li>Lost revenue time: <span class="metric-highlight">0 hours</span></li>
+              <li>Inventory accuracy: <span class="metric-highlight">99.5%</span></li>
+              <li>Staff redeployed to customer service: <span class="metric-highlight">100%</span></li>
+            </ul>
+          </div>
+          
+          <div class="stat-box" style="border-color: #FEF3C7;">
+            <div class="stat-box-title">Financial Benefits</div>
+            <ul class="stat-box-list">
+              <li>Annual savings vs. current: <span class="metric-highlight">€33,240</span></li>
+              <li>Additional revenue from uptime: <span class="metric-highlight">€14,400</span></li>
+              <li>Supply chain optimization: <span class="metric-highlight">€22,500</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="takt-copq">
+        <div class="takt">
+          <div class="takt-title">TAKT TIME ANALYSIS</div>
+          <div class="takt-content">
+            <div>
+              <div><strong>Available Time:</strong> Continuous</div>
+              <div><strong>Customer Demand:</strong> Real-time inventory</div>
+              <div><strong>Calculated TAKT:</strong> Instantaneous</div>
+            </div>
+            <div>
+              <div><strong>Current Cycle Time:</strong> Instantaneous</div>
+              <div><strong>TAKT Gap:</strong> None</div>
+              <div><strong>Process Efficiency:</strong> 99.5%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="copq">
+          <div class="copq-title">COST OF POOR QUALITY (COPQ)</div>
+          <div class="copq-content">
+            <div>
+              <div><strong>Revenue Loss:</strong> €0 per quarter</div>
+              <div><strong>Staff Overhead:</strong> €0 per quarter</div>
+              <div><strong>Inventory Inaccuracy Cost:</strong> €210 per quarter</div>
+            </div>
+            <div>
+              <div><strong>Annual COPQ:</strong> €840</div>
+              <div><strong>Annual Savings vs. Current:</strong> €33,240</div>
+              <div><strong>Total ROI Period:</strong> 4.5 years (infrastructure)</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     
     <div class="note">
-      <p>Note: Use the zoom slider to adjust the diagram size and toggle the checkboxes to analyze different aspects of the process.</p>
+      <p>Note: Use the state selector to view Current, Improved, and Ideal process flows. The improved state represents Phase 1-2 of the improvement plan (3-9 months) while the ideal state shows the complete digital transformation (10-18 months).</p>
     </div>
   </div>
 
   <script>
     // Create and add SVG for cross-column arrows
-    function createSvgArrows() {
+    function createSvgArrows(containerId, decisionId, recountPathDetails, updatePathDetails, showYesNo) {
       // Get the arrow container
-      const arrowContainer = document.getElementById('arrow-container');
+      const arrowContainer = document.getElementById(containerId);
       
       // Clear any existing content
-      while (arrowContainer.firstChild) {
+      while (arrowContainer && arrowContainer.firstChild) {
         arrowContainer.removeChild(arrowContainer.firstChild);
       }
+      
+      if (!arrowContainer) return;
       
       // Create SVG element
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -754,7 +1534,7 @@
       const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
       
       const redMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-      redMarker.setAttribute('id', 'red-arrowhead');
+      redMarker.setAttribute('id', 'red-arrowhead-' + containerId);
       redMarker.setAttribute('markerWidth', '10');
       redMarker.setAttribute('markerHeight', '7');
       redMarker.setAttribute('refX', '9');
@@ -768,12 +1548,12 @@
       redMarker.appendChild(redPolygon);
       
       const greenMarker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
-      greenMarker.setAttribute('id', 'green-arrowhead');
+      greenMarker.setAttribute('id', 'green-arrowhead-' + containerId);
       greenMarker.setAttribute('markerWidth', '10');
       greenMarker.setAttribute('markerHeight', '7');
-      greenMarker.setAttribute('refX', '9');
-      greenMarker.setAttribute('refY', '3.5');
-      greenMarker.setAttribute('orient', 'auto');
+      greenMarker.setAttribute('refX', '27');
+      greenMarker.setAttribute('refY', '32.5');
+      greenMarker.setAttribute('orient', '90');
       
       const greenPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
       greenPolygon.setAttribute('points', '0 0, 10 3.5, 0 7');
@@ -786,48 +1566,89 @@
       svg.appendChild(defs);
       
       // Get process flow container for relative positioning
-      const processFlowRect = document.getElementById('process-flow').getBoundingClientRect();
+      const processFlowRect = arrowContainer.closest('.process-flow').getBoundingClientRect();
       
       // Get elements and calculate precise positions
-      const decision = document.getElementById('decision-1');
+      const decision = document.getElementById(decisionId);
+      if (!decision) return;
+      
       const decisionRect = decision.getBoundingClientRect();
       const decisionCenterX = (decisionRect.left + decisionRect.right) / 2 - processFlowRect.left;
       const decisionCenterY = (decisionRect.top + decisionRect.bottom) / 2 - processFlowRect.top;
       
-      const scanningBox = document.getElementById('step-2-3');
-      const scanningBoxRect = scanningBox.getBoundingClientRect();
-      const scanningRightEdgeX = scanningBoxRect.right - processFlowRect.left;
-      const scanningCenterY = (scanningBoxRect.top + scanningBoxRect.bottom) / 2 - processFlowRect.top;
-      
-      const updateInventory = document.getElementById('step-3-2');
-      const updateInventoryRect = updateInventory.getBoundingClientRect();
-      const updateLeftEdgeX = updateInventoryRect.left - processFlowRect.left;
-      const updateCenterY = (updateInventoryRect.top + updateInventoryRect.bottom) / 2 - processFlowRect.top;
-      
       // Create the first path (decision to recount/scanning)
-      const pathRecount = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      const recountPath = `M ${decisionCenterX} ${decisionCenterY} L ${decisionCenterX - 170} ${decisionCenterY} L ${decisionCenterX - 170} ${scanningCenterY} L ${scanningRightEdgeX} ${scanningCenterY}`;
-      
-      pathRecount.setAttribute('d', recountPath);
-      pathRecount.setAttribute('stroke', '#DC2626');
-      pathRecount.setAttribute('stroke-width', '3px');
-      pathRecount.setAttribute('fill', 'none');
-      pathRecount.setAttribute('marker-end', 'url(#red-arrowhead)');
-      pathRecount.setAttribute('id', 'recount-path');
+      if (recountPathDetails) {
+        const targetEl = document.getElementById(recountPathDetails.targetId);
+        if (targetEl) {
+          const targetRect = targetEl.getBoundingClientRect();
+          const targetX = recountPathDetails.useRightEdge ? 
+            (targetRect.right - processFlowRect.left) : 
+            (targetRect.left - processFlowRect.left);
+          const targetY = (targetRect.top + targetRect.bottom) / 2 - 20 - processFlowRect.top;
+          
+          const pathRecount = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const recountPath = `M ${decisionCenterX} ${decisionCenterY} L ${recountPathDetails?.midX || (decisionCenterX - 170)} ${decisionCenterY} L ${recountPathDetails?.midX || (decisionCenterX - 170)} ${targetY} L ${targetX} ${targetY}`;
+          
+          pathRecount.setAttribute('d', recountPath);
+          pathRecount.setAttribute('stroke', '#DC2626');
+          pathRecount.setAttribute('stroke-width', '3px');
+          pathRecount.setAttribute('fill', 'none');
+          pathRecount.setAttribute('marker-end', 'url(#red-arrowhead-' + containerId + ')');
+          pathRecount.setAttribute('id', 'recount-path-' + containerId);
+          
+          svg.appendChild(pathRecount);
+          
+          if (showYesNo) {
+            // Add "Yes" text to the red arrow
+            const yesText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yesText.setAttribute('x', decisionCenterX - 100); // Position along horizontal part of red arrow
+            yesText.setAttribute('y', decisionCenterY - 8);   // Slightly above the line
+            yesText.setAttribute('font-size', '14px');
+            yesText.setAttribute('font-weight', 'bold');
+            yesText.setAttribute('fill', '#DC2626');
+            yesText.setAttribute('text-anchor', 'middle');
+            yesText.textContent = 'Yes';
+            svg.appendChild(yesText);
+          }
+        }
+      }
       
       // Create the second path (decision to update inventory)
-      const pathUpdate = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      const updatePath = `M ${decisionCenterX} ${decisionCenterY} L ${decisionCenterX} ${updateCenterY} L ${updateLeftEdgeX} ${updateCenterY}`;
-      
-      pathUpdate.setAttribute('d', updatePath);
-      pathUpdate.setAttribute('stroke', '#047857');
-      pathUpdate.setAttribute('stroke-width', '3px');
-      pathUpdate.setAttribute('fill', 'none');
-      pathUpdate.setAttribute('marker-end', 'url(#green-arrowhead)');
-      pathUpdate.setAttribute('id', 'update-path');
-      
-      svg.appendChild(pathRecount);
-      svg.appendChild(pathUpdate);
+      if (updatePathDetails) {
+        const targetEl = document.getElementById(updatePathDetails.targetId);
+        if (targetEl) {
+          const targetRect = targetEl.getBoundingClientRect();
+          const targetX = updatePathDetails.useRightEdge ? 
+            (targetRect.right - processFlowRect.left) : 
+            (targetRect.left - processFlowRect.left);
+          const targetY = targetRect.top + 5 - processFlowRect.top;
+          
+          const pathUpdate = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const updatePath = `M ${decisionCenterX} ${decisionCenterY} L ${decisionCenterX} ${targetY} L ${targetX} ${targetY}`;
+          
+          pathUpdate.setAttribute('d', updatePath);
+          pathUpdate.setAttribute('stroke', '#047857');
+          pathUpdate.setAttribute('stroke-width', '3px');
+          pathUpdate.setAttribute('fill', 'none');
+          pathUpdate.setAttribute('marker-end', 'url(#green-arrowhead-' + containerId + ')');
+          pathUpdate.setAttribute('id', 'update-path-' + containerId);
+          
+          svg.appendChild(pathUpdate);
+          
+          if (showYesNo) {
+            // Add "No" text to the green arrow
+            const noText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            noText.setAttribute('x', decisionCenterX + 15); // Slightly to the right of the decision box
+            noText.setAttribute('y', decisionCenterY + 50); // Position along vertical part of green arrow
+            noText.setAttribute('font-size', '14px');
+            noText.setAttribute('font-weight', 'bold');
+            noText.setAttribute('fill', '#047857');
+            noText.setAttribute('text-anchor', 'middle');
+            noText.textContent = 'No';
+            svg.appendChild(noText);
+          }
+        }
+      }
       
       // Add SVG to the arrow container
       arrowContainer.appendChild(svg);
@@ -841,90 +1662,189 @@
       const zoomValue = document.getElementById('zoom-value');
       const highlightWasteCheckbox = document.getElementById('highlight-waste-checkbox');
       const valueAddedCheckbox = document.getElementById('value-added-checkbox');
-      const processFlow = document.getElementById('process-flow');
-      const phase1 = document.getElementById('phase-1');
-      const phase2 = document.getElementById('phase-2');
-      const phase3 = document.getElementById('phase-3');
-      const decision1 = document.getElementById('decision-1');
-      const finalSteps = document.getElementById('final-steps');
-      const recountNote = document.getElementById('recount-note');
-      const waste1 = document.getElementById('waste-1');
-      const waste2 = document.getElementById('waste-2');
-      const arrowContainer = document.getElementById('arrow-container');
+      const processStateRadios = document.querySelectorAll('input[name="process-state"]');
+      
+      const currentFlow = document.getElementById('current-flow');
+      const improvedFlow = document.getElementById('improved-flow');
+      const idealFlow = document.getElementById('ideal-flow');
       
       // Create SVG arrows after the DOM is fully loaded
-      createSvgArrows();
+      createSvgArrows('arrow-container', 'decision-1', 
+        { targetId: 'step-2-3', useRightEdge: true }, 
+        { targetId: 'step-3-2', useRightEdge: false },
+        true
+      );
+      
+      createSvgArrows('imp-arrow-container', 'imp-decision-1', 
+        { targetId: 'imp-step-2-5', useRightEdge: true }, 
+        { targetId: 'imp-step-3-2', useRightEdge: false },
+        true
+      );
+      
+      createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
+        { targetId: 'ideal-step-2-3', useRightEdge: false }, 
+        null,
+        false
+      );
       
       // Get all non-value-added steps
       const nonValueAddedSteps = document.querySelectorAll('.non-value-added');
       
-      // Make sure arrow container inherits transforms from main container
-      arrowContainer.style.transform = 'inherit';
-      arrowContainer.style.transformOrigin = 'inherit';
-      
-      // Zoom functionality - modified to not recreate arrows
+      // Zoom functionality
       zoomSlider.addEventListener('input', function() {
         const zoom = this.value;
         zoomValue.textContent = `Zoom: ${zoom}%`;
         container.style.transform = `scale(${zoom/100})`;
         container.style.transformOrigin = 'top left';
-        // No recreation of arrows needed
       });
       
-      // Highlight waste functionality
+      // Toggle waste highlighting
       highlightWasteCheckbox.addEventListener('change', function() {
+        const activeFlow = document.querySelector('.process-flow-container.active');
+        const processFlow = activeFlow.querySelector('.process-flow');
+        const phases = activeFlow.querySelectorAll('.phase');
+        const wasteLabels = activeFlow.querySelectorAll('[id^="waste-"]');
+        
         if (this.checked) {
           processFlow.style.backgroundColor = '#FFFBEB';
-          phase1.style.backgroundColor = 'rgba(254, 215, 170, 0.2)';
-          phase2.style.backgroundColor = 'rgba(254, 215, 170, 0.4)';
-          phase3.style.backgroundColor = 'rgba(254, 215, 170, 0.1)';
-          waste1.style.display = 'block';
-          waste2.style.display = 'block';
+          phases.forEach((phase, index) => {
+            const opacity = [0.2, 0.4, 0.1][index % 3];
+            phase.style.backgroundColor = `rgba(254, 215, 170, ${opacity})`;
+          });
+          wasteLabels.forEach(label => label.style.display = 'block');
         } else {
           processFlow.style.backgroundColor = 'white';
-          phase1.style.backgroundColor = 'transparent';
-          phase2.style.backgroundColor = 'transparent';
-          phase3.style.backgroundColor = 'transparent';
-          waste1.style.display = 'none';
-          waste2.style.display = 'none';
+          phases.forEach(phase => phase.style.backgroundColor = 'transparent');
+          wasteLabels.forEach(label => label.style.display = 'none');
         }
       });
       
       // Initialize waste labels to be hidden
-      waste1.style.display = 'none';
-      waste2.style.display = 'none';
+      document.querySelectorAll('[id^="waste-"]').forEach(label => {
+        label.style.display = 'none';
+      });
       
-      // Show value-added only functionality - modified to toggle SVG path visibility
+      // Show value-added only functionality
       valueAddedCheckbox.addEventListener('change', function() {
+        const activeFlow = document.querySelector('.process-flow-container.active');
+        const nonValueSteps = activeFlow.querySelectorAll('.non-value-added');
+        const decisions = activeFlow.querySelectorAll('.decision');
+        const finalSteps = activeFlow.querySelector('[id$="final-steps"]');
+        const recountNote = activeFlow.querySelector('[id$="recount-note"]');
+        const recountPath = activeFlow.querySelector('[id^="recount-path-"]');
+        const updatePath = activeFlow.querySelector('[id^="update-path-"]');
+        
         if (this.checked) {
-          nonValueAddedSteps.forEach(step => {
-            step.style.display = 'none';
-          });
-          decision1.style.display = 'none';
-          finalSteps.style.marginTop = '0';
-          recountNote.style.display = 'none';
-          
-          // Hide arrows instead of recreating
-          document.getElementById('recount-path').style.display = 'none';
-          document.getElementById('update-path').style.display = 'none';
+          nonValueSteps.forEach(step => step.style.display = 'none');
+          decisions.forEach(decision => decision.style.display = 'none');
+          if (finalSteps) finalSteps.style.marginTop = '0';
+          if (recountNote) recountNote.style.display = 'none';
+          if (recountPath) recountPath.style.display = 'none';
+          if (updatePath) updatePath.style.display = 'none';
         } else {
-          nonValueAddedSteps.forEach(step => {
-            step.style.display = 'block';
-          });
-          decision1.style.display = 'flex';
-          finalSteps.style.marginTop = '60px';
-          recountNote.style.display = 'block';
-          
-          // Show arrows
-          document.getElementById('recount-path').style.display = 'block';
-          document.getElementById('update-path').style.display = 'block';
+          nonValueSteps.forEach(step => step.style.display = 'block');
+          decisions.forEach(decision => decision.style.display = 'flex');
+          if (finalSteps) finalSteps.style.marginTop = '60px';
+          if (recountNote) recountNote.style.display = 'block';
+          if (recountPath) recountPath.style.display = 'block';
+          if (updatePath) updatePath.style.display = 'block';
         }
       });
       
-      // Handle window resize without recreating arrows
+      // Process state selection
+      processStateRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+          updateProcessState(this.value);
+        });
+      });
+      
+      function updateProcessState(state) {
+        // Hide all process flows
+        currentFlow.classList.remove('active');
+        improvedFlow.classList.remove('active');
+        idealFlow.classList.remove('active');
+        
+        // Show selected flow
+        document.getElementById(`${state}-flow`).classList.add('active');
+        
+        // Reset controls when switching views
+        valueAddedCheckbox.checked = false;
+        highlightWasteCheckbox.checked = false;
+        document.querySelectorAll('[id^="waste-"]').forEach(label => {
+          label.style.display = 'none';
+        });
+        document.querySelectorAll('.process-flow').forEach(flow => {
+          flow.style.backgroundColor = 'white';
+        });
+        document.querySelectorAll('.phase').forEach(phase => {
+          phase.style.backgroundColor = 'transparent';
+        });
+        
+        // Update metrics to match the selected state
+        updateMetrics(state);
+      }
+      
+      function updateMetrics(state) {
+        const metricsData = {
+          current: {
+            duration: "~7 hours",
+            lostRevenue: "6 hours",
+            accuracy: "76.5%",
+            utilization: "Low (multiple waiting periods)",
+            recountRate: "High (>20% of items)",
+            valueAddedTime: "3.5 hours (50%)",
+            nonValueAddedTime: "3.5 hours (50%)"
+          },
+          improved: {
+            duration: "~3 hours",
+            lostRevenue: "3 hours",
+            accuracy: "92.5%",
+            utilization: "Medium (minimal waiting)",
+            recountRate: "Low (5% of items)",
+            valueAddedTime: "2.25 hours (75%)",
+            nonValueAddedTime: "0.75 hours (25%)"
+          },
+          ideal: {
+            duration: "~0 hours",
+            lostRevenue: "0 hours",
+            accuracy: "99.5%",
+            utilization: "High (customer-focused)",
+            recountRate: "Negligible (<1%)",
+            valueAddedTime: "Real-time",
+            nonValueAddedTime: "0 hours"
+          }
+        };
+        
+        // Update metrics display
+        const metrics = metricsData[state];
+        document.getElementById('metric-duration').textContent = metrics.duration;
+        document.getElementById('metric-revenue').textContent = metrics.lostRevenue;
+        document.getElementById('metric-accuracy').textContent = metrics.accuracy;
+        document.getElementById('metric-utilization').textContent = metrics.utilization;
+        document.getElementById('metric-recount').textContent = metrics.recountRate;
+        document.getElementById('metric-value-added').textContent = metrics.valueAddedTime;
+        document.getElementById('metric-non-value').textContent = metrics.nonValueAddedTime;
+      }
+      
+      // Handle window resize
       window.addEventListener('resize', function() {
-        // Recreate arrows only when window size changes, not during zoom
-        createSvgArrows();
+        createSvgArrows('arrow-container', 'decision-1', 
+          { targetId: 'step-2-3', useRightEdge: true }, 
+          { targetId: 'step-3-2', useRightEdge: false },
+          true
+        );
+        
+        createSvgArrows('imp-arrow-container', 'imp-decision-1', 
+          { targetId: 'imp-step-2-5', useRightEdge: true }, 
+          { targetId: 'imp-step-3-2', useRightEdge: false },
+          true
+        );
+        
+        createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
+          { targetId: 'ideal-step-2-3', useRightEdge: false }, 
+          null,
+          false
+        );
       });
     });
   </script>
