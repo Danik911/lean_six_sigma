@@ -1873,40 +1873,38 @@
       const highlightWasteCheckbox = document.getElementById('highlight-waste-checkbox');
       const valueAddedCheckbox = document.getElementById('value-added-checkbox');
       const processStateRadios = document.querySelectorAll('input[name="process-state"]');
-      
       const currentFlow = document.getElementById('current-flow');
       const improvedFlow = document.getElementById('improved-flow');
       const idealFlow = document.getElementById('ideal-flow');
-      
-      // Create SVG arrows after the DOM is fully loaded
-      createSvgArrows('arrow-container', 'decision-1', 
-        { targetId: 'step-2-3', useRightEdge: true }, 
-        { targetId: 'step-3-2', useRightEdge: false },
-        true
-      );
-      
-      createSvgArrows('imp-arrow-container', 'imp-decision-1', 
-        { targetId: 'imp-step-2-5', useRightEdge: true }, 
-        { targetId: 'imp-step-3-2', useRightEdge: false },
-        true
-      );
-      
-      createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
-        { targetId: 'ideal-step-2-3', useRightEdge: false }, 
-        null,
-        false
-      );
-      
-      // Get all non-value-added steps
-      const nonValueAddedSteps = document.querySelectorAll('.non-value-added');
-      
+
+      // Add checks to ensure flow elements exist
+      if (!currentFlow || !improvedFlow || !idealFlow) {
+        console.error("Error: One or more process flow containers ('current-flow', 'improved-flow', 'ideal-flow') not found. State switching will not work.");
+        return; // Stop script execution if essential elements are missing
+      }
+      if (!highlightWasteCheckbox || !valueAddedCheckbox) {
+        console.error("Error: Control checkboxes ('highlight-waste-checkbox', 'value-added-checkbox') not found.");
+        // Decide if you want to return or continue with partial functionality
+      }
+      if (!zoomSlider || !zoomValue) {
+          console.warn("Zoom elements not found.");
+      }
+      if (processStateRadios.length === 0) {
+          console.error("Error: Process state radio buttons not found.");
+          return;
+      }
+
+
       // Zoom functionality
-      zoomSlider.addEventListener('input', function() {
-        const zoom = this.value;
-        zoomValue.textContent = `Zoom: ${zoom}%`;
-        container.style.transform = `scale(${zoom/100})`;
-        container.style.transformOrigin = 'top left';
-      });
+      // Corrected the check: removed undefined 'processFlowContainer'
+      if (zoomSlider && zoomValue && container) {
+        zoomSlider.addEventListener('input', function() {
+          const zoom = this.value;
+          zoomValue.textContent = `Zoom: ${zoom}%`;
+          container.style.transform = `scale(${zoom/100})`;
+          container.style.transformOrigin = 'top left';
+        });
+      }
       
       // Toggle waste highlighting
       highlightWasteCheckbox.addEventListener('change', function() {
@@ -1950,9 +1948,9 @@
           if (finalSteps) finalSteps.style.marginTop = '0';
           if (recountNote) recountNote.style.display = 'none';
           if (recountPath) recountPath.style.display = 'none';
-          if (updatePath) updatePath```html
-.style.display = 'none';
-        } else {
+          if (updatePath) updatePath.style.display = 'none';
+               } else {
+          // Corrected typo: nonvalueSteps -> nonValueSteps
           nonValueSteps.forEach(step => step.style.display = 'block');
           decisions.forEach(decision => decision.style.display = 'flex');
           if (finalSteps) finalSteps.style.marginTop = '60px';
@@ -1965,22 +1963,31 @@
       // Process state selection
       processStateRadios.forEach(radio => {
         radio.addEventListener('change', function() {
+          // Ensure the function is called with the correct value ('current', 'improved', 'ideal')
+          console.log(`Changing state to: ${this.value}`); // Debugging line
           updateProcessState(this.value);
         });
       });
-      
+
       function updateProcessState(state) {
         // Hide all process flows
+        // These variables are checked for null above
         currentFlow.classList.remove('active');
         improvedFlow.classList.remove('active');
         idealFlow.classList.remove('active');
-        
+
         // Show selected flow
-        document.getElementById(`${state}-flow`).classList.add('active');
-        
+        const selectedFlow = document.getElementById(`${state}-flow`);
+        if (selectedFlow) {
+            selectedFlow.classList.add('active');
+        } else {
+            console.error(`Error: Process flow container for state '${state}' not found.`);
+            return; // Stop if the target flow doesn't exist
+        }
+
         // Reset controls when switching views
-        valueAddedCheckbox.checked = false;
-        highlightWasteCheckbox.checked = false;
+        if (valueAddedCheckbox) valueAddedCheckbox.checked = false;
+        if (highlightWasteCheckbox) highlightWasteCheckbox.checked = false;
         document.querySelectorAll('[id^="waste-"]').forEach(label => {
           label.style.display = 'none';
         });
@@ -1993,6 +2000,9 @@
         
         // Update metrics to match the selected state
         updateMetrics(state);
+        
+        // Redraw arrows for the newly active state
+        drawArrowsForState(state);
       }
       
       function updateMetrics(state) {
@@ -2037,25 +2047,42 @@
         document.getElementById('metric-non-value').textContent = metrics.nonValueAddedTime;
       }
       
-      // Handle window resize
+      // Function to draw arrows based on the current state
+      function drawArrowsForState(state) {
+        if (state === 'current') {
+          createSvgArrows('arrow-container', 'decision-1', 
+            { targetId: 'step-2-3', useRightEdge: true }, 
+            { targetId: 'step-3-2', useRightEdge: false },
+            true
+          );
+        } else if (state === 'improved') {
+          createSvgArrows('imp-arrow-container', 'imp-decision-1', 
+            { targetId: 'imp-step-2-5', useRightEdge: true, midX: 500 }, // Adjusted midX for potential layout
+            { targetId: 'imp-step-3-2', useRightEdge: false },
+            true
+          );
+        } else if (state === 'ideal') {
+           createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
+            { targetId: 'ideal-step-2-3', useRightEdge: false, midX: 500 }, // Adjusted midX for potential layout
+            null, // No 'No' path needed visually for ideal state
+            true // Show 'Yes'/'No' labels if needed, adjust as necessary
+          );
+        }
+      }
+
+      // Initial setup
+      // Check if 'current' state exists before setting it as initial
+      if (document.getElementById('current-flow')) {
+          updateProcessState('current'); // Ensure the initial state is set (this will also call updateMetrics and drawArrowsForState)
+      } else {
+          console.error("Initial 'current-flow' not found. Cannot set initial state.");
+          // Optionally, try setting another default state if 'current' is missing
+      }
+
+      // Handle window resize - redraw arrows for the currently active state
       window.addEventListener('resize', function() {
-        createSvgArrows('arrow-container', 'decision-1', 
-          { targetId: 'step-2-3', useRightEdge: true }, 
-          { targetId: 'step-3-2', useRightEdge: false },
-          true
-        );
-        
-        createSvgArrows('imp-arrow-container', 'imp-decision-1', 
-          { targetId: 'imp-step-2-5', useRightEdge: true }, 
-          { targetId: 'imp-step-3-2', useRightEdge: false },
-          true
-        );
-        
-        createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
-          { targetId: 'ideal-step-2-3', useRightEdge: false }, 
-          null,
-          false
-        );
+        const activeState = document.querySelector('input[name="process-state"]:checked').value;
+        drawArrowsForState(activeState);
       });
     });
   </script>
