@@ -10,31 +10,24 @@ if (Test-Path -Path ".\build") {
 
 # Copy all static sites to build folder
 Write-Host "Copying site content to build folder..." -ForegroundColor Yellow
-# Copy the main site content first - including its index.html
+# Copy the main site content first - including its index.html and all subdirectories
 Copy-Item -Path ".\lean_six_sigma_site\*" -Destination ".\build\" -Recurse
 
-# Copy specific sub-site folders if they exist within lean_six_sigma_site and need special handling or root placement in build
-# Ensure these are copied *after* the main site content if there's any potential overlap,
-# or adjust paths if they should be merged into existing directories from the main site copy.
-# Assuming they should be top-level directories in the build folder:
+# IMPORTANT: Explicitly copy the Value Stream Map directory to ensure it's properly updated
+Write-Host "Explicitly copying Value Stream Map files..." -ForegroundColor Yellow
 if (Test-Path -Path ".\lean_six_sigma_site\define\value_stream_map") {
-    Copy-Item -Path ".\lean_six_sigma_site\define\value_stream_map" -Destination ".\build\value_stream_map" -Recurse -Force # Use -Force to overwrite if needed
-}
-if (Test-Path -Path ".\lean_six_sigma_site\define\process_flow_diagram") {
-    Copy-Item -Path ".\lean_six_sigma_site\define\process_flow_diagram" -Destination ".\build\process_flow_diagram" -Recurse -Force
-}
-if (Test-Path -Path ".\lean_six_sigma_site\improve\5s_app") {
-    Copy-Item -Path ".\lean_six_sigma_site\improve\5s_app" -Destination ".\build\5s_app" -Recurse -Force
-}
-if (Test-Path -Path ".\lean_six_sigma_site\improve\kanban_system") {
-    Copy-Item -Path ".\lean_six_sigma_site\improve\kanban_system" -Destination ".\build\kanban_system" -Recurse -Force
+    if (-not (Test-Path -Path ".\build\define\value_stream_map")) {
+        New-Item -Path ".\build\define\value_stream_map" -ItemType Directory -Force | Out-Null
+    }
+    Copy-Item -Path ".\lean_six_sigma_site\define\value_stream_map\*" -Destination ".\build\define\value_stream_map\" -Force -Recurse
 }
 
 # Copy markdown reports and associated images from within lean_six_sigma_site
+# This section remains as it handles specific file types and structures within analyze/ and measure/
 Write-Host "Copying markdown reports..." -ForegroundColor Yellow
 # Analyze flow reports and plots
 if (Test-Path -Path ".\lean_six_sigma_site\analyze\analyze_flow") {
-    # Ensure target directory exists (it should from the initial copy, but check just in case)
+    # Ensure target directory exists
     if (-not (Test-Path -Path ".\build\analyze\analyze_flow")) {
         New-Item -Path ".\build\analyze\analyze_flow" -ItemType Directory -Force | Out-Null
     }
@@ -66,16 +59,18 @@ if (Test-Path -Path ".\lean_six_sigma_site\analyze\analyze_flow") {
     
     # Root cause analysis output
     if (Test-Path -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output") {
-        if (-not (Test-Path -Path ".\build\analyze_flow\root_cause_analysis_output")) {
-            New-Item -Path ".\build\analyze_flow\root_cause_analysis_output" -ItemType Directory -Force | Out-Null
+        # NOTE: Corrected target path from build\analyze_flow to build\analyze\analyze_flow
+        if (-not (Test-Path -Path ".\build\analyze\analyze_flow\root_cause_analysis_output")) { 
+            New-Item -Path ".\build\analyze\analyze_flow\root_cause_analysis_output" -ItemType Directory -Force | Out-Null
         }
-        Copy-Item -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output\*.md" -Destination ".\build\analyze_flow\root_cause_analysis_output\" -Force
+        Copy-Item -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output\*.md" -Destination ".\build\analyze\analyze_flow\root_cause_analysis_output\" -Force
         # Root cause plots
         if (Test-Path -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output\plots") {
-            if (-not (Test-Path -Path ".\build\analyze_flow\root_cause_analysis_output\plots")) {
-                New-Item -Path ".\build\analyze_flow\root_cause_analysis_output\plots" -ItemType Directory -Force | Out-Null
+             # NOTE: Corrected target path from build\analyze_flow to build\analyze\analyze_flow
+            if (-not (Test-Path -Path ".\build\analyze\analyze_flow\root_cause_analysis_output\plots")) {
+                New-Item -Path ".\build\analyze\analyze_flow\root_cause_analysis_output\plots" -ItemType Directory -Force | Out-Null
             }
-            Copy-Item -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output\plots\*" -Destination ".\build\analyze_flow\root_cause_analysis_output\plots\" -Recurse -Force
+            Copy-Item -Path ".\lean_six_sigma_site\analyze\analyze_flow\root_cause_analysis_output\plots\*" -Destination ".\build\analyze\analyze_flow\root_cause_analysis_output\plots\" -Recurse -Force
         }
     }
 }
@@ -95,11 +90,7 @@ if (Test-Path -Path ".\lean_six_sigma_site\measure\msa") {
 # Copy root level markdown files if any (e.g., README.md from project root)
 Copy-Item -Path ".\*.md" -Destination ".\build\" -Force
 
-# REMOVED: Create main index.html to link to different parts
-# The index.html from lean_six_sigma_site should now be the main entry point.
-# Ensure that lean_six_sigma_site/index.html contains the necessary links
-# to value_stream_map, process_flow_diagram, 5s_app, kanban_system, and reports.
-
+# ... rest of the script (git commands, etc.) ...
 # Force git deployment
 Write-Host "Deploying to GitHub Pages..." -ForegroundColor Yellow
 

@@ -37,17 +37,11 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       transform: translate(-50%, -50%);
       cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.3s ease;
+      transition: box-shadow 0.2s ease;
     }
     
     .process-node:hover {
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .process-node.highlighted {
-      transform: translate(-50%, -50%) scale(1.05);
-      box-shadow: 0 0 0 3px #FCD34D, 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 20;
     }
     
     .inventory-node {
@@ -57,13 +51,6 @@
       transform: translate(-50%, -50%) rotate(45deg);
       box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.3s ease;
-    }
-    
-    .inventory-node.highlighted {
-      transform: translate(-50%, -50%) rotate(45deg) scale(1.05);
-      box-shadow: 0 0 0 3px #FCD34D, 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 20;
     }
     
     .inventory-node-content {
@@ -116,21 +103,6 @@
     .waste-icon:hover .waste-tooltip {
       display: block;
     }
-
-    /* Connection path styles */
-    .connection-path {
-      stroke: #94a3b8;
-      stroke-width: 2;
-      fill: none;
-      stroke-dasharray: 5, 5;
-      opacity: 0.7;
-    }
-
-    .connection-path.highlighted {
-      stroke: #f59e0b;
-      stroke-width: 3;
-      stroke-dasharray: none;
-    }
     
     /* Modal styles */
     .modal-overlay {
@@ -155,43 +127,6 @@
       margin: 0 1rem;
       max-height: 90vh;
       overflow-y: auto;
-    }
-
-    .process-tooltip {
-      position: fixed;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-      z-index: 100;
-      pointer-events: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      max-width: 220px;
-      white-space: normal;
-      text-align: center;
-    }
-
-    .drill-down-button {
-      position: absolute;
-      bottom: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
-      cursor: pointer;
-      display: none;
-      white-space: nowrap;
-      z-index: 15;
-    }
-
-    .process-node:hover .drill-down-button,
-    .process-node.highlighted .drill-down-button {
-      display: block;
     }
   </style>
 </head>
@@ -226,8 +161,6 @@
         processCycleEfficiency: 14.5,
         accuracyRate: 76.5
       });
-      const [highlightedProcess, setHighlightedProcess] = React.useState(null);
-      const [tooltip, setTooltip] = React.useState({ show: false, text: '', x: 0, y: 0 });
       
       // Waste data based on lean waste analysis
       const wasteData = {
@@ -349,7 +282,7 @@
         },
         {
           id: 'process-distribution',
-          name: 'Distribution',
+          name: 'Internal Distribution',
           type: 'process',
           metrics: {
             oeeUtilization: 85,
@@ -381,9 +314,7 @@
             processTime: 6
           },
           details: 'Quarterly stock count process',
-          position: { x: 76, y: 65 },
-          hasDrillDown: true,
-          drillDownUrl: '../process_flow_diagram/stocktake_process.html'
+          position: { x: 76, y: 65 }
         },
         
         // Customer
@@ -430,29 +361,6 @@
           position: { x: 67.5, y: 35 }
         }
       ];
-
-      // Process connections for material flow
-      const connections = [
-        // Supplier to receiving connections
-        { from: 'supplier-meddev', to: 'process-receiving' },
-        { from: 'supplier-drugseek', to: 'process-receiving' },
-        { from: 'supplier-vitafast', to: 'process-receiving' },
-        
-        // Main flow
-        { from: 'process-receiving', to: 'inventory-receiving' },
-        { from: 'inventory-receiving', to: 'process-storage' },
-        { from: 'process-storage', to: 'inventory-storage' },
-        { from: 'inventory-storage', to: 'process-distribution' },
-        { from: 'process-distribution', to: 'inventory-transit' },
-        { from: 'inventory-transit', to: 'process-shopfloor' },
-        { from: 'process-shopfloor', to: 'customer' },
-        
-        // Stocktake connections
-        { from: 'process-storage', to: 'process-stocktake' },
-        { from: 'process-shopfloor', to: 'process-stocktake' },
-        { from: 'process-stocktake', to: 'process-storage', type: 'feedback' },
-        { from: 'process-stocktake', to: 'process-shopfloor', type: 'feedback' }
-      ];
       
       // Get color based on process type and metrics
       const getProcessColor = (process) => {
@@ -470,108 +378,10 @@
         
         return 'bg-gray-100 border-gray-500';
       };
-
-      // Check if a process should be highlighted
-      const isProcessHighlighted = (processId) => {
-        const matchProcess = processId.split('-')[1]; // Extract 'receiving', 'stocktake', etc.
-        return highlightedProcess === matchProcess;
-      };
       
       // Handle process click
       const handleProcessClick = (process) => {
         setSelectedProcess(process);
-      };
-
-      // Handle drill-down click
-      const handleDrillDown = (process, e) => {
-        e.stopPropagation(); // Prevent triggering the parent click handler
-        
-        if (process.hasDrillDown && process.drillDownUrl) {
-          window.location.href = process.drillDownUrl;
-        }
-      };
-
-      // Handle mouse enter for tooltip
-      const handleMouseEnter = (process) => {
-        setTooltip({
-          show: process.hasDrillDown,
-          text: 'Click to view detailed process flow',
-          x: 0,
-          y: 0
-        });
-      };
-      
-      // Handle mouse move for tooltip
-      const handleMouseMove = (e) => {
-        if (tooltip.show) {
-          setTooltip({
-            ...tooltip,
-            x: e.clientX + 10,
-            y: e.clientY + 10
-          });
-        }
-      };
-      
-      // Handle mouse leave for tooltip
-      const handleMouseLeave = () => {
-        setTooltip({ show: false, text: '', x: 0, y: 0 });
-      };
-
-      // Create SVG paths for connections
-      const renderConnections = () => {
-        return connections.map((conn, index) => {
-          const fromProcess = processes.find(p => p.id === conn.from);
-          const toProcess = processes.find(p => p.id === conn.to);
-          
-          if (!fromProcess || !toProcess) return null;
-          
-          const startX = fromProcess.position.x;
-          const startY = fromProcess.position.y;
-          const endX = toProcess.position.x;
-          const endY = toProcess.position.y;
-          
-          // Calculate if connection should be highlighted
-          const isHighlighted = 
-            isProcessHighlighted(conn.from) || 
-            isProcessHighlighted(conn.to);
-          
-          // For feedback connection, create a curved path
-          if (conn.type === 'feedback') {
-            const controlX = (startX + endX) / 2;
-            const controlY = Math.max(startY, endY) + 20;
-            
-            return (
-              <path 
-                key={`conn-${index}`}
-                d={`M ${startX}% ${startY}% Q ${controlX}% ${controlY}% ${endX}% ${endY}%`}
-                className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-                marker-end="url(#arrowhead)"
-              />
-            );
-          }
-          
-          // For vertical connections from suppliers
-          if (fromProcess.type === 'supplier') {
-            return (
-              <path 
-                key={`conn-${index}`}
-                d={`M ${startX}% ${startY}% L ${startX + 8}% ${startY}% L ${endX - 8}% ${endY}% L ${endX}% ${endY}%`}
-                className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-                marker-end="url(#arrowhead)"
-              />
-            );
-          }
-          
-          // Standard straight connection
-          return (
-            <path 
-              key={`conn-${index}`}
-              d={`M ${startX}% ${startY}% L ${endX}% ${endY}%`}
-              className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-              marker-end="url(#arrowhead)"
-            />
-          );
-        });
       };
       
       // Create the waste icons for a process
@@ -665,17 +475,6 @@
                 </div>
               </div>
             )}
-
-            {selectedProcess.hasDrillDown && (
-              <div className="mt-4 pt-3 border-t border-gray-200">
-                <button 
-                  onClick={(e) => handleDrillDown(selectedProcess, e)}
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                >
-                  View Detailed Process Flow
-                </button>
-              </div>
-            )}
           </div>
         );
       };
@@ -715,7 +514,6 @@
                   <li>Use the view mode toggles to switch between Current, Improved, and Ideal states</li>
                   <li>Review the overall metrics to understand system performance</li>
                   <li>Hover over waste icons (🔄, ⏳, etc.) to see waste details</li>
-                  <li>Use the "View Detailed Process Flow" button when available to see the micro-level process</li>
                 </ul>
                 
                 <h3 className="font-semibold mb-2">Legend</h3>
@@ -739,14 +537,6 @@
                     <div className="w-6 h-6 bg-yellow-100 border-2 border-yellow-500 rounded transform rotate-45 mr-2">
                     </div>
                     <span className="text-sm">Inventory/WIP</span>
-                  </div>
-                  <div className="flex items-center p-2 border rounded">
-                    <div className="w-6 h-6 border-2 border-yellow-500 relative mr-2">
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-yellow-300 rounded-full flex items-center justify-center text-xs font-bold">
-                        ↓
-                      </div>
-                    </div>
-                    <span className="text-sm">Process with Drill-Down</span>
                   </div>
                 </div>
                 
@@ -821,39 +611,6 @@
           });
         }
       }, [viewMode]);
-
-      // Extract parameters from URL on component mount
-      React.useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const highlightParam = queryParams.get('highlight');
-        
-        if (highlightParam) {
-          setHighlightedProcess(highlightParam);
-          
-          // Find the process and auto-select it
-          const process = processes.find(p => p.id === `process-${highlightParam}`);
-          if (process) {
-            setSelectedProcess(process);
-          }
-        }
-
-        // Listen for postMessage events
-        window.addEventListener('message', (event) => {
-          if (event.data && event.data.action === 'highlightProcess') {
-            setHighlightedProcess(event.data.process);
-            
-            // Find the process and auto-select it
-            const process = processes.find(p => p.id === `process-${event.data.process}`);
-            if (process) {
-              setSelectedProcess(process);
-            }
-          }
-        }, false);
-
-        return () => {
-          window.removeEventListener('message', () => {});
-        };
-      }, []);
       
       return (
         <div className="flex flex-col h-screen bg-gray-100">
@@ -879,4 +636,161 @@
               {['current', 'improved', 'ideal'].map(mode => (
                 <button
                   key={mode}
-                  class
+                  className={`px-4 py-1 ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                  onClick={() => setViewMode(mode)}
+                >
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                </button>
+              ))}
+            </div>
+            
+            {/* Metrics */}
+            <div className="flex flex-wrap gap-3">
+              <div className="bg-blue-50 px-3 py-1 rounded border border-blue-200">
+                <span className="text-xs text-gray-500">Lead Time</span>
+                <div className="text-sm font-medium">{metrics.totalLeadTime} hours</div>
+              </div>
+              <div className="bg-blue-50 px-3 py-1 rounded border border-blue-200">
+                <span className="text-xs text-gray-500">Value-Added Time</span>
+                <div className="text-sm font-medium">{metrics.valueAddedTime} hours</div>
+              </div>
+              <div className="bg-blue-50 px-3 py-1 rounded border border-blue-200">
+                <span className="text-xs text-gray-500">Process Efficiency</span>
+                <div className="text-sm font-medium">{metrics.processCycleEfficiency}%</div>
+              </div>
+              <div className="bg-blue-50 px-3 py-1 rounded border border-blue-200">
+                <span className="text-xs text-gray-500">Accuracy Rate</span>
+                <div className="text-sm font-medium">{metrics.accuracyRate}%</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Value Stream Map */}
+          <div className="flex-1 overflow-auto relative p-4">
+            <div className="rounded-lg border bg-white w-full relative" style={{ height: '600px', padding: '20px' }}>
+              
+              {/* Render process nodes */}
+              {processes.map(process => {
+                const colorClass = getProcessColor(process);
+                const style = { 
+                  left: `${process.position.x}%`, 
+                  top: `${process.position.y}%` 
+                };
+                
+                if (process.type === 'inventory') {
+                  return (
+                    <div 
+                      key={process.id}
+                      className={`inventory-node ${colorClass} border-2`}
+                      style={style}
+                      onClick={() => handleProcessClick(process)}
+                    >
+                      <div className="inventory-node-content">
+                        <div className="text-xs font-medium text-center">{process.name}</div>
+                      </div>
+                      {createWasteIcons(process)}
+                    </div>
+                  );
+                }
+                
+                return (
+                  <div 
+                    key={process.id}
+                    className={`process-node ${colorClass} border-2`}
+                    style={style}
+                    onClick={() => handleProcessClick(process)}
+                  >
+                    <div className="text-sm font-medium mb-1">{process.name}</div>
+                    {process.metrics && process.metrics.oeeUtilization && (
+                      <div className="text-xs">OEE: {
+                        viewMode === 'current' ? process.metrics.oeeUtilization :
+                        viewMode === 'improved' ? Math.min(99, process.metrics.oeeUtilization + 7) :
+                        Math.min(99, process.metrics.oeeUtilization + 15)
+                      }%</div>
+                    )}
+                    
+                    {/* Waste icons for process nodes */}
+                    {createWasteIcons(process)}
+                  </div>
+                );
+              })}
+              
+              {/* Timeline bar at the bottom */}
+              <div className="absolute bottom-4 left-10 right-10 h-16 border-t border-gray-300">
+                <div className="flex justify-between px-4">
+                  <div className="text-sm text-gray-500">
+                    Total Lead Time: {metrics.totalLeadTime} hours
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Process Cycle Efficiency: {metrics.processCycleEfficiency}%
+                  </div>
+                </div>
+                
+                {/* Value-Added Time bar */}
+                <div className="h-8 mt-4 relative">
+                  <div className="absolute top-0 left-0 right-0 h-4 bg-gray-200 rounded"></div>
+                  <div 
+                    className="absolute top-0 left-0 h-4 bg-green-500 rounded"
+                    style={{ width: `${(metrics.valueAddedTime / metrics.totalLeadTime) * 100}%` }}
+                  ></div>
+                  <div className="absolute top-6 left-0 text-xs text-gray-500">
+                    Value-Added: {metrics.valueAddedTime} hours
+                  </div>
+                  <div className="absolute top-6 right-0 text-xs text-gray-500">
+                    Non-Value-Added: {(metrics.totalLeadTime - metrics.valueAddedTime).toFixed(1)} hours
+                  </div>
+                </div>
+              </div>
+              
+              {/* Process details panel */}
+              {renderProcessDetails()}
+            </div>
+          </div>
+          
+          {/* Info Modal */}
+          {renderInfoModal()}
+          
+          {/* Waste Legend */}
+          <div className="bg-white border-t p-2">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {Object.entries(wasteIcons).map(([type, info]) => (
+                <div key={type} className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className={`inline-block ${info.color} rounded-full p-1`}>{info.icon}</span>
+                  <span>{info.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Render app
+    try {
+      // Update debug message
+      document.getElementById('debug-container').innerText = 'React loaded, attempting to render app...';
+      
+      // Render the app
+      ReactDOM.render(
+        <ValueStreamMap />,
+        document.getElementById('root')
+      );
+      
+      // If successful, update debug message again
+      setTimeout(() => {
+        document.getElementById('debug-container').innerText = 'App rendered successfully!';
+        // Hide the debug message after 5 seconds
+        setTimeout(() => {
+          const debugEl = document.getElementById('debug-container');
+          if (debugEl) debugEl.style.display = 'none';
+        }, 5000);
+      }, 1000);
+      
+    } catch (error) {
+      // Show error in debug container
+      document.getElementById('debug-container').innerHTML = `<strong>Error:</strong> ${error.message}`;
+      console.error('Error rendering app:', error);
+    }
+  </script>
+</body>
+</html>

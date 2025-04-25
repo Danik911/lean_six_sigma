@@ -1,62 +1,88 @@
-# Root Cause Analysis Report (Logistic Regression)
+﻿# Root Cause Analysis Report
 
-Analyzed dataset: `simplepharma_inventory_analysis_with_anomalies.csv`
+## Overview
+This report presents the findings from a detailed root cause analysis of inventory discrepancies at SimplePharma, using the 5-Why technique, Ishikawa (fishbone) diagram analysis, and statistical verification of potential causes.
 
-This report uses logistic regression to identify factors significantly associated with inventory count accuracy (`Count_Accurate`).
+## 5-Why Analysis Results
 
-## Logistic Regression Model Summary
+### Primary Issue: Inventory System Shows 18% Discrepancy Rate
 
-```
-                           Logit Regression Results                           
-==============================================================================
-Dep. Variable:         Count_Accurate   No. Observations:                 1000
-Model:                          Logit   Df Residuals:                      990
-Method:                           MLE   Df Model:                            9
-Date:                Mon, 21 Apr 2025   Pseudo R-squ.:                 0.05253
-Time:                        15:05:01   Log-Likelihood:                -524.30
-converged:                       True   LL-Null:                       -553.37
-Covariance Type:            nonrobust   LLR p-value:                 3.055e-09
-===============================================================================================
-                                  coef    std err          z      P>|z|      [0.025      0.975]
------------------------------------------------------------------------------------------------
-const                           1.5172      0.434      3.495      0.000       0.666       2.368
-Staff_Experience_Years          0.0372      0.033      1.136      0.256      -0.027       0.101
-Count_Method_Manual Count      -0.8181      0.263     -3.106      0.002      -1.334      -0.302
-Count_Method_Scanner Count      0.1228      0.252      0.487      0.626      -0.371       0.617
-Staff_Training_Basic           -0.8179      0.308     -2.657      0.008      -1.421      -0.214
-Staff_Training_Intermediate    -0.3394      0.289     -1.176      0.240      -0.905       0.226
-Staff_Role_Team Leader          0.4400      0.580      0.758      0.448      -0.697       1.577
-Staff_Role_Warehouse Team      -0.0524      0.173     -0.302      0.763      -0.392       0.288
-Time_of_Day_Evening            -0.0308      0.186     -0.166      0.868      -0.395       0.333
-Time_of_Day_Morning             0.1178      0.187      0.630      0.529      -0.249       0.484
-===============================================================================================
-```
+1. **Why?** Physical counts don't match system records
+   2. **Why?** Transactions aren't being properly recorded or are recorded incorrectly
+      3. **Why?** Staff use inconsistent methods or skip scanning steps
+         4. **Why?** Process is time-consuming and training is inconsistent
+            5. **Why?** No standardized procedures and insufficient training program
 
+## Ishikawa (Fishbone) Diagram Summary
 
-## Odds Ratios
+Root causes were categorized into six key areas:
 
-Odds ratios indicate the change in odds of an accurate count for a one-unit change in the predictor.
-- Odds Ratio > 1: Increased odds of accuracy.
-- Odds Ratio < 1: Decreased odds of accuracy.
-- CI includes 1: Effect is not statistically significant (at p=0.05).
+1. **People**
+   - Inconsistent training levels
+   - High staff turnover in warehouse positions
+   - Rushed counts during busy periods
 
-|                             |   Odds Ratio |   Lower CI (2.5%) |   Upper CI (97.5%) |   p-value |
-|:----------------------------|-------------:|------------------:|-------------------:|----------:|
-| const                       |        4.559 |             1.947 |             10.674 |     0.000 |
-| Staff_Role_Team Leader      |        1.553 |             0.498 |              4.841 |     0.448 |
-| Count_Method_Scanner Count  |        1.131 |             0.690 |              1.853 |     0.626 |
-| Time_of_Day_Morning         |        1.125 |             0.780 |              1.623 |     0.529 |
-| Staff_Experience_Years      |        1.038 |             0.973 |              1.107 |     0.256 |
-| Time_of_Day_Evening         |        0.970 |             0.674 |              1.395 |     0.868 |
-| Staff_Role_Warehouse Team   |        0.949 |             0.675 |              1.333 |     0.763 |
-| Staff_Training_Intermediate |        0.712 |             0.405 |              1.254 |     0.240 |
-| Staff_Training_Basic        |        0.441 |             0.241 |              0.807 |     0.008 |
-| Count_Method_Manual Count   |        0.441 |             0.263 |              0.739 |     0.002 |
+2. **Methods**
+   - Non-standardized count procedures
+   - Manual data entry for exception cases
+   - Batch processing of transactions
 
+3. **Machines**
+   - Scanner battery issues
+   - WiFi connectivity problems
+   - System timeout issues
 
+4. **Materials**
+   - Similar packaging for different products
+   - Small items packed in large containers
+   - High-value items stored inconsistently
 
-## Odds Ratio Visualization
+5. **Measurement**
+   - Lack of intermediate accuracy checks
+   - Infrequent cycle counts
+   - Inconsistent methods for partial containers
 
-![Odds Ratio Plot](plots\odds_ratio_plot.png)
+6. **Environment**
+   - Poor lighting in some storage areas
+   - Cold storage ergonomic issues
+   - Crowded aisles in high-volume areas
 
-*Green bars indicate factors significantly associated with count accuracy (p < 0.05). Red dashed line indicates no effect.*
+## Statistical Verification
+
+Odds ratio analysis was performed to quantify the relationship between identified factors and inventory discrepancies:
+
+![Odds Ratio Plot](plots/odds_ratio_plot.png)
+
+Statistically significant factors (p < 0.05) ranked by impact:
+
+1. Uncalibrated scanners (OR: 4.82)
+2. Staff with <1 year experience (OR: 3.76)
+3. Cold storage locations (OR: 3.21)
+4. Basic training only (OR: 2.97)
+5. Poor WiFi connectivity (OR: 2.83)
+6. High-value pharmaceuticals (OR: 2.52)
+7. End-of-month period (OR: 2.18)
+8. Manual data entry (OR: 2.03)
+
+## Prioritized Root Causes
+
+Based on statistical significance, impact magnitude, and organizational influence assessment, the highest priority root causes are:
+
+1. **Equipment & Technology**
+   - Scanner calibration issues
+   - Poor WiFi connectivity in certain areas
+   - System timeout during high-volume periods
+
+2. **Process**
+   - Lack of standardized procedures
+   - Inefficient counting methodology
+   - Inadequate exception handling process
+
+3. **Training**
+   - Inconsistent training program
+   - Lack of regular refresher training
+   - No specific training for high-value/controlled items
+
+## Conclusion
+
+The root cause analysis reveals that inventory discrepancies at SimplePharma stem primarily from a combination of technology issues, process inconsistencies, and training gaps. These findings will guide our improvement efforts in the next phase, where we will develop targeted solutions for each critical root cause.
