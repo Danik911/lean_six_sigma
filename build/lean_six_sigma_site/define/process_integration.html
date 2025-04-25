@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process Analysis Integration - SimplePharma Lean Six Sigma</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .integration-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .integration-card {
+      flex: 1;
+      min-width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .integration-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .card-description {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .tool-selector {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      background: #fff;
+    }
+
+    .selector-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .process-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .process-item {
+      padding: 8px 15px;
+      border: 1px solid #3498db;
+      border-radius: 20px;
+      background: #ebf5fb;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .process-item:hover {
+      background: #3498db;
+      color: white;
+    }
+
+    .process-item.active {
+      background: #2980b9;
+      color: white;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .view-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .view-button:hover {
+      background: #2980b9;
+    }
+
+    .viewer-container {
+      width: 100%;
+      height: 700px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .viewer-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .relationship-map {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      background: #fff;
+    }
+
+    .relationship-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .relationship-diagram {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .relationship-box {
+      width: 150px;
+      padding: 15px;
+      border: 2px solid;
+      text-align: center;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .arrow-connection {
+      display: flex;
+      align-items: center;
+      margin: 0 10px;
+    }
+
+    .arrow-line {
+      height: 2px;
+      width: 50px;
+      background-color: #2c3e50;
+    }
+
+    .arrow-head {
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #2c3e50;
+    }
+
+    .arrow-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: 12px;
+      color: #2c3e50;
+      margin: 0 5px;
+    }
+
+    .feedback-banner {
+      background: #e8f4fd;
+      border-left: 5px solid #3498db;
+      padding: 15px;
+      margin-top: 30px;
+      border-radius: 5px;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .metrics-comparison {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .metric-card {
+      flex: 1;
+      min-width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      background: #fff;
+    }
+
+    .metric-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      text-align: center;
+      color: #3498db;
+      margin-bottom: 5px;
+    }
+
+    .metric-description {
+      font-size: 12px;
+      text-align: center;
+      color: #7f8c8d;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+    }
+
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+      }
+
+      .integration-card {
+        width: 100%;
+      }
+
+      .relationship-diagram {
+        flex-direction: column;
+      }
+
+      .arrow-connection {
+        flex-direction: column;
+        margin: 10px 0;
+      }
+
+      .arrow-line {
+        width: 2px;
+        height: 30px;
+      }
+
+      .arrow-head {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid #2c3e50;
+        border-bottom: none;
+      }
+
+      .arrow-text {
+        writing-mode: horizontal-tb;
+        transform: none;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Lean Six Sigma Project</h1>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Introduction</a></li>
+          <li><a href="index.html" class="active">Define</a></li>
+          <li><a href="../measure/index.html">Measure</a></li>
+          <li><a href="../analyze/index.html">Analyze</a></li>
+          <li><a href="../improve/index.html">Improve</a></li>
+          <li><a href="../control/index.html">Control</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="integration-container">
+    <h1>Process Analysis Integration</h1>
+    <p>This page demonstrates the integration between Value Stream Mapping and Process Flow Diagrams, providing a comprehensive view of SimplePharma's inventory management processes.</p>
+
+    <div class="card-container">
+      <div class="integration-card">
+        <h2 class="card-title">Value Stream Map</h2>
+        <p class="card-description">Provides a high-level view of material and information flow through the organization, highlighting value-added activities and waste.</p>
+        <ul>
+          <li>Visualizes the entire inventory process</li>
+          <li>Identifies waste across departments</li>
+          <li>Shows supplier to customer connections</li>
+        </ul>
+      </div>
+      <div class="integration-card">
+        <h2 class="card-title">Process Flow Diagram</h2>
+        <p class="card-description">Details the specific steps within a process identified in the Value Stream Map, focusing on the stocktake procedures.</p>
+        <ul>
+          <li>Shows detailed workflow steps</li>
+          <li>Identifies decision points</li>
+          <li>Visualizes current, improved, and ideal processes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tool-selector">
+      <div class="selector-title">Select a process to analyze:</div>
+      <div class="process-list">
+        <div class="process-item active" data-process="stocktake">Stocktake Process</div>
+        <div class="process-item" data-process="receiving">Receiving Process</div>
+        <div class="process-item" data-process="distribution">Distribution Process</div>
+        <div class="process-item" data-process="storage">Storage Process</div>
+        <div class="process-item" data-process="shopfloor">Shop Floor Process</div>
+      </div>
+
+      <div class="button-container">
+        <button class="view-button" id="vsm-button">View in Value Stream Map</button>
+        <button class="view-button" id="pfd-button">View in Process Flow Diagram</button>
+      </div>
+    </div>
+
+    <div class="viewer-container">
+      <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+      </div>
+      <iframe id="process-viewer" src="value_stream_map/index.html" frameborder="0"></iframe>
+    </div>
+
+    <div class="relationship-map">
+      <h2 class="relationship-title">Relationship Between Value Stream Map and Process Flow Diagram</h2>
+      
+      <div class="relationship-diagram">
+        <div class="relationship-box" style="border-color: #3498db; background: #ebf5fb;">
+          Value Stream Map<br>(Macro View)
+        </div>
+        
+        <div class="arrow-connection">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Drill Down</div>
+          <div class="arrow-head"></div>
+        </div>
+        
+        <div class="relationship-box" style="border-color: #e74c3c; background: #fdedec;">
+          Process Flow Diagram<br>(Micro View)
+        </div>
+        
+        <div class="arrow-connection">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Roll Up</div>
+          <div class="arrow-head"></div>
+        </div>
+        
+        <div class="relationship-box" style="border-color: #2ecc71; background: #eafaf1;">
+          Key Performance<br>Indicators
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #ebf5fb; border: 1px solid #3498db;"></div>
+          <span>High-level Process</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #fdedec; border: 1px solid #e74c3c;"></div>
+          <span>Detailed Steps</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background-color: #eafaf1; border: 1px solid #2ecc71;"></div>
+          <span>Performance Metrics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="metrics-comparison">
+      <div class="metric-card">
+        <div class="metric-title">Process Cycle Efficiency</div>
+        <div class="metric-value">14.5%</div>
+        <div class="metric-description">Current State</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Value-Added Time</div>
+        <div class="metric-value">12.4 hrs</div>
+        <div class="metric-description">Out of 85.7 hrs total lead time</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Inventory Accuracy</div>
+        <div class="metric-value">76.5%</div>
+        <div class="metric-description">Current process baseline</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Annual COPQ</div>
+        <div class="metric-value">€34,080</div>
+        <div class="metric-description">Cost of Poor Quality</div>
+      </div>
+    </div>
+
+    <div class="feedback-banner">
+      <p><strong>Integration Benefits:</strong> By connecting the Value Stream Map with the Process Flow Diagram, teams can better understand how individual process improvements impact the overall value stream. This integrated view enables more effective targeting of Lean Six Sigma efforts.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const processViewer = document.getElementById('process-viewer');
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const vsmButton = document.getElementById('vsm-button');
+      const pfdButton = document.getElementById('pfd-button');
+      const processItems = document.querySelectorAll('.process-item');
+      
+      let currentProcess = 'stocktake';
+      let currentView = 'vsm';
+
+      // Process item selection
+      processItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          processItems.forEach(p => p.classList.remove('active'));
+          
+          // Add active class to clicked item
+          this.classList.add('active');
+          
+          // Update current process
+          currentProcess = this.getAttribute('data-process');
+          
+          // Update viewer based on current view and process
+          updateViewer();
+        });
+      });
+
+      // Button click handlers
+      vsmButton.addEventListener('click', function() {
+        currentView = 'vsm';
+        updateViewer();
+      });
+      
+      pfdButton.addEventListener('click', function() {
+        currentView = 'pfd';
+        updateViewer();
+      });
+
+      // Function to update the iframe source based on current selections
+      function updateViewer() {
+        loadingOverlay.style.display = 'flex';
+        
+        if (currentView === 'vsm') {
+          // Load VSM with process highlighting
+          processViewer.src = `value_stream_map/index.html?highlight=${currentProcess}`;
+        } else {
+          // For now, we only have stocktake PFD, others will show the same
+          processViewer.src = 'process_flow_diagram/stocktake_process.html';
+        }
+
+        // Update metrics based on selected process
+        updateMetrics(currentProcess);
+      }
+
+      // Update metrics based on selected process
+      function updateMetrics(process) {
+        const metricsData = {
+          stocktake: {
+            efficiency: "14.5%",
+            valueAdded: "12.4 hrs",
+            accuracy: "76.5%",
+            copq: "€34,080"
+          },
+          receiving: {
+            efficiency: "26.8%",
+            valueAdded: "3.5 hrs",
+            accuracy: "94.0%",
+            copq: "€8,420"
+          },
+          distribution: {
+            efficiency: "18.9%",
+            valueAdded: "1.1 hrs",
+            accuracy: "82.0%",
+            copq: "€12,650"
+          },
+          storage: {
+            efficiency: "0.9%",
+            valueAdded: "0.7 hrs",
+            accuracy: "76.5%",
+            copq: "€16,780"
+          },
+          shopfloor: {
+            efficiency: "12.3%",
+            valueAdded: "0.1 hrs",
+            accuracy: "93.0%",
+            copq: "€5,230"
+          }
+        };
+
+        // Get metrics cards
+        const metricCards = document.querySelectorAll('.metric-value');
+        
+        // Update with data for selected process
+        const data = metricsData[process] || metricsData.stocktake;
+        metricCards[0].textContent = data.efficiency;
+        metricCards[1].textContent = data.valueAdded;
+        metricCards[2].textContent = data.accuracy;
+        metricCards[3].textContent = data.copq;
+      }
+
+      // Hide loading overlay when iframe loads
+      processViewer.addEventListener('load', function() {
+        loadingOverlay.style.display = 'none';
+        
+        // Post message to iframe to highlight specific process
+        try {
+          processViewer.contentWindow.postMessage({
+            action: 'highlightProcess',
+            process: currentProcess
+          }, '*');
+        } catch (e) {
+          console.error('Failed to post message to iframe:', e);
+        }
+      });
+
+      // Initialize with default values
+      updateMetrics('stocktake');
+    });
+  </script>
+</body>
+</html>

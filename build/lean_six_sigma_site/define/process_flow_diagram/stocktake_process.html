@@ -688,13 +688,232 @@
         flex: 1 1 100%;
       }
     }
+    
+    /* Value Stream Integration Section */
+    .value-stream-context {
+      border: 1px solid #d1d5db;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #F0F9FF;
+      border-left: 4px solid #0369A1;
+    }
+    
+    .vs-context-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #0369A1;
+    }
+    
+    .vs-context-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .vs-context-diagram {
+      flex: 1;
+      min-width: 300px;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .vs-context-info {
+      flex: 1;
+      min-width: 300px;
+      padding: 10px;
+    }
+    
+    .vs-link-button {
+      display: inline-block;
+      background-color: #0EA5E9;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+    
+    .vs-link-button:hover {
+      background-color: #0284C7;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      padding: 8px 0;
+      margin-bottom: 15px;
+      list-style: none;
+      background-color: transparent;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .breadcrumb-item {
+      color: #6B7280;
+    }
+    
+    .breadcrumb-item a {
+      color: #3B82F6;
+      text-decoration: none;
+    }
+    
+    .breadcrumb-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+      display: inline-block;
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
+      color: #6B7280;
+      content: "/";
+    }
+    
+    .breadcrumb-item.active {
+      color: #374151;
+      font-weight: 500;
+    }
+    
+    /* Iteration Tracking Section */
+    .iteration-section {
+      border: 1px solid #d1d5db;
+      padding: 15px;
+      margin: 20px 0;
+      background-color: #F5F5FF;
+      border-left: 4px solid #4F46E5;
+    }
+    
+    .iteration-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #4F46E5;
+    }
+    
+    .iteration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .iteration-card {
+      border: 1px solid #E5E7EB;
+      border-radius: 6px;
+      padding: 12px;
+      background-color: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    
+    .iteration-card-header {
+      font-weight: bold;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 14px;
+    }
+    
+    .iteration-card-body {
+      font-size: 13px;
+    }
+    
+    .iteration-metrics {
+      display: flex;
+      margin-top: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .iteration-metric {
+      background-color: #F3F4F6;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .metric-arrow {
+      display: inline-block;
+      margin: 0 5px;
+      font-weight: bold;
+    }
+    
+    .metric-improvement {
+      color: #059669;
+    }
+    
+    .metric-decline {
+      color: #DC2626;
+    }
+    
+    .value-stream-impact {
+      margin-top: 15px;
+      font-size: 13px;
+      background-color: #F0F9FF;
+      padding: 10px;
+      border-radius: 4px;
+      border-left: 3px solid #0EA5E9;
+    }
+    
+    .impact-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #0369A1;
+    }
+    
+    .previous-iteration-link {
+      text-align: right;
+      margin-top: 10px;
+    }
+    
+    .previous-link {
+      color: #4F46E5;
+      text-decoration: none;
+      font-size: 13px;
+    }
+    
+    .previous-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container" id="main-container">
     <div class="header">
-      <div class="title">SimplePharma Stocktake Process Flow</div>
+      <div>
+        <div class="title">SimplePharma Stocktake Process Flow</div>
+        <div class="breadcrumb" style="font-size: 14px; color: #6b7280; margin-bottom: 10px;">
+          <a href="../../index.html" style="color: #3498db; text-decoration: none;">Home</a> &gt;
+          <a href="../index.html" style="color: #3498db; text-decoration: none;">Define</a> &gt;
+          <a href="../value_stream_map/index.html" style="color: #3498db; text-decoration: none;">Value Stream Map</a> &gt;
+          Process Flow Diagram
+        </div>
+        
+        <!-- Add value stream context section -->
+        <div class="value-stream-context" style="margin-top: 15px; padding: 10px; background-color: #f0f9ff; border-left: 4px solid #3498db; border-radius: 4px;">
+          <h3 style="font-size: 16px; margin: 0 0 8px 0;">Context in Value Stream</h3>
+          <p style="font-size: 14px; margin: 0 0 5px 0;">This process represents the <strong>Stock Take</strong> operation, which is a critical component in SimplePharma's value stream.</p>
+          <ul style="font-size: 14px; margin: 5px 0; padding-left: 20px;">
+            <li>Inputs from: Storage and Shop Floor processes</li>
+            <li>Outputs to: Inventory adjustments in Storage and Shop Floor</li>
+            <li>Current Metrics: 76.5% accuracy rate, 6-hour process time</li>
+          </ul>
+          <p style="font-size: 14px; margin: 5px 0 0 0;">Improvement in this process directly impacts overall value stream performance.</p>
+        </div>
+      </div>
       <div class="controls">
+        <div class="navigation-links" style="margin-right: 15px;">
+          <a href="../value_stream_map/index.html" class="vs-link-button">
+            ← Back to Value Stream Map
+          </a>
+          <a href="../process_integration.html" style="color: #3498db; text-decoration: none; font-size: 14px; margin-left: 10px;">
+            Integrated View
+          </a>
+        </div>
         <div class="process-state">
           <span>Process State: </span>
           <label class="radio-label">
@@ -1103,7 +1322,7 @@
               <div class="timestamp">9:30 AM - 11:00 AM</div>
             </div>
             <div class="connector">
-              <div class="connector-line"></div>
+              <div
               <div class="connector-arrow"></div>
             </div>
             
@@ -1731,7 +1950,8 @@
           if (finalSteps) finalSteps.style.marginTop = '0';
           if (recountNote) recountNote.style.display = 'none';
           if (recountPath) recountPath.style.display = 'none';
-          if (updatePath) updatePath.style.display = 'none';
+          if (updatePath) updatePath```html
+.style.display = 'none';
         } else {
           nonValueSteps.forEach(step => step.style.display = 'block');
           decisions.forEach(decision => decision.style.display = 'flex');
@@ -1785,7 +2005,7 @@
             recountRate: "High (>20% of items)",
             valueAddedTime: "3.5 hours (50%)",
             nonValueAddedTime: "3.5 hours (50%)"
-          },
+                   },
           improved: {
             duration: "~3 hours",
             lostRevenue: "3 hours",
@@ -1808,8 +2028,7 @@
         
         // Update metrics display
         const metrics = metricsData[state];
-        document.getElementById('metric-duration').textContent = metrics.duration;
-        document.getElementById('metric-revenue').textContent = metrics.lostRevenue;
+        document.getElementById('metric-duration').textContent = metrics.duration        document.getElementById('metric-revenue').textContent = metrics.lostRevenue;
         document.getElementById('metric-accuracy').textContent = metrics.accuracy;
         document.getElementById('metric-utilization').textContent = metrics.utilization;
         document.getElementById('metric-recount').textContent = metrics.recountRate;
@@ -1841,3 +2060,4 @@
   </script>
 </body>
 </html>
+```
