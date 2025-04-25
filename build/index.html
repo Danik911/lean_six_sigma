@@ -1,92 +1,74 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lean Six Sigma Project - Sites Index</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #eaecee;
-            padding-bottom: 10px;
-        }
-        .site-section {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        .site-link {
-            margin-bottom: 10px;
-        }
-        .site-link a {
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .site-link a:hover {
-            background-color: #2980b9;
-        }
-        .description {
-            margin-top: 5px;
-            color: #7f8c8d;
-        }
-    </style>
+    <title>Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <h1>Lean Six Sigma Project - Sites Index</h1>
-    
-    <div class="site-section">
-        <h2>Main Project Site</h2>
-        <div class="site-link">
-            <a href="index.html">Lean Six Sigma Documentation Site</a> 
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Introduction</a></li>
+                    <li><a href="define/index.html">Define</a></li>
+                    <li><a href="measure/index.html">Measure</a></li>
+                    <li><a href="analyze/index.html">Analyze</a></li>
+                    <li><a href="improve/index.html">Improve</a></li>
+                    <li><a href="control/index.html">Control</a></li>
+                </ul>
+            </nav>
         </div>
-        <p class="description">The main project documentation site with DMAIC phases and analysis reports.</p>
-    </div>
+    </header>
 
-    <div class="site-section">
-        <h2>Tools and Analysis</h2>
-        <div class="site-link">
-            <a href="value_stream_map/index.html">Value Stream Map</a>
-        </div>
-        <p class="description">Interactive value stream mapping tool for process visualization and analysis.</p>
+    <main class="container">
+        <section class="intro-section">
+            <h2>Introduction to the Project</h2>
+            <div class="content-box">
+                <h3>Company Overview</h3>
+                <p>This Lean Six Sigma project focuses on improving inventory accuracy processes at SimplePharma, a pharmaceutical distribution company facing challenges with inventory discrepancies.</p>
+                
+                <h3>Problem Statement</h3>
+                <p>The company has been experiencing inventory discrepancies between system records and physical counts, leading to supply chain disruptions, customer dissatisfaction, and regulatory compliance concerns.</p>
+                
+                <h3>Project Approach</h3>
+                <p>This project follows the DMAIC methodology (Define, Measure, Analyze, Improve, Control) to systematically identify root causes and implement sustainable solutions.</p>
+                
+                <div class="dmaic-container">
+                    <div class="dmaic-phase">
+                        <h4><a href="define/index.html">Define</a></h4>
+                        <p>Project charter, SIPOC diagram, and swimlane process mapping to define the problem scope.</p>
+                    </div>
+                    <div class="dmaic-phase">
+                        <h4><a href="measure/index.html">Measure</a></h4>
+                        <p>Measurement system analysis, data collection plan, and baseline performance metrics.</p>
+                    </div>
+                    <div class="dmaic-phase">
+                        <h4><a href="analyze/index.html">Analyze</a></h4>
+                        <p>Root cause analysis of inventory discrepancies using statistical methods and process analysis.</p>
+                    </div>
+                    <div class="dmaic-phase">
+                        <h4><a href="improve/index.html">Improve</a></h4>
+                        <p>Implementation of solutions including value stream mapping and process flow optimization.</p>
+                    </div>
+                    <div class="dmaic-phase">
+                        <h4><a href="control/index.html">Control</a></h4>
+                        <p>Monitoring systems, control plans, and standardization to sustain improvements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-        <div class="site-link">
-            <a href="process_flow_diagram/stocktake_process.html">Stocktake Process Flow Diagram</a>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
         </div>
-        <p class="description">Visual representation of the stocktake process flow.</p>
-    </div>
+    </footer>
 
-    <div class="site-section">
-        <h2>Interactive Applications</h2>
-        <div class="site-link">
-            <a href="5s_app/index.html">5S Management Application</a>
-        </div>
-        <p class="description">Tool for implementing and tracking 5S methodology.</p>
-
-        <div class="site-link">
-            <a href="kanban_system/index.html">Kanban System</a>
-        </div>
-        <p class="description">Kanban board for visual inventory management.</p>
-    </div>
-
-    <div class="site-section">
-        <h2>Direct Report Access</h2>
-        <div class="site-link">
-            <a href="analyze/reports.html">Analysis Reports</a>
-        </div>
-        <p class="description">Direct access to all markdown analysis reports.</p>
-    </div>
+    <script src="js/main.js"></script>
 </body>
 </html>
