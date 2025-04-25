@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measure Phase - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="../define/index.html">Define</a></li>
+                    <li><a href="index.html" class="active">Measure</a></li>
+                    <li><a href="../analyze/index.html">Analyze</a></li>
+                    <li><a href="../improve/index.html">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Measure Phase</h2>
+            <div class="content-box">
+                <h3>Phase Overview</h3>
+                <p>The Measure phase focuses on gathering baseline data about the current process performance. During this phase, we validated our measurement system, collected data on inventory discrepancies, and established a performance baseline to measure future improvements against.</p>
+                
+                <h3>Key Artifacts</h3>
+                <div class="document-links">
+                    <div class="document-link file-doc">
+                        <a href="../msa/minitab_attribute_msa_binary.csv" target="_blank">
+                            <i class="far fa-file-alt"></i>
+                            <span>Attribute Agreement Analysis Data (CSV)</span>
+                        </a>
+                    </div>
+                    <p>The Attribute Agreement Analysis evaluates the consistency and accuracy of our measurement system, ensuring that data collection methods produce reliable results. This CSV file contains raw data from our measurement system analysis that was used in Minitab to assess agreement among appraisers.</p>
+                    
+                    <div class="document-link file-py">
+                        <a href="https://github.com/yourusername/lean_six_sigma/blob/main/msa/size_proportion.py" target="_blank">
+                            <i class="fab fa-python"></i>
+                            <span>Sample Size Calculation Script (size_proportion.py)</span>
+                        </a>
+                    </div>
+                    <p>This Python script calculates the required sample size for our inventory analysis based on statistical power and confidence levels, ensuring that our data collection is both sufficient and efficient.</p>
+                    
+                    <div class="document-link file-md">
+                        <a href="../msa/sample_size_report.md" target="_blank">
+                            <i class="fab fa-markdown"></i>
+                            <span>Sample Size Report</span>
+                        </a>
+                    </div>
+                    <p>This report details the methodology and results of our sample size calculations, providing the statistical justification for our data collection approach.</p>
+                    
+                    <div class="document-link file-md">
+                        <a href="../baseline_data_report.md" target="_blank">
+                            <i class="fab fa-markdown"></i>
+                            <span>Baseline Performance Report</span>
+                        </a>
+                    </div>
+                    <p>The Baseline Report establishes the current performance levels of the inventory process, quantifying the extent and impact of discrepancies. This serves as our reference point for measuring improvement throughout the project.</p>
+                </div>
+                
+                <h3>Measurement System Analysis</h3>
+                <p>Our measurement system analysis (MSA) ensured that our data collection methods were reliable and accurate. The attribute agreement analysis assessed:</p>
+                <ul>
+                    <li>Agreement between appraisers when categorizing inventory items</li>
+                    <li>Consistency of individual appraisers across multiple trials</li>
+                    <li>Accuracy of appraisers compared to known standard values</li>
+                </ul>
+                
+                <div class="msa-methodology">
+                    <h4>MSA Methodology</h4>
+                    <p>We conducted our MSA using the following approach:</p>
+                    <ol>
+                        <li>Selected 30 representative inventory items with known status (accurate/discrepant)</li>
+                        <li>Had 5 inventory specialists evaluate each item twice, without knowledge of previous results</li>
+                        <li>Analyzed the results using Minitab's Attribute Agreement Analysis</li>
+                        <li>Set acceptance criteria at 90% agreement for all metrics</li>
+                    </ol>
+                </div>
+                
+                <h3>Measure Phase Outcomes</h3>
+                <p>Our measurement system analysis confirmed that our data collection methods are sufficiently reliable, with good inter-rater agreement. The baseline data revealed that inventory discrepancies affect approximately 18% of items, with certain product categories and locations showing significantly higher rates of discrepancy.</p>
+                <p>Key metrics established during this phase include:</p>
+                <ul>
+                    <li>Overall inventory accuracy rate: 82%</li>
+                    <li>Average size of discrepancy: ±12 units</li>
+                    <li>Financial impact of discrepancies: $125,000 annually</li>
+                    <li>Process sigma level: 2.4</li>
+                </ul>
+                <p>These findings provided a clear quantitative understanding of the problem and established the foundation for our analysis phase.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

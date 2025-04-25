@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improve Phase - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- PDF.js library for rendering PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="../define/index.html">Define</a></li>
+                    <li><a href="../measure/index.html">Measure</a></li>
+                    <li><a href="../analyze/index.html">Analyze</a></li>
+                    <li><a href="index.html" class="active">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Improve Phase</h2>
+            <div class="content-box">
+                <h3>Phase Overview</h3>
+                <p>The Improve phase focuses on developing, testing, and implementing solutions to address the root causes identified in the Analyze phase. We used lean principles to redesign key aspects of the inventory management process, eliminate waste, and create more effective workflows.</p>
+                
+                <h3>Key Artifacts</h3>
+                <div class="document-links">
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('vsm-iframe-container'); return false;">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Value Stream Map</span>
+                        </a>
+                        <div id="vsm-iframe-container" class="iframe-container">
+                            <iframe src="../value_stream_map/index.html" class="embed-frame"></iframe>
+                        </div>
+                    </div>
+                    <p>The Value Stream Map visualizes the flow of materials and information in the inventory management process, highlighting value-added and non-value-added activities. This map helped identify opportunities for waste reduction and process optimization.</p>
+                    
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('process-iframe-container'); return false;">
+                            <i class="fas fa-sitemap"></i>
+                            <span>Process Flow Diagram</span>
+                        </a>
+                        <div id="process-iframe-container" class="iframe-container">
+                            <iframe src="../process_flow_diagram/stocktake_process.html" class="embed-frame"></iframe>
+                        </div>
+                    </div>
+                    <p>The redesigned Process Flow Diagram shows the improved inventory count procedure with standardized steps, error-proofing measures, and clear responsibilities.</p>
+                    
+                    <div class="document-link file-txt">
+                        <a href="#" onclick="loadTextContent('../value_stream_map/text_description.txt', 'text-content-container'); return false;">
+                            <i class="far fa-file-alt"></i>
+                            <span>Value Stream Analysis</span>
+                        </a>
+                        <div id="text-content-container" class="text-content-container">
+                            <div class="loading-text">Loading content...</div>
+                            <pre id="text-content"></pre>
+                        </div>
+                    </div>
+                    <p>Detailed analysis of the value stream, including cycle times, waiting times, and improvement opportunities identified during the mapping exercise.</p>
+                </div>
+                
+                <h3>Value Stream Approach</h3>
+                <div class="vsm-methodology">
+                    <h4>Value Stream Mapping Methodology</h4>
+                    <p>Our value stream mapping process followed these steps:</p>
+                    <ol>
+                        <li>Identified inventory process boundaries and key stakeholders</li>
+                        <li>Documented the current state with cycle times, waiting times, and information flow</li>
+                        <li>Analyzed the map to identify non-value-added activities and bottlenecks</li>
+                        <li>Created a future state map incorporating lean principles</li>
+                        <li>Developed an implementation plan based on the future state vision</li>
+                    </ol>
+                    <p>The interactive Value Stream Map linked above allows you to explore both the current and future states, with detailed metrics for each process step.</p>
+                </div>
+                
+                <h3>Improvement Solutions</h3>
+                <div class="solutions-grid">
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-tablet-alt"></i></div>
+                        <h4>Scanner Calibration Protocol</h4>
+                        <p>Implemented a daily automated scanner calibration check and maintenance schedule, reducing scanner-related errors by 85%.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-wifi"></i></div>
+                        <h4>WiFi Network Enhancement</h4>
+                        <p>Installed additional access points and signal boosters in warehouse areas with weak coverage, eliminating connectivity-related data loss.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-user-graduate"></i></div>
+                        <h4>Standardized Training Program</h4>
+                        <p>Developed a competency-based training program with hands-on practice sessions and knowledge verification checkpoints.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h4>Cycle Counting Redesign</h4>
+                        <p>Replaced large end-of-month counts with daily cycle counting of smaller sections, distributing workload more evenly.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-cubes"></i></div>
+                        <h4>Special Handling Protocol</h4>
+                        <p>Created special handling procedures for small, high-value items with double verification and secure storage.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h4>Error-Proofing Checklists</h4>
+                        <p>Developed error-proofing checklists for critical inventory processes to prevent common mistakes.</p>
+                    </div>
+                </div>
+                
+                <h3>Implementation Approach</h3>
+                <p>We used a phased implementation approach to minimize disruption while maximizing improvement impact:</p>
+                <div class="implementation-timeline">
+                    <div class="timeline-phase">
+                        <h4>Phase 1: Pilot (2 weeks)</h4>
+                        <ul>
+                            <li>Implemented solutions in one warehouse section</li>
+                            <li>Gathered feedback and refined approaches</li>
+                            <li>Validated results with statistical analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-phase">
+                        <h4>Phase 2: Roll-Out (8 weeks)</h4>
+                        <ul>
+                            <li>Sequential implementation across all warehouse sections</li>
+                            <li>Staff training on new procedures and technologies</li>
+                            <li>Daily monitoring of key metrics during transition</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-phase">
+                        <h4>Phase 3: Stabilization (4 weeks)</h4>
+                        <ul>
+                            <li>Fine-tuning of processes based on implementation learnings</li>
+                            <li>Standardization of procedures and documentation</li>
+                            <li>Transition to sustaining control measures</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Pilot Implementation Results</h3>
+                <p>We conducted a three-week pilot implementation of these improvements in one warehouse section. The results showed:</p>
+                <ul>
+                    <li>Reduction in inventory discrepancies from 18% to 3.5%</li>
+                    <li>Process cycle time reduced by 42%</li>
+                    <li>Staff satisfaction with the inventory process improved by 67%</li>
+                    <li>Process sigma level improved from 2.4 to 3.9</li>
+                </ul>
+                <p>Based on these positive results, the improvements were rolled out to all warehouse areas. The full implementation plan included detailed training materials, standardized work instructions, and a phased roll-out schedule to minimize disruption.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to toggle content visibility
+        function toggleContent(containerId) {
+            const container = document.getElementById(containerId);
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+            } else {
+                container.style.display = 'block';
+            }
+        }
+        
+        // Function to load text content
+        function loadTextContent(url, containerId) {
+            const container = document.getElementById(containerId);
+            const textContent = document.getElementById('text-content');
+            const loadingText = container.querySelector('.loading-text');
+            
+            // Toggle container visibility
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            loadingText.style.display = 'block';
+            textContent.textContent = '';
+            
+            // Fetch text content
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    loadingText.style.display = 'none';
+                    textContent.textContent = data;
+                })
+                .catch(error => {
+                    loadingText.style.display = 'none';
+                    textContent.textContent = 'Error loading content: ' + error.message;
+                });
+        }
+    </script>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
