@@ -37,12 +37,12 @@
                     <label for="report-select">Select a report to view:</label>
                     <select id="report-select">
                         <option value="">-- Select a report --</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/initial_exploration_report.md">Initial Data Exploration Report</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/categorical_analysis_report.md">Categorical Analysis Report</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/continuous_analysis_output/continuous_analysis_report.md">Continuous Variables Analysis Report</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/root_cause_analysis_output/root_cause_analysis_report.md">Root Cause Analysis Report</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/baseline_data_report.md">Baseline Data Report</option>
-                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/msa/sample_size_report.md">Measurement System Analysis - Sample Size Report</option>
+                        <option value="../analyze_flow/initial_exploration_report.md">Initial Data Exploration Report</option>
+                        <option value="../analyze_flow/categorical_analysis_report.md">Categorical Analysis Report</option>
+                        <option value="../analyze_flow/continuous_analysis_output/continuous_analysis_report.md">Continuous Variables Analysis Report</option>
+                        <option value="../analyze_flow/root_cause_analysis_output/root_cause_analysis_report.md">Root Cause Analysis Report</option>
+                        <option value="../measure/baseline_data_report.md">Baseline Data Report</option>
+                        <option value="../measure/msa/sample_size_report.md">Measurement System Analysis - Sample Size Report</option>
                     </select>
                 </div>
                 
@@ -87,13 +87,15 @@
                 loadMarkdownReport(selectedReport);
             });
             
-            // Function to load and render Markdown report using fetch since we're now loading from GitHub
+            // Function to load and render Markdown report using fetch
             function loadMarkdownReport(reportPath) {
                 // Show loading indicator
                 loadingIndicator.style.display = 'block';
                 markdownContainer.innerHTML = '';
                 
-                // Fetch the Markdown file from GitHub raw content
+                console.log('Loading report from:', reportPath);
+                
+                // Fetch the Markdown file from local path
                 fetch(reportPath)
                     .then(response => {
                         if (!response.ok) {
@@ -102,11 +104,39 @@
                         return response.text();
                     })
                     .then(markdownText => {
-                        // Process image paths to make them point to GitHub
+                        console.log('Markdown content loaded, processing image paths...');
+                        // Process image paths to make them relative to the markdown file
                         const processedMarkdown = processImagePaths(markdownText, reportPath);
                         
-                        // Render markdown
-                        markdownContainer.innerHTML = marked.parse(processedMarkdown);
+                        // Add custom image error handler
+                        const renderedHtml = marked.parse(processedMarkdown);
+                        
+                        // Add the HTML to the container
+                        markdownContainer.innerHTML = renderedHtml;
+                        
+                        // Add error handlers to all images
+                        setTimeout(() => {
+                            const images = markdownContainer.querySelectorAll('img');
+                            console.log(`Found ${images.length} images in the document`);
+                            
+                            images.forEach((img, index) => {
+                                console.log(`Image ${index}: src="${img.src}"`);
+                                
+                                img.onerror = function() {
+                                    console.error(`Failed to load image: ${img.src}`);
+                                    img.style.border = '2px dashed red';
+                                    img.style.padding = '10px';
+                                    img.style.display = 'inline-block';
+                                    img.style.background = '#ffeeee';
+                                    img.title = `Error: Could not load image from ${img.src}`;
+                                    img.alt = `[Missing Image: ${img.alt}]`;
+                                };
+                                
+                                img.onload = function() {
+                                    console.log(`Successfully loaded image: ${img.src}`);
+                                };
+                            });
+                        }, 100);
                         
                         // Hide loading indicator
                         loadingIndicator.style.display = 'none';
@@ -123,17 +153,15 @@
                     });
             }
             
-            // Function to process image paths in Markdown to point to GitHub
+            // Function to process image paths in Markdown for local viewing
             function processImagePaths(markdownText, reportPath) {
-                const repoOwner = 'Danik911';
-                const repoName = 'lean_six_sigma';
-                const branch = 'main';
+                // Get the directory of the markdown file
+                const reportDir = reportPath.substring(0, reportPath.lastIndexOf('/') + 1);
                 
-                // Get the directory of the report within the repo
-                const reportPathInRepo = reportPath.replace(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/`, '');
-                const reportDir = reportPathInRepo.substring(0, reportPathInRepo.lastIndexOf('/') + 1);
+                // Check if reportPath is an analyze_flow file or another location
+                const isAnalyzeFlow = reportPath.includes('analyze_flow/');
                 
-                // Replace relative image paths with GitHub raw URLs
+                // Replace relative image paths with correct paths relative to the HTML file
                 return markdownText.replace(
                     /!\[(.*?)\]\(((?!http|\/\/).+?)\)/g, 
                     function(match, altText, imgPath) {
@@ -142,17 +170,20 @@
                             imgPath = imgPath.substring(2);
                         }
                         
-                        // Create GitHub raw URL
-                        let absolutePath;
-                        if (imgPath.startsWith('/')) {
-                            // Absolute path from repo root
-                            absolutePath = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}${imgPath}`;
+                        // Create path relative to HTML file
+                        let correctPath;
+                        
+                        if (isAnalyzeFlow) {
+                            // For files in analyze_flow directory, use the local path structure 
+                            correctPath = reportDir + imgPath;
                         } else {
-                            // Relative path from markdown file
-                            absolutePath = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${reportDir}${imgPath}`;
+                            // For other locations (like GitHub paths), adjust accordingly
+                            // Change this part based on where your images are actually stored
+                            correctPath = '../analyze_flow/' + imgPath;
                         }
                         
-                        return `![${altText}](${absolutePath})`;
+                        console.log('Image path resolved:', correctPath);
+                        return `![${altText}](${correctPath})`;
                     }
                 );
             }
