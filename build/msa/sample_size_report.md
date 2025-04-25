@@ -2,7 +2,7 @@
 
 Calculated based on:
 - Confidence Level: 95.0%
-- Margin of Error: ±5.0%
+- Margin of Error: Â±5.0%
 - Estimated Accuracy/Proportion: 85.0%
 
 ## Required Total Sample Size
