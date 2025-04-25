@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimplePharma 5S Digital Organization System</title>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    /* Debug styles */
+    .debug-info {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 9999;
+      font-size: 12px;
+    }
+    
+    /* Loading spinner */
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #09f;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* App container - fullscreen */
+    #root {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <!-- Debug container to show load status -->
+  <div id="debug-container" class="debug-info">Loading React app...</div>
+  
+  <div id="root">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f3f4f6;">
+      <div class="loading-spinner"></div>
+      <p>Loading 5S Digital Organization System...</p>
+    </div>
+  </div>
+  
+  <!-- Import Lucide icons -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+  
+  <!-- Load the 5S App component -->
+  <script type="text/babel" src="5s_app.js"></script>
+  
+  <!-- Initialize the app -->
+  <script type="text/babel">
+    // Render app
+    try {
+      // Update debug message
+      document.getElementById('debug-container').innerText = 'React loaded, attempting to render app...';
+      
+      // Render the app
+      ReactDOM.render(
+        <SimplePharma5S />,
+        document.getElementById('root')
+      );
+      
+      // If successful, update debug message again
+      setTimeout(() => {
+        document.getElementById('debug-container').innerText = 'App rendered successfully!';
+        // Hide the debug message after 5 seconds
+        setTimeout(() => {
+          const debugEl = document.getElementById('debug-container');
+          if (debugEl) debugEl.style.display = 'none';
+        }, 5000);
+      }, 1000);
+      
+    } catch (error) {
+      // Show error in debug container
+      document.getElementById('debug-container').innerHTML = `<strong>Error:</strong> ${error.message}`;
+      console.error('Error rendering app:', error);
+    }
+  </script>
+</body>
+</html>
