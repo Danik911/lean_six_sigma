@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Reports - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Marked.js - Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="../define/index.html">Define</a></li>
+                    <li><a href="../measure/index.html">Measure</a></li>
+                    <li><a href="index.html" class="active">Analyze</a></li>
+                    <li><a href="../improve/index.html">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Analysis Reports</h2>
+            <div class="content-box">
+                <h3>Interactive Report Viewer</h3>
+                <p>View our detailed Lean Six Sigma analysis reports below. These reports contain our statistical findings, visualizations, and conclusions that guided our improvement efforts.</p>
+                
+                <div class="report-selector">
+                    <label for="report-select">Select a report to view:</label>
+                    <select id="report-select">
+                        <option value="">-- Select a report --</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/initial_exploration_report.md">Initial Data Exploration Report</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/categorical_analysis_report.md">Categorical Analysis Report</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/continuous_analysis_output/continuous_analysis_report.md">Continuous Variables Analysis Report</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/analyze_flow/root_cause_analysis_output/root_cause_analysis_report.md">Root Cause Analysis Report</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/baseline_data_report.md">Baseline Data Report</option>
+                        <option value="https://raw.githubusercontent.com/Danik911/lean_six_sigma/main/msa/sample_size_report.md">Measurement System Analysis - Sample Size Report</option>
+                    </select>
+                </div>
+                
+                <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                    <p><i class="fas fa-spinner fa-spin"></i> Loading report...</p>
+                </div>
+                
+                <div id="markdown-container" class="markdown-container"></div>
+                
+                <div class="document-links">
+                    <div class="document-link file-py">
+                        <a href="https://github.com/Danik911/lean_six_sigma/blob/main/analyze_flow/initial_exploration.py" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span>View Analysis Code on GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reportSelect = document.getElementById('report-select');
+            const markdownContainer = document.getElementById('markdown-container');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            // Handle report selection
+            reportSelect.addEventListener('change', function() {
+                const selectedReport = this.value;
+                if (!selectedReport) {
+                    markdownContainer.innerHTML = '<p>Please select a report to view.</p>';
+                    return;
+                }
+                
+                loadMarkdownReport(selectedReport);
+            });
+            
+            // Function to load and render Markdown report using fetch since we're now loading from GitHub
+            function loadMarkdownReport(reportPath) {
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                markdownContainer.innerHTML = '';
+                
+                // Fetch the Markdown file from GitHub raw content
+                fetch(reportPath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Report could not be loaded');
+                        }
+                        return response.text();
+                    })
+                    .then(markdownText => {
+                        // Process image paths to make them point to GitHub
+                        const processedMarkdown = processImagePaths(markdownText, reportPath);
+                        
+                        // Render markdown
+                        markdownContainer.innerHTML = marked.parse(processedMarkdown);
+                        
+                        // Hide loading indicator
+                        loadingIndicator.style.display = 'none';
+                    })
+                    .catch(error => {
+                        console.error('Error loading report:', error);
+                        markdownContainer.innerHTML = `
+                            <div class="error-message">
+                                <p>Error loading the report. ${error.message}</p>
+                                <p>Please try again or select a different report.</p>
+                            </div>
+                        `;
+                        loadingIndicator.style.display = 'none';
+                    });
+            }
+            
+            // Function to process image paths in Markdown to point to GitHub
+            function processImagePaths(markdownText, reportPath) {
+                const repoOwner = 'Danik911';
+                const repoName = 'lean_six_sigma';
+                const branch = 'main';
+                
+                // Get the directory of the report within the repo
+                const reportPathInRepo = reportPath.replace(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/`, '');
+                const reportDir = reportPathInRepo.substring(0, reportPathInRepo.lastIndexOf('/') + 1);
+                
+                // Replace relative image paths with GitHub raw URLs
+                return markdownText.replace(
+                    /!\[(.*?)\]\(((?!http|\/\/).+?)\)/g, 
+                    function(match, altText, imgPath) {
+                        // If path starts with './', remove it
+                        if (imgPath.startsWith('./')) {
+                            imgPath = imgPath.substring(2);
+                        }
+                        
+                        // Create GitHub raw URL
+                        let absolutePath;
+                        if (imgPath.startsWith('/')) {
+                            // Absolute path from repo root
+                            absolutePath = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}${imgPath}`;
+                        } else {
+                            // Relative path from markdown file
+                            absolutePath = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${reportDir}${imgPath}`;
+                        }
+                        
+                        return `![${altText}](${absolutePath})`;
+                    }
+                );
+            }
+            
+            // Check if a report is specified in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const reportParam = urlParams.get('report');
+            
+            if (reportParam) {
+                // Find the option with matching value
+                const options = Array.from(reportSelect.options);
+                const matchingOption = options.find(option => option.value.includes(reportParam));
+                
+                if (matchingOption) {
+                    reportSelect.value = matchingOption.value;
+                    loadMarkdownReport(matchingOption.value);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

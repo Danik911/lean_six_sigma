@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Define Phase - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="index.html" class="active">Define</a></li>
+                    <li><a href="../measure/index.html">Measure</a></li>
+                    <li><a href="../analyze/index.html">Analyze</a></li>
+                    <li><a href="../improve/index.html">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Define Phase</h2>
+            <div class="content-box">
+                <h3>Phase Overview</h3>
+                <p>The Define phase is the first step in the DMAIC methodology. During this phase, we identified and documented the problem, established the project scope, and set clear goals for improvement. The following documents outline the key components of our Define phase.</p>
+                
+                <h3>Key Artifacts</h3>
+                <div class="document-links">
+                    <div class="document-link file-doc">
+                        <a href="../artifacts/Project-charter-SimplePharma.docx" target="_blank">
+                            <i class="far fa-file-word"></i>
+                            <span>Project Charter</span>
+                        </a>
+                    </div>
+                    <p>The Project Charter defines the problem statement, project scope, business case, goals, timeline, team members, and stakeholders for the SimplePharma inventory accuracy improvement project. It serves as the foundational document that guides the entire project.</p>
+                    
+                    <div class="document-link file-img">
+                        <a href="#" onclick="toggleDiagram('sipoc-diagram'); return false;">
+                            <i class="far fa-image"></i>
+                            <span>SIPOC Diagram</span>
+                        </a>
+                        <div id="sipoc-diagram" class="diagram-container">
+                            <img src="../artifacts/SIPOC - SIPOC.jpg" alt="SIPOC Diagram" class="full-diagram">
+                            <p class="diagram-note">
+                                <a href="../project_details/SIPOC.pdf" download class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF version
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <p>The SIPOC (Suppliers, Inputs, Process, Outputs, Customers) diagram provides a high-level overview of the inventory process, identifying key stakeholders and process boundaries.</p>
+                    
+                    <div class="document-link file-img">
+                        <a href="#" onclick="toggleDiagram('swimlane-diagram'); return false;">
+                            <i class="far fa-image"></i>
+                            <span>Swimlane Diagram</span>
+                        </a>
+                        <div id="swimlane-diagram" class="diagram-container">
+                            <img src="../artifacts/Swim Lane - Swimlane.jpg" alt="Swimlane Diagram" class="full-diagram">
+                            <p class="diagram-note">
+                                <a href="../project_details/Swimlane Diagram.pdf" download class="download-link">
+                                    <i class="fas fa-download"></i> Download PDF version
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <p>The Swimlane Diagram visualizes the current inventory process flow across different departments and roles, highlighting handoffs and potential bottlenecks.</p>
+                </div>
+                
+                <h3>Define Phase Outcomes</h3>
+                <p>Through the Define phase, we established that inventory discrepancies at SimplePharma are causing significant operational and compliance issues. The project aims to reduce inventory discrepancies by at least 50% within six months, improving operational efficiency and regulatory compliance.</p>
+                <p>The process mapping revealed several potential problem areas, including manual data entry, lack of standardized procedures, and communication gaps between departments. These insights guided our focus for the measurement phase.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle diagram visibility
+        function toggleDiagram(diagramId) {
+            const diagram = document.getElementById(diagramId);
+            if (diagram.style.display === 'block') {
+                diagram.style.display = 'none';
+            } else {
+                diagram.style.display = 'block';
+            }
+        }
+    </script>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
