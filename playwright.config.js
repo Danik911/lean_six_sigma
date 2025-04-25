@@ -14,7 +14,7 @@ module.exports = defineConfig({
   reporter: 'html',
   
   use: {
-    baseURL: 'http://localhost:3000',
+    // No baseURL needed for static file testing
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     // Skip installation checks to avoid WebKit errors
@@ -28,9 +28,5 @@ module.exports = defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'cd value_flow_app && npm start',
-    port: 3000,
-    reuseExistingServer: true,
-  },
+  // Remove webServer configuration for static file testing
 });

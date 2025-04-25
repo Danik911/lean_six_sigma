@@ -33,6 +33,33 @@
                 
                 <h3>Key Artifacts</h3>
                 <div class="document-links">
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleDiagram('vsm-container'); return false;">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Current State Value Stream Map</span>
+                        </a>
+                        <div id="vsm-container" class="diagram-container">
+                            <iframe src="../value_stream_map/index.html" class="embed-frame" style="width: 100%; height: 500px; border: none;"></iframe>
+                            <p class="diagram-note">
+                                <a href="../value_stream_map/text_description.txt" target="_blank" class="download-link">
+                                    <i class="fas fa-file-alt"></i> View Text Description
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <p>The Current State Value Stream Map visualizes the flow of materials and information in the inventory management process, highlighting value-added steps, non-value-added activities, and waiting times. This visualization helps identify bottlenecks and waste in the current process.</p>
+                    
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleDiagram('process-flow-container'); return false;">
+                            <i class="fas fa-sitemap"></i>
+                            <span>Process Flow Diagram (Current State)</span>
+                        </a>
+                        <div id="process-flow-container" class="diagram-container">
+                            <iframe src="../process_flow_diagram/stocktake_process.html" class="embed-frame" style="width: 100%; height: 500px; border: none;"></iframe>
+                        </div>
+                    </div>
+                    <p>The Process Flow Diagram provides a detailed view of the current inventory management process, showing the sequence of activities, decision points, and handoffs between departments. This diagram was used to identify process inefficiencies and areas for improvement.</p>
+                    
                     <div class="document-link file-doc">
                         <a href="../msa/minitab_attribute_msa_binary.csv" target="_blank">
                             <i class="far fa-file-alt"></i>
@@ -64,6 +91,74 @@
                         </a>
                     </div>
                     <p>The Baseline Report establishes the current performance levels of the inventory process, quantifying the extent and impact of discrepancies. This serves as our reference point for measuring improvement throughout the project.</p>
+                    
+                    <div class="document-link file-img">
+                        <a href="#" onclick="toggleDiagram('data-collection-plan'); return false;">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Data Collection Plan</span>
+                        </a>
+                        <div id="data-collection-plan" class="diagram-container">
+                            <div class="data-collection-content">
+                                <h4>Data Collection Plan</h4>
+                                <table class="data-collection-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data Point</th>
+                                            <th>Measurement Method</th>
+                                            <th>Sample Size</th>
+                                            <th>Frequency</th>
+                                            <th>Responsibility</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Inventory Count Accuracy</td>
+                                            <td>Physical count vs. System record</td>
+                                            <td>384 items</td>
+                                            <td>Weekly</td>
+                                            <td>Inventory Specialist</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Scanner Calibration Status</td>
+                                            <td>Calibration check with known standard</td>
+                                            <td>All scanners (42)</td>
+                                            <td>Daily</td>
+                                            <td>IT Support</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WiFi Signal Strength</td>
+                                            <td>Signal meter readings</td>
+                                            <td>20 locations</td>
+                                            <td>Once</td>
+                                            <td>Network Engineer</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Process Cycle Time</td>
+                                            <td>Time study</td>
+                                            <td>30 cycles</td>
+                                            <td>Daily for 1 week</td>
+                                            <td>Process Engineer</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Staff Training Level</td>
+                                            <td>Training records review</td>
+                                            <td>All staff (68)</td>
+                                            <td>Once</td>
+                                            <td>Training Manager</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Process Adherence</td>
+                                            <td>Direct observation</td>
+                                            <td>25 observations</td>
+                                            <td>Daily for 1 week</td>
+                                            <td>Quality Analyst</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p>The Data Collection Plan outlines what data was collected, how it was measured, sample sizes, collection frequency, and responsibilities. This structured approach ensured consistent and reliable data collection for analysis.</p>
                 </div>
                 
                 <h3>Measurement System Analysis</h3>
@@ -85,6 +180,85 @@
                     </ol>
                 </div>
                 
+                <div class="msa-results">
+                    <h4>MSA Results</h4>
+                    <table class="msa-results-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Result</th>
+                                <th>Acceptance Criteria</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Between Appraiser Agreement</td>
+                                <td>92.5%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Within Appraiser Agreement</td>
+                                <td>94.1%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Agreement with Standard</td>
+                                <td>93.2%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Kappa Statistic</td>
+                                <td>0.85</td>
+                                <td>≥ 0.7</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Related Artifacts in Other Phases</h3>
+                <div class="related-artifacts-container">
+                    <div class="related-artifact">
+                        <div class="related-phase define-phase">
+                            <span><i class="fas fa-flag"></i> Define</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Define Phase Foundation</h4>
+                            <ul>
+                                <li><a href="../define/index.html#sipoc-diagram">SIPOC Diagram</a> - High-level process overview that was measured in detail during this phase</li>
+                                <li><a href="../define/index.html#problem-statement">Problem Statement</a> - The business problem that guided our measurement focus</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="related-artifact">
+                        <div class="related-phase analyze-phase">
+                            <span><i class="fas fa-search"></i> Analyze</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Analysis of Measured Data</h4>
+                            <ul>
+                                <li><a href="../analyze/index.html#categorical-analysis-results">Categorical Analysis Results</a> - Statistical analysis of the data collected in this phase</li>
+                                <li><a href="../analyze/reports.html">Analysis Reports</a> - Comprehensive reports based on measurements collected</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="related-artifact">
+                        <div class="related-phase improve-phase">
+                            <span><i class="fas fa-arrow-up"></i> Improve</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Improvements Based on Measurements</h4>
+                            <ul>
+                                <li><a href="../improve/index.html#process-iframe-container">Improved Process Flow</a> - Compare with the current state process flow measured here</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <h3>Measure Phase Outcomes</h3>
                 <p>Our measurement system analysis confirmed that our data collection methods are sufficiently reliable, with good inter-rater agreement. The baseline data revealed that inventory discrepancies affect approximately 18% of items, with certain product categories and locations showing significantly higher rates of discrepancy.</p>
                 <p>Key metrics established during this phase include:</p>
@@ -104,6 +278,18 @@
             <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Toggle diagram visibility
+        function toggleDiagram(diagramId) {
+            const diagram = document.getElementById(diagramId);
+            if (diagram.style.display === 'block') {
+                diagram.style.display = 'none';
+            } else {
+                diagram.style.display = 'block';
+            }
+        }
+    </script>
 
     <script src="../js/main.js"></script>
 </body>
