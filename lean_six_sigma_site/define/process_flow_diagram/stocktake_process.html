@@ -2005,7 +2005,7 @@
             recountRate: "High (>20% of items)",
             valueAddedTime: "3.5 hours (50%)",
             nonValueAddedTime: "3.5 hours (50%)"
-                   },
+          },
           improved: {
             duration: "~3 hours",
             lostRevenue: "3 hours",
@@ -2028,7 +2028,8 @@
         
         // Update metrics display
         const metrics = metricsData[state];
-        document.getElementById('metric-duration').textContent = metrics.duration        document.getElementById('metric-revenue').textContent = metrics.lostRevenue;
+        document.getElementById('metric-duration').textContent = metrics.duration;
+        document.getElementById('metric-revenue').textContent = metrics.lostRevenue;
         document.getElementById('metric-accuracy').textContent = metrics.accuracy;
         document.getElementById('metric-utilization').textContent = metrics.utilization;
         document.getElementById('metric-recount').textContent = metrics.recountRate;
@@ -2060,4 +2061,3 @@
   </script>
 </body>
 </html>
-```
