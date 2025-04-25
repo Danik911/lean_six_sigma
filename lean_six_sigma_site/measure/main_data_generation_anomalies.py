@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-from main_data_generation import generate_simplepharma_baseline_data
+from lean_six_sigma_site.measure.main_data_generation import generate_simplepharma_baseline_data
 
 def generate_simplepharma_baseline_data_with_anomalies(n_records=1000):
     """
