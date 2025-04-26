@@ -99,11 +99,13 @@ const improvementIcons = {
   }
 };
 
-// Improvements data for each process node - FOR IMPROVED STATE
+// Improvements data for each process node
 const improvementsData = {
   'process-receiving': {
     improvements: [
-      { type: 'rfid', data: 'Basic RFID tagging at point of receipt' },
+      { type: 'rfid', data: 'RFID tagging at point of receipt' },
+      { type: 'automation', data: 'Automated receiving process' },
+      { type: 'pokayoke', data: 'Error-proofing in receiving process' },
       { type: 'standardwork', data: 'Standardized receiving procedures' }
     ]
   },
@@ -111,6 +113,7 @@ const improvementsData = {
     improvements: [
       { type: 'rfid', data: 'RFID inventory tracking' },
       { type: 'layout', data: 'Optimized warehouse layout' },
+      { type: 'cloud', data: 'Cloud-based inventory management' },
       { type: 'fives', data: '5S implementation for organization' },
       { type: 'kanban', data: 'Visual inventory management system' }
     ]
@@ -118,20 +121,27 @@ const improvementsData = {
   'process-distribution': {
     improvements: [
       { type: 'layout', data: 'Optimized routes between locations' },
+      { type: 'automation', data: 'Automated transfer notifications' },
+      { type: 'jit', data: 'Just-in-time delivery between locations' },
       { type: 'standardwork', data: 'Standardized transport procedures' },
       { type: 'visualmgmt', data: 'Visual status indicators for transfers' }
     ]
   },
   'process-shopfloor': {
     improvements: [
-      { type: 'rfid', data: 'Basic RFID shelf readers' },
+      { type: 'rfid', data: 'RFID shelf readers for real-time tracking' },
+      { type: 'realtime', data: 'Real-time inventory visibility' },
       { type: 'kanban', data: 'Visual signals for replenishment' },
-      { type: 'fives', data: 'Organized shop floor layout' }
+      { type: 'fives', data: 'Organized shop floor layout' },
+      { type: 'visualmgmt', data: 'Visual stock level indicators' }
     ]
   },
   'process-stocktake': {
     improvements: [
-      { type: 'rfid', data: 'RFID-assisted counting' },
+      { type: 'rfid', data: 'RFID eliminates manual counting' },
+      { type: 'automation', data: 'Continuous inventory tracking' },
+      { type: 'ai', data: 'AI-powered inventory reconciliation' },
+      { type: 'realtime', data: 'Real-time accuracy monitoring' },
       { type: 'pokayoke', data: 'Error-proofing in counting process' },
       { type: 'standardwork', data: 'Standardized counting procedures' },
       { type: 'kaizen', data: 'Continuous improvement in inventory accuracy' }
@@ -139,11 +149,13 @@ const improvementsData = {
   },
   'inventory-receiving': {
     improvements: [
+      { type: 'automation', data: 'Reduced WIP waiting time: 1 hour' },
       { type: 'jit', data: 'Just-in-time processing of received goods' }
     ]
   },
   'inventory-storage': {
     improvements: [
+      { type: 'ai', data: 'Reduced storage time: 48 hours' },
       { type: 'fives', data: 'Organized storage areas' }
     ]
   },
@@ -155,151 +167,66 @@ const improvementsData = {
   },
   'supplier-meddev': {
     improvements: [
+      { type: 'supplier', data: 'Digital order integration' },
       { type: 'jit', data: 'Just-in-time ordering system' }
     ]
   },
   'supplier-drugseek': {
     improvements: [
+      { type: 'supplier', data: 'Automated reordering' },
       { type: 'kanban', data: 'Kanban-based replenishment signals' }
     ]
   },
   'supplier-vitafast': {
     improvements: [
+      { type: 'supplier', data: 'Demand-based delivery scheduling' },
       { type: 'heijunka', data: 'Leveled ordering pattern' }
     ]
   }
 };
 
-// Improvements data for ideal state (separated for clarity)
-const idealImprovementsData = {
-  'process-receiving': {
-    improvements: [
-      { type: 'automation', data: 'Fully automated receiving process' },
-      { type: 'cloud', data: 'Cloud integration with suppliers' },
-      { type: 'pokayoke', data: 'Advanced error-proofing systems' },
-      { type: 'ai', data: 'AI verification of received goods' }
-    ]
-  },
-  'process-storage': {
-    improvements: [
-      { type: 'cloud', data: 'Advanced cloud-based inventory management' },
-      { type: 'ai', data: 'AI-powered inventory optimization' },
-      { type: 'automation', data: 'Automated storage and retrieval systems' }
-    ]
-  },
-  'process-distribution': {
-    improvements: [
-      { type: 'automation', data: 'Autonomous transport systems' },
-      { type: 'jit', data: 'Just-in-time delivery between locations' },
-      { type: 'realtime', data: 'Real-time tracking of all items' }
-    ]
-  },
-  'process-shopfloor': {
-    improvements: [
-      { type: 'realtime', data: 'Advanced real-time inventory visibility' },
-      { type: 'ai', data: 'AI-powered demand prediction' },
-      { type: 'visualmgmt', data: 'Electronic display shelf labels' },
-      { type: 'automation', data: 'Automated shelf restocking' }
-    ]
-  },
-  'process-stocktake': {
-    improvements: [
-      { type: 'automation', data: 'Continuous inventory tracking' },
-      { type: 'ai', data: 'AI-powered inventory reconciliation' },
-      { type: 'realtime', data: 'Real-time accuracy monitoring' },
-      { type: 'cloud', data: 'Cloud-based perpetual inventory system' }
-    ]
-  },
-  'inventory-receiving': {
-    improvements: [
-      { type: 'automation', data: 'Automated WIP movement' },
-      { type: 'ai', data: 'AI-optimized inventory flow' }
-    ]
-  },
-  'inventory-storage': {
-    improvements: [
-      { type: 'ai', data: 'AI-reduced storage time: 24 hours' },
-      { type: 'automation', data: 'Automated storage organization' }
-    ]
-  },
-  'inventory-transit': {
-    improvements: [
-      { type: 'automation', data: 'Autonomous material movement' },
-      { type: 'realtime', data: 'Real-time transit tracking' }
-    ]
-  },
-  'supplier-meddev': {
-    improvements: [
-      { type: 'supplier', data: 'Advanced digital order integration' },
-      { type: 'ai', data: 'AI-predicted order requirements' }
-    ]
-  },
-  'supplier-drugseek': {
-    improvements: [
-      { type: 'supplier', data: 'Automated reordering' },
-      { type: 'cloud', data: 'Cloud-based inventory sharing' }
-    ]
-  },
-  'supplier-vitafast': {
-    improvements: [
-      { type: 'supplier', data: 'Demand-based delivery scheduling' },
-      { type: 'realtime', data: 'Real-time supplier information sharing' }
-    ]
-  }
-};
-
-// Function to get improvements based on view mode
-function getImprovements(processId, viewMode) {
-  if (viewMode === 'ideal' && idealImprovementsData[processId]) {
-    return idealImprovementsData[processId].improvements;
-  } else if (viewMode === 'improved' && improvementsData[processId]) {
-    return improvementsData[processId].improvements;
-  }
-  return [];
-}
-
 // Future state changes for each process
 const futureStateChanges = {
   'process-receiving': {
     metrics: {
-      oeeUtilization: 94,
-      accuracy: 92,
-      processTime: 2.7
+      oeeUtilization: 97,
+      accuracy: 98,
+      processTime: 2.1
     },
-    details: 'Semi-automated receiving with RFID tagging'
+    details: 'Automated receiving with RFID tagging'
   },
   'process-storage': {
     metrics: {
-      oeeUtilization: 90,
-      accuracy: 88,
-      processTime: 0.6,
+      oeeUtilization: 94,
+      accuracy: 92.5,
+      processTime: 0.5,
       waitTime: 48
     },
-    details: 'Improved inventory with RFID tracking'
+    details: 'Cloud-managed inventory with RFID tracking'
   },
   'process-distribution': {
     metrics: {
-      oeeUtilization: 89,
-      accuracy: 90,
-      processTime: 0.9
+      oeeUtilization: 92,
+      accuracy: 95,
+      processTime: 0.8
     },
-    details: 'Optimized routes with better transfer procedures'
+    details: 'Optimized routes with real-time transfer updates'
   },
   'process-shopfloor': {
     metrics: {
-      oeeUtilization: 87,
-      accuracy: 94,
+      oeeUtilization: 90,
+      accuracy: 98,
       processTime: 0.1
     },
-    details: 'RFID-assisted shelves with better organization'
+    details: 'RFID-enabled shelves with real-time inventory tracking'
   },
   'process-stocktake': {
     metrics: {
-      oeeUtilization: 85,
-      accuracy: 88,
-      processTime: 3.0
+      oeeUtilization: 90,
+      accuracy: 92.5,
+      processTime: 2.3
     },
-    details: 'RFID-assisted counting replacing manual quarterly counts'
+    details: 'Continuous RFID-based counting replacing quarterly counts'
   }
 };
 
