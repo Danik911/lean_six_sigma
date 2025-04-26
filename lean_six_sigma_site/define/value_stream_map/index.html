@@ -439,11 +439,9 @@
               style={{
                 top: `${top}px`, 
                 left: `calc(50% + ${offset}px)`,
-                // transform: 'translateX(-50%)' // This might interfere with inventory rotation fix, handled by CSS
               }}
             >
               <span>{wasteInfo.icon}</span>
-              {/* Apply conditional class here */}
               <div className={tooltipClass}>
                 <strong>{wasteInfo.name}</strong>
                 {waste.data && <div>{waste.data}</div>}
@@ -461,10 +459,32 @@
           const impInfo = improvementIcons[improvement.type];
           if (!impInfo) return null;
           
+          // Special positioning for Kaizen icon on Stock Take process
+          if (process.id === 'process-stocktake' && improvement.type === 'kaizen') {
+            return (
+              <div 
+                key={`imp-${index}`}
+                className={`improvement-icon ${impInfo.color}`}
+                style={{
+                  top: '50%',       // Center vertically
+                  left: '-14px',    // Position at left border (half the icon width)
+                  transform: 'translateY(-50%)', // Center the icon vertically
+                }}
+              >
+                <span>{impInfo.icon}</span>
+                <div className="improvement-tooltip">
+                  <strong>{impInfo.name}</strong>
+                  {improvement.data && <div>{improvement.data}</div>}
+                </div>
+              </div>
+            );
+          }
+          
+          // Standard positioning for all other improvement icons
           // Position improvement icons below the nodes
-          const bottom = process.type === 'inventory' ? -45 : -35; // Adjusted vertical position slightly
+          const bottom = process.type === 'inventory' ? -45 : -35;
           // Calculate horizontal offset for multiple icons - Increased spacing
-          const iconSpacing = 32; // Increased from 30
+          const iconSpacing = 32;
           const offset = index * iconSpacing - ((improvementsData[process.id].improvements.length - 1) * (iconSpacing / 2));
           
           // Determine if counter-rotation is needed for the tooltip
@@ -477,7 +497,6 @@
               style={{
                 bottom: `${bottom}px`, 
                 left: `calc(50% + ${offset}px)`,
-                // transform: 'translateX(-50%)' // This might interfere with inventory rotation fix, handled by CSS
               }}
             >
               <span>{impInfo.icon}</span>
@@ -780,12 +799,28 @@
              return;
           }
 
+          // Define node dimensions for calculations
+          const supplierWidth = 160; // Width of supplier node
+          const receivingWidth = 160; // Width of receiving node
+
           const styles = suppliers.map(supplier => {
             // Calculate pixel coordinates (center points)
-            const x1 = (supplier.position.x / 100) * containerWidth;
-            const y1 = (supplier.position.y / 100) * containerHeight;
-            const x2 = (receivingNode.position.x / 100) * containerWidth;
-            const y2 = (receivingNode.position.y / 100) * containerHeight;
+            const supplierCenterX = (supplier.position.x / 100) * containerWidth;
+            const supplierCenterY = (supplier.position.y / 100) * containerHeight;
+            const receivingCenterX = (receivingNode.position.x / 100) * containerWidth;
+            const receivingCenterY = (receivingNode.position.y / 100) * containerHeight;
+
+            // Calculate border positions instead of centers
+            const supplierRightX = supplierCenterX + (supplierWidth / 2);
+            const receivingLeftX = receivingCenterX - (receivingWidth / 2);
+
+            // Use Y from center points since we're connecting horizontally
+            const y1 = supplierCenterY;
+            const y2 = receivingCenterY;
+
+            // New start and end points are at the borders
+            const x1 = supplierRightX;
+            const x2 = receivingLeftX;
 
             const dx = x2 - x1;
             const dy = y2 - y1;
@@ -794,19 +829,18 @@
 
             console.log(`Line ${supplier.id}: (${x1},${y1}) to (${x2},${y2}), len: ${length}, angle: ${angle}`);
 
-
             return {
               key: `conn-${supplier.id}-receiving`,
               style: {
-                position: 'absolute', // Ensure position is absolute here too
+                position: 'absolute',
                 left: `${x1}px`,
                 top: `${y1}px`,
                 width: `${length}px`,
-                height: '2px', // Explicit height
-                backgroundColor: '#888', // Explicit color
+                height: '2px',
+                backgroundColor: '#888',
                 transform: `rotate(${angle}deg)`,
-                transformOrigin: '0 50%', // Explicit origin
-                zIndex: 5 // Explicit z-index
+                transformOrigin: '0 50%',
+                zIndex: 5
               }
             };
           });
@@ -819,8 +853,7 @@
         window.addEventListener('resize', calculateLines);
         return () => window.removeEventListener('resize', calculateLines);
 
-      }, [processes]); // Rerun if processes data changes (though unlikely needed here)
-
+      }, [processes]); // Rerun if processes data changes
 
       // Function to render connection lines from state
       const renderConnections = () => {
