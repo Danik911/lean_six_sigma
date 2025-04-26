@@ -471,14 +471,25 @@
       const createImprovementIcons = (process) => {
         if (viewMode === 'current' || !improvementsData[process.id]) return null;
         
-        return improvementsData[process.id].improvements.map((improvement, index) => {
+        let improvementsToShow = [];
+        
+        // Use the appropriate improvements array based on viewMode
+        if (viewMode === 'improved' && improvementsData[process.id].improved) {
+          improvementsToShow = improvementsData[process.id].improved;
+        } else if (viewMode === 'ideal' && improvementsData[process.id].ideal) {
+          improvementsToShow = improvementsData[process.id].ideal;
+        } else {
+          improvementsToShow = improvementsData[process.id].improvements;
+        }
+        
+        return improvementsToShow.map((improvement, index) => {
           const impInfo = improvementIcons[improvement.type];
           if (!impInfo) return null;
           
           // Position improvement icons below the nodes
           const bottom = process.type === 'inventory' ? -40 : -30;
           // Calculate horizontal offset for multiple icons
-          const offset = index * 30 - ((improvementsData[process.id].improvements.length - 1) * 15);
+          const offset = index * 30 - ((improvementsToShow.length - 1) * 15);
           
           // Determine if counter-rotation is needed for the tooltip
           const tooltipClass = process.type === 'inventory' ? 'improvement-tooltip tooltip-needs-unrotate' : 'improvement-tooltip';
@@ -648,18 +659,7 @@
                   <li>In the improved and ideal states, hover over improvement icons (📶, 🤖, etc.) to see implemented improvements</li>
                 </ul>
                 
-                <h3 className="font-semibold mb-2">Legend</h3>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  <div className="flex items-center p-2 border rounded">
-                    <div className="w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded flex items-center justify-center mr-2">
-                    </div>
-                    <span className="text-sm">Supplier</span>
-                  </div>
-                  <div className="flex items-center p-2 border rounded">
-                    <div className="w-6 h-6 bg-green-100 border-2 border-green-500 rounded flex items-center justify-center mr-2">
-                    </div>
-                    <span className="text-sm">Customer</span>
-                  </div>
+                <h3 className="font-semibold mb-2">
                   <div className="flex items-center p-2 border rounded">
                     <div className="w-6 h-6 bg-blue-100 border-2 border-blue-500 rounded flex items-center justify-center mr-2">
                     </div>
