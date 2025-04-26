@@ -74,7 +74,8 @@
       cursor: help;
       font-size: 14px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      z-index: 5;
+      z-index: 15; /* Increased z-index */
+      transition: transform 0.2s ease; /* Added for hover effect */
     }
     
     /* Improvement icon styles */
@@ -89,13 +90,23 @@
       cursor: help;
       font-size: 16px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      z-index: 6;
+      z-index: 16; /* Increased z-index */
       border: 2px solid white;
       transition: transform 0.2s ease;
     }
     
     .improvement-icon:hover {
       transform: scale(1.1);
+    }
+    
+    /* Counter-rotate icons inside inventory nodes */
+    .inventory-node .waste-icon,
+    .inventory-node .improvement-icon {
+      transform: rotate(-45deg); /* Counter the node's rotation */
+    }
+    
+    .inventory-node .improvement-icon:hover {
+       transform: rotate(-45deg) scale(1.1); /* Combine rotation and scale */
     }
     
     .waste-tooltip, .improvement-tooltip {
@@ -107,12 +118,12 @@
       transform-origin: center bottom; /* Set origin for potential rotation */
       margin-bottom: 8px;
       padding: 6px 10px;
-      background-color: rgba(0,0,0,0.8);
+      background-color: rgba(0,0,0,0.85); /* Slightly darker */
       color: white;
       border-radius: 4px;
       font-size: 12px;
       white-space: nowrap;
-      z-index: 10;
+      z-index: 50; /* Significantly increased z-index */
       pointer-events: none;
     }
     
@@ -171,6 +182,15 @@
       border-top: 5px solid transparent;
       border-bottom: 5px solid transparent;
     }
+    
+    /* Connection line styles */
+    .connection-line {
+      position: absolute;
+      height: 2px; /* Line thickness */
+      background-color: #888; /* Line color */
+      transform-origin: 0 50%; /* Rotate around the starting point */
+      z-index: 5; /* Ensure lines are behind nodes but above background */
+    }
   </style>
 </head>
 <body>
@@ -207,7 +227,9 @@
         processCycleEfficiency: 14.5,
         accuracyRate: 76.5
       });
-      
+      const [connectionStyles, setConnectionStyles] = React.useState([]); // State for line styles
+      const mapContainerRef = React.useRef(null); // Ref for map container
+
       // Waste data based on lean waste analysis
       const wasteData = {
         'process-receiving': {
@@ -270,21 +292,16 @@
           id: 'supplier-meddev',
           name: 'MedDev',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: 'Daily',
-            leadTime: '1-2 days'
-          },
+          metrics: { deliveryFrequency: 'Daily', leadTime: '1-2 days' },
           details: 'Medical device supplier',
-          position: { x: 8, y: 25 }
+          position: { x: 8, y: 25 } 
+          // Removed nodeWidth/Height, calculate based on position only for now
         },
         {
           id: 'supplier-drugseek',
           name: 'DrugSeek',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: '3 times/week',
-            leadTime: '1 day'
-          },
+          metrics: { deliveryFrequency: '3 times/week', leadTime: '1 day' },
           details: 'Pharmaceutical supplier',
           position: { x: 8, y: 50 }
         },
@@ -292,10 +309,7 @@
           id: 'supplier-vitafast',
           name: 'VitaFast',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: '2 times/week',
-            leadTime: '2-3 days'
-          },
+          metrics: { deliveryFrequency: '2 times/week', leadTime: '2-3 days' },
           details: 'Miscellaneous goods supplier',
           position: { x: 8, y: 75 }
         },
@@ -305,11 +319,7 @@
           id: 'process-receiving',
           name: 'Receiving',
           type: 'process',
-          metrics: {
-            oeeUtilization: 92,
-            accuracy: 94,
-            processTime: 3.5
-          },
+          metrics: { oeeUtilization: 92, accuracy: 94, processTime: 3.5 },
           details: 'Trucks arrive at inward goods zone between buildings',
           position: { x: 25, y: 35 }
         },
@@ -317,12 +327,7 @@
           id: 'process-storage',
           name: 'Storage',
           type: 'process',
-          metrics: {
-            oeeUtilization: 88,
-            accuracy: 76.5,
-            processTime: 0.7,
-            waitTime: 72
-          },
+          metrics: { oeeUtilization: 88, accuracy: 76.5, processTime: 0.7, waitTime: 72 },
           details: 'Medical devices stored in main warehouse (3rd floor)',
           position: { x: 42, y: 35 }
         },
@@ -330,11 +335,7 @@
           id: 'process-distribution',
           name: 'Internal Distribution',
           type: 'process',
-          metrics: {
-            oeeUtilization: 85,
-            accuracy: 82,
-            processTime: 1.1
-          },
+          metrics: { oeeUtilization: 85, accuracy: 82, processTime: 1.1 },
           details: 'Staff transfers products between warehouses and shop',
           position: { x: 59, y: 35 }
         },
@@ -342,11 +343,7 @@
           id: 'process-shopfloor',
           name: 'Shop Floor',
           type: 'process',
-          metrics: {
-            oeeUtilization: 82,
-            accuracy: 93,
-            processTime: 0.1
-          },
+          metrics: { oeeUtilization: 82, accuracy: 93, processTime: 0.1 },
           details: 'Products are arranged on shelves and sold to customers',
           position: { x: 76, y: 35 }
         },
@@ -354,11 +351,7 @@
           id: 'process-stocktake',
           name: 'Stock Take',
           type: 'process',
-          metrics: {
-            oeeUtilization: 65,
-            accuracy: 76.5,
-            processTime: 6
-          },
+          metrics: { oeeUtilization: 65, accuracy: 76.5, processTime: 6 },
           details: 'Quarterly stock count process',
           position: { x: 76, y: 65 }
         },
@@ -368,9 +361,7 @@
           id: 'customer',
           name: 'Customers',
           type: 'customer',
-          metrics: {
-            satisfaction: 82
-          },
+          metrics: { satisfaction: 82 },
           details: 'End customers purchasing products',
           position: { x: 92, y: 35 }
         },
@@ -380,9 +371,7 @@
           id: 'inventory-receiving',
           name: 'WIP',
           type: 'inventory',
-          metrics: {
-            waitTime: 3
-          },
+          metrics: { waitTime: 3 },
           details: 'Work in progress after receiving',
           position: { x: 33.5, y: 35 }
         },
@@ -390,9 +379,7 @@
           id: 'inventory-storage',
           name: 'Storage',
           type: 'inventory',
-          metrics: {
-            waitTime: 72
-          },
+          metrics: { waitTime: 72 },
           details: 'Stored inventory',
           position: { x: 50.5, y: 35 }
         },
@@ -400,9 +387,7 @@
           id: 'inventory-transit',
           name: 'Transit',
           type: 'inventory',
-          metrics: {
-            waitTime: 5
-          },
+          metrics: { waitTime: 5 },
           details: 'In-transit inventory',
           position: { x: 67.5, y: 35 }
         }
@@ -439,9 +424,10 @@
           if (!wasteInfo) return null;
           
           // Position icons above the nodes (outside)
-          const top = process.type === 'inventory' ? -40 : -30;
-          // Calculate horizontal offset for multiple icons
-          const offset = index * 28 - ((wasteData[process.id].wastes.length - 1) * 14);
+          const top = process.type === 'inventory' ? -45 : -35; // Adjusted vertical position slightly
+          // Calculate horizontal offset for multiple icons - Increased spacing
+          const iconSpacing = 32; // Increased from 28
+          const offset = index * iconSpacing - ((wasteData[process.id].wastes.length - 1) * (iconSpacing / 2));
           
           // Determine if counter-rotation is needed for the tooltip
           const tooltipClass = process.type === 'inventory' ? 'waste-tooltip tooltip-needs-unrotate' : 'waste-tooltip';
@@ -453,7 +439,7 @@
               style={{
                 top: `${top}px`, 
                 left: `calc(50% + ${offset}px)`,
-                transform: 'translateX(-50%)'
+                // transform: 'translateX(-50%)' // This might interfere with inventory rotation fix, handled by CSS
               }}
             >
               <span>{wasteInfo.icon}</span>
@@ -476,9 +462,10 @@
           if (!impInfo) return null;
           
           // Position improvement icons below the nodes
-          const bottom = process.type === 'inventory' ? -40 : -30;
-          // Calculate horizontal offset for multiple icons
-          const offset = index * 30 - ((improvementsData[process.id].improvements.length - 1) * 15);
+          const bottom = process.type === 'inventory' ? -45 : -35; // Adjusted vertical position slightly
+          // Calculate horizontal offset for multiple icons - Increased spacing
+          const iconSpacing = 32; // Increased from 30
+          const offset = index * iconSpacing - ((improvementsData[process.id].improvements.length - 1) * (iconSpacing / 2));
           
           // Determine if counter-rotation is needed for the tooltip
           const tooltipClass = process.type === 'inventory' ? 'improvement-tooltip tooltip-needs-unrotate' : 'improvement-tooltip';
@@ -490,7 +477,7 @@
               style={{
                 bottom: `${bottom}px`, 
                 left: `calc(50% + ${offset}px)`,
-                transform: 'translateX(-50%)'
+                // transform: 'translateX(-50%)' // This might interfere with inventory rotation fix, handled by CSS
               }}
             >
               <span>{impInfo.icon}</span>
@@ -533,9 +520,50 @@
         if (!selectedProcess) return null;
         
         const processDetails = getProcessDetails(selectedProcess);
+        const nodeElement = document.querySelector(`[data-process-id="${selectedProcess.id}"]`); // Need to add data-process-id to nodes
+        
+        let panelStyle = {
+          position: 'absolute',
+          zIndex: 20,
+          maxWidth: '400px', // Adjusted max width slightly
+          // Default position if node not found
+          bottom: '5rem', 
+          right: '1.5rem'
+        };
+
+        if (nodeElement) {
+          const nodeRect = nodeElement.getBoundingClientRect();
+          const containerRect = nodeElement.offsetParent.getBoundingClientRect(); // Get container bounds
+
+          // Calculate position relative to the node, trying to place it to the right first
+          let top = nodeRect.top - containerRect.top; // Align top with node top initially
+          let left = nodeRect.right - containerRect.left + 15; // 15px offset to the right
+
+          // Basic boundary check (simplified) - Check if it goes off right edge
+          if (left + 400 > containerRect.width) { // Use panel max width for check
+            left = nodeRect.left - containerRect.left - 400 - 15; // Place to the left
+          }
+          // Basic boundary check - Check if it goes off bottom edge
+          // This needs panel height, which is dynamic. Let's keep it simple and adjust top slightly if needed.
+          if (top + 200 > containerRect.height) { // Assuming max height ~200px
+             top = containerRect.height - 220; // Place near bottom edge
+          }
+          // Ensure it doesn't go off the top or left
+          if (top < 10) top = 10;
+          if (left < 10) left = 10;
+
+
+          panelStyle = {
+            ...panelStyle,
+            top: `${top}px`,
+            left: `${left}px`,
+            bottom: 'auto', // Override fixed bottom/right
+            right: 'auto'
+          };
+        }
         
         return (
-          <div className="bg-white border rounded shadow-lg p-4 max-w-md absolute bottom-20 right-6 z-20">
+          <div className="bg-white border rounded shadow-lg p-4" style={panelStyle}>
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-semibold">{processDetails.name}</h3>
               <button 
@@ -730,6 +758,82 @@
         );
       };
       
+      // Effect to calculate connection lines after mount/resize
+      React.useEffect(() => {
+        const calculateLines = () => {
+          const suppliers = processes.filter(p => p.type === 'supplier');
+          const receivingNode = processes.find(p => p.id === 'process-receiving');
+          const mapContainer = mapContainerRef.current;
+
+          if (!receivingNode || !mapContainer) {
+            console.log("Missing receiving node or map container ref");
+            setConnectionStyles([]); // Clear styles if container not ready
+            return;
+          }
+
+          const containerWidth = mapContainer.offsetWidth;
+          const containerHeight = mapContainer.offsetHeight;
+          
+          if (containerWidth === 0 || containerHeight === 0) {
+             console.log("Container dimensions are zero.");
+             setConnectionStyles([]); // Clear styles if dimensions are zero
+             return;
+          }
+
+          const styles = suppliers.map(supplier => {
+            // Calculate pixel coordinates (center points)
+            const x1 = (supplier.position.x / 100) * containerWidth;
+            const y1 = (supplier.position.y / 100) * containerHeight;
+            const x2 = (receivingNode.position.x / 100) * containerWidth;
+            const y2 = (receivingNode.position.y / 100) * containerHeight;
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI); // Angle in degrees
+
+            console.log(`Line ${supplier.id}: (${x1},${y1}) to (${x2},${y2}), len: ${length}, angle: ${angle}`);
+
+
+            return {
+              key: `conn-${supplier.id}-receiving`,
+              style: {
+                position: 'absolute', // Ensure position is absolute here too
+                left: `${x1}px`,
+                top: `${y1}px`,
+                width: `${length}px`,
+                height: '2px', // Explicit height
+                backgroundColor: '#888', // Explicit color
+                transform: `rotate(${angle}deg)`,
+                transformOrigin: '0 50%', // Explicit origin
+                zIndex: 5 // Explicit z-index
+              }
+            };
+          });
+          setConnectionStyles(styles);
+        };
+
+        calculateLines(); // Calculate on mount
+
+        // Optional: Recalculate on window resize
+        window.addEventListener('resize', calculateLines);
+        return () => window.removeEventListener('resize', calculateLines);
+
+      }, [processes]); // Rerun if processes data changes (though unlikely needed here)
+
+
+      // Function to render connection lines from state
+      const renderConnections = () => {
+        console.log("Rendering connections:", connectionStyles);
+        return connectionStyles.map(line => (
+          <div 
+            key={line.key} 
+            className="connection-line" // Keep class for potential base styles
+            style={line.style} // Apply calculated styles
+          ></div>
+        ));
+      };
+
       // Update metrics based on view mode
       React.useEffect(() => {
         if (viewMode === 'improved') {
@@ -811,8 +915,16 @@
           
           {/* Value Stream Map */}
           <div className="flex-1 overflow-auto relative p-4">
-            <div className="rounded-lg border bg-white w-full relative" style={{ height: '600px', padding: '20px' }}>
+            {/* Added map-container-inner class and ref */}
+            <div 
+              ref={mapContainerRef} 
+              className="rounded-lg border bg-white w-full relative map-container-inner" 
+              style={{ height: '600px', padding: '20px', overflow: 'hidden' }} // Added overflow hidden just in case
+            >
               
+              {/* Render connection lines */}
+              {renderConnections()}
+
               {/* Render process nodes */}
               {processes.map(process => {
                 const processDetails = getProcessDetails(process);
@@ -826,6 +938,7 @@
                   return (
                     <div 
                       key={process.id}
+                      data-process-id={process.id} // Added data attribute
                       className={`inventory-node ${colorClass} border-2`}
                       style={style}
                       onClick={() => handleProcessClick(process)}
@@ -842,6 +955,7 @@
                 return (
                   <div 
                     key={process.id}
+                    data-process-id={process.id} // Added data attribute
                     className={`process-node ${colorClass} border-2`}
                     style={style}
                     onClick={() => handleProcessClick(process)}
@@ -938,15 +1052,4 @@
         // Hide the debug message after 5 seconds
         setTimeout(() => {
           const debugEl = document.getElementById('debug-container');
-          if (debugEl) debugEl.style.display = 'none';
-        }, 5000);
-      }, 1000);
-      
-    } catch (error) {
-      // Show error in debug container
-      document.getElementById('debug-container').innerHTML = `<strong>Error:</strong> ${error.message}`;
-      console.error('Error rendering app:', error);
-    }
-  </script>
-</body>
-</html>
+          if (debugEl
