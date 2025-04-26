@@ -1048,8 +1048,20 @@
       
       // If successful, update debug message again
       setTimeout(() => {
-        document.getElementById('debug-container').innerText = 'App rendered successfully!';
-        // Hide the debug message after 5 seconds
-        setTimeout(() => {
-          const debugEl = document.getElementById('debug-container');
-          if (debugEl
+          document.getElementById('debug-container').innerText = 'App rendered successfully!';
+          // Hide the debug message after 5 seconds
+          setTimeout(() => {
+            const debugEl = document.getElementById('debug-container');
+            if (debugEl) { // Added closing parenthesis and curly brace
+              debugEl.style.display = 'none';
+            }
+          }, 5000);
+        }, 100); // Added a small delay to ensure DOM is fully updated
+    } catch (error) {
+      // Update debug message on error
+      document.getElementById('debug-container').innerText = `Error rendering app: ${error.message}\n${error.stack}`;
+      console.error("Error rendering React app:", error);
+    }
+  </script>
+</body>
+</html>
