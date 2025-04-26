@@ -403,11 +403,39 @@
                             <i class="fas fa-tablet-alt"></i>
                             <span>5S Digital Organization System</span>
                         </a>
-                        <div id="5s-app-iframe-container" class="iframe-container">
-                            <iframe src="5s_app/index.html" class="embed-frame" style="height: 600px;"></iframe>
+                        <div id="5s-app-iframe-container" class="iframe-container" style="display: block;">
+                            <div class="placeholder-container">
+                                <div class="placeholder-icon"><i class="fas fa-tablet-alt fa-3x"></i></div>
+                                <h3>5S Digital Organization System</h3>
+                                <p>This interactive tool demonstrates how technology enhances workplace organization through digital audits, computer vision for shelf scanning, and gamification for staff engagement.</p>
+                                <p class="placeholder-info">Due to technical limitations, the interactive tool cannot be displayed directly within this page.</p>
+                                <a href="https://claude.ai/public/artifacts/91ff4525-34f3-4247-b7c0-993acd0df00e" class="external-tool-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open 5S Digital Organization System
+                                </a>
+                                <div class="placeholder-features">
+                                    <h4>Key Features:</h4>
+                                    <ul>
+                                        <li>Digital audit checklists for each 5S component</li>
+                                        <li>Visual verification tools with image recognition</li>
+                                        <li>Real-time compliance tracking and scoring</li>
+                                        <li>Automated notification system for issues</li>
+                                        <li>Historical trend analysis and reporting</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p>This interactive 5S Digital Organization System demonstrates how technology enhances workplace organization through digital audits, computer vision for shelf scanning, and gamification for staff engagement. The simulation shows how staff can use these digital tools for real-time issue identification and compliance verification.</p>
+                </div>
+
+                <div class="tool-links-container">
+                    <h4>External Links to Interactive Tools</h4>
+                    <p>The tools below are hosted on Claude.ai and provide fully functional interactive experiences:</p>
+                    <ul>
+                        <li><a href="https://claude.ai/public/artifacts/91ff4525-34f3-4247-b7c0-993acd0df00e" class="external-tool-link" target="_blank"><i class="fas fa-tablet-alt"></i> 5S Digital Organization System (Claude Artifact)</a></li>
+                        <li><a href="https://claude.ai/public/artifacts/554808fc-8635-47da-8b06-bfb9c03592ab" class="external-tool-link" target="_blank"><i class="fas fa-project-diagram"></i> Kanban System (Claude Artifact)</a></li>
+                    </ul>
+                    <p class="tool-tip"><i class="fas fa-info-circle"></i> <strong>Tip:</strong> These links will open in a new tab and provide the full interactive experience.</p>
                 </div>
 
                 <h3>Digital Kanban Implementation</h3>
@@ -419,13 +447,31 @@
                             <i class="fas fa-project-diagram"></i>
                             <span>Digital Kanban System</span>
                         </a>
-                        <div id="kanban-iframe-container" class="iframe-container">
-                            <iframe src="kanban_system/index.html" class="embed-frame" style="height: 600px;"></iframe>
+                        <div id="kanban-iframe-container" class="iframe-container" style="display: block;">
+                            <div class="placeholder-container">
+                                <div class="placeholder-icon"><i class="fas fa-project-diagram fa-3x"></i></div>
+                                <h3>Digital Kanban System</h3>
+                                <p>This system creates a pull-based approach to inventory management, where replenishment is triggered automatically based on actual usage.</p>
+                                <p class="placeholder-info">Due to technical limitations, the interactive tool cannot be displayed directly within this page.</p>
+                                <a href="https://claude.ai/public/artifacts/554808fc-8635-47da-8b06-bfb9c03592ab" class="external-tool-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open Digital Kanban System
+                                </a>
+                                <div class="placeholder-features">
+                                    <h4>Key Features:</h4>
+                                    <ul>
+                                        <li>Real-time inventory level monitoring</li>
+                                        <li>Automated replenishment triggers based on thresholds</li>
+                                        <li>Visual card management system</li>
+                                        <li>Demand pattern analysis for reorder optimization</li>
+                                        <li>Integration with RFID technology for immediate updates</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <p>The Digital Kanban System creates a pull-based approach to inventory management, where replenishment is triggered automatically based on actual usage. This simulation demonstrates how the system connects shop floor inventory with warehouse supply, eliminating the manual visual checks previously required and reducing wait times from 5 hours to just 18 minutes.</p>
                 </div>
-                
+
                 <h3>Pilot Implementation Results</h3>
                 <p>We conducted a three-week pilot implementation of these improvements in one warehouse section. The results showed:</p>
                 <ul>
@@ -489,6 +535,24 @@
                     textContent.textContent = 'Error loading content: ' + error.message;
                 });
         }
+
+        // Function to initialize content on page load
+        window.onload = function() {
+            // Show the 5S app and Kanban system by default
+            document.getElementById('5s-app-iframe-container').style.display = 'block';
+            document.getElementById('kanban-iframe-container').style.display = 'block';
+            
+            // Handle any iframe loading errors
+            const iframes = document.querySelectorAll('.embed-frame');
+            iframes.forEach(iframe => {
+                iframe.onerror = function() {
+                    const container = iframe.closest('.iframe-container');
+                    if (container) {
+                        container.innerHTML = '<p class="error-message">Error loading content. Please try the direct link below.</p>';
+                    }
+                };
+            });
+        };
     </script>
 
     <script src="../js/main.js"></script>
