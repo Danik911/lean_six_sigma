@@ -1,276 +1,127 @@
-// Improvement icons for the Value Stream Map
+// Improvement icons and descriptions
 const improvementIcons = {
-  rfid: { 
-    icon: '📶', 
-    name: 'RFID Implementation', 
-    color: 'bg-blue-200 border-blue-500',
-    description: 'RFID tags and readers for real-time inventory tracking'
-  },
-  automation: { 
-    icon: '🤖', 
-    name: 'Process Automation', 
-    color: 'bg-purple-200 border-purple-500',
-    description: 'Automated processes replacing manual work'
-  },
-  cloud: { 
-    icon: '☁️', 
-    name: 'Cloud Integration', 
-    color: 'bg-teal-200 border-teal-500',
-    description: 'AWS cloud infrastructure for data storage and processing'
-  },
-  layout: { 
-    icon: '🔄', 
-    name: 'Layout Optimization', 
-    color: 'bg-green-200 border-green-500',
-    description: 'Optimized physical layout for efficient movement'
-  },
-  ai: { 
-    icon: '🧠', 
-    name: 'AI/ML Integration', 
-    color: 'bg-indigo-200 border-indigo-500',
-    description: 'AI-powered demand forecasting and inventory optimization'
-  },
-  training: { 
-    icon: '👨‍🎓', 
-    name: 'Staff Training', 
-    color: 'bg-orange-200 border-orange-500',
-    description: 'Enhanced staff training on new systems and processes'
-  },
-  realtime: { 
-    icon: '⚡', 
-    name: 'Real-time Monitoring', 
-    color: 'bg-yellow-200 border-yellow-500',
-    description: 'Real-time dashboards for performance monitoring'
-  },
-  supplier: { 
-    icon: '🔗', 
-    name: 'Supplier Integration', 
-    color: 'bg-pink-200 border-pink-500',
-    description: 'Enhanced digital integration with suppliers'
-  },
-  // Lean tools icons
-  fives: { 
-    icon: '🧹', 
-    name: '5S Methodology', 
-    color: 'bg-green-100 border-green-400',
-    description: 'Sort, Set in order, Shine, Standardize, Sustain for workplace organization'
-  },
-  kanban: { 
-    icon: '🎫', 
-    name: 'Kanban System', 
-    color: 'bg-blue-100 border-blue-400',
-    description: 'Visual inventory management and pull system'
-  },
-  pokayoke: { 
-    icon: '🛡️', 
-    name: 'Poka-Yoke', 
-    color: 'bg-red-100 border-red-400',
-    description: 'Error-proofing mechanisms to prevent defects'
-  },
-  standardwork: { 
-    icon: '📋', 
-    name: 'Standard Work', 
-    color: 'bg-gray-100 border-gray-400',
-    description: 'Standardized procedures for consistent execution'
-  },
-  visualmgmt: { 
-    icon: '👁️', 
-    name: 'Visual Management', 
-    color: 'bg-purple-100 border-purple-400',
-    description: 'Visual controls and indicators for process status'
-  },
-  jit: { 
-    icon: '⏱️', 
-    name: 'Just-In-Time', 
-    color: 'bg-yellow-100 border-yellow-400',
-    description: 'Materials delivered only when needed to reduce waste'
-  },
-  kaizen: { 
-    icon: '📈', 
-    name: 'Kaizen', 
-    color: 'bg-indigo-100 border-indigo-400',
-    description: 'Continuous improvement culture and mindset'
-  },
-  heijunka: { 
-    icon: '⚖️', 
-    name: 'Heijunka', 
-    color: 'bg-pink-100 border-pink-400',
-    description: 'Production leveling to balance workload'
-  }
+  rfid: { icon: '📶', name: 'RFID Implementation', color: 'bg-purple-200 border-purple-500' },
+  layout: { icon: '🔀', name: 'Layout Optimization', color: 'bg-blue-200 border-blue-500' },
+  automation: { icon: '🤖', name: 'Automation', color: 'bg-green-200 border-green-500' },
+  training: { icon: '👨‍🎓', name: 'Training Program', color: 'bg-yellow-200 border-yellow-500' },
+  kaizen: { icon: '🔄', name: 'Kaizen Event', color: 'bg-red-200 border-red-500' },
+  kanban: { icon: '🔢', name: 'Kanban System', color: 'bg-indigo-200 border-indigo-500' },
+  pull: { icon: '⛓️', name: 'Pull System', color: 'bg-orange-200 border-orange-500' },
+  sop: { icon: '📋', name: 'Standard Operating Procedure', color: 'bg-teal-200 border-teal-500' }
 };
 
-// Improvements data for each process node
+// Improvement data for each process node
 const improvementsData = {
   'process-receiving': {
     improvements: [
-      { type: 'rfid', data: 'RFID tagging at point of receipt' },
-      { type: 'automation', data: 'Automated receiving process' },
-      { type: 'pokayoke', data: 'Error-proofing in receiving process' },
-      { type: 'standardwork', data: 'Standardized receiving procedures' }
+      { type: 'rfid', data: 'RFID tagging at receiving for automated tracking' },
+      { type: 'sop', data: 'Standardized receiving procedures with visual management' }
     ]
   },
   'process-storage': {
     improvements: [
-      { type: 'rfid', data: 'RFID inventory tracking' },
-      { type: 'layout', data: 'Optimized warehouse layout' },
-      { type: 'cloud', data: 'Cloud-based inventory management' },
-      { type: 'fives', data: '5S implementation for organization' },
-      { type: 'kanban', data: 'Visual inventory management system' }
+      { type: 'layout', data: 'Reorganized storage layout by frequency of use' },
+      { type: 'kanban', data: 'Implemented kanban system with visual indicators' }
     ]
   },
   'process-distribution': {
     improvements: [
-      { type: 'layout', data: 'Optimized routes between locations' },
-      { type: 'automation', data: 'Automated transfer notifications' },
-      { type: 'jit', data: 'Just-in-time delivery between locations' },
-      { type: 'standardwork', data: 'Standardized transport procedures' },
-      { type: 'visualmgmt', data: 'Visual status indicators for transfers' }
+      { type: 'pull', data: 'Implemented pull system based on shop floor demand' },
+      { type: 'automation', data: 'Automated notification system for replenishment' }
     ]
   },
   'process-shopfloor': {
     improvements: [
-      { type: 'rfid', data: 'RFID shelf readers for real-time tracking' },
-      { type: 'realtime', data: 'Real-time inventory visibility' },
-      { type: 'kanban', data: 'Visual signals for replenishment' },
-      { type: 'fives', data: 'Organized shop floor layout' },
-      { type: 'visualmgmt', data: 'Visual stock level indicators' }
+      { type: 'rfid', data: 'RFID-enabled shelves for real-time inventory tracking' },
+      { type: 'layout', data: 'Optimized product placement based on sales data' }
     ]
   },
   'process-stocktake': {
     improvements: [
-      { type: 'rfid', data: 'RFID eliminates manual counting' },
-      { type: 'automation', data: 'Continuous inventory tracking' },
-      { type: 'ai', data: 'AI-powered inventory reconciliation' },
-      { type: 'realtime', data: 'Real-time accuracy monitoring' },
-      { type: 'pokayoke', data: 'Error-proofing in counting process' },
-      { type: 'standardwork', data: 'Standardized counting procedures' },
-      { type: 'kaizen', data: 'Continuous improvement in inventory accuracy' }
+      { type: 'rfid', data: 'RFID handheld scanners for accurate inventory counts' },
+      { type: 'training', data: 'Enhanced staff training program with certification' },
+      { type: 'kaizen', data: 'Conducted kaizen event to streamline process' }
     ]
   },
   'inventory-receiving': {
     improvements: [
-      { type: 'automation', data: 'Reduced WIP waiting time: 1 hour' },
-      { type: 'jit', data: 'Just-in-time processing of received goods' }
+      { type: 'pull', data: 'Reduced WIP with just-in-time processing' }
     ]
   },
   'inventory-storage': {
     improvements: [
-      { type: 'ai', data: 'Reduced storage time: 48 hours' },
-      { type: 'fives', data: 'Organized storage areas' }
+      { type: 'kanban', data: 'Implemented kanban cards for inventory management' }
     ]
   },
   'inventory-transit': {
     improvements: [
-      { type: 'layout', data: 'Optimized transit routes' },
-      { type: 'heijunka', data: 'Balanced workload for transit staff' }
-    ]
-  },
-  'supplier-meddev': {
-    improvements: [
-      { type: 'supplier', data: 'Digital order integration' },
-      { type: 'jit', data: 'Just-in-time ordering system' }
-    ]
-  },
-  'supplier-drugseek': {
-    improvements: [
-      { type: 'supplier', data: 'Automated reordering' },
-      { type: 'kanban', data: 'Kanban-based replenishment signals' }
-    ]
-  },
-  'supplier-vitafast': {
-    improvements: [
-      { type: 'supplier', data: 'Demand-based delivery scheduling' },
-      { type: 'heijunka', data: 'Leveled ordering pattern' }
+      { type: 'layout', data: 'Optimized transit routes between locations' }
     ]
   }
 };
 
-// Future state changes for each process
+// Future state changes (metrics and details for improved state)
 const futureStateChanges = {
   'process-receiving': {
-    metrics: {
-      oeeUtilization: 97,
-      accuracy: 98,
-      processTime: 2.1
-    },
-    details: 'Automated receiving with RFID tagging'
+    metrics: { oeeUtilization: 95, accuracy: 97, processTime: 2.5 },
+    details: 'Optimized receiving with RFID-enabled goods tracking'
   },
   'process-storage': {
-    metrics: {
-      oeeUtilization: 94,
-      accuracy: 92.5,
-      processTime: 0.5,
-      waitTime: 48
-    },
-    details: 'Cloud-managed inventory with RFID tracking'
+    metrics: { oeeUtilization: 92, accuracy: 92.5, processTime: 0.5, waitTime: 48 },
+    details: 'Reorganized storage with kanban system and visual management'
   },
   'process-distribution': {
-    metrics: {
-      oeeUtilization: 92,
-      accuracy: 95,
-      processTime: 0.8
-    },
-    details: 'Optimized routes with real-time transfer updates'
+    metrics: { oeeUtilization: 90, accuracy: 94, processTime: 0.8 },
+    details: 'Pull-based distribution with automated notifications'
   },
   'process-shopfloor': {
-    metrics: {
-      oeeUtilization: 90,
-      accuracy: 98,
-      processTime: 0.1
-    },
-    details: 'RFID-enabled shelves with real-time inventory tracking'
+    metrics: { oeeUtilization: 89, accuracy: 96, processTime: 0.1 },
+    details: 'Enhanced shelf organization with RFID tracking'
   },
   'process-stocktake': {
-    metrics: {
-      oeeUtilization: 90,
-      accuracy: 92.5,
-      processTime: 2.3
-    },
-    details: 'Continuous RFID-based counting replacing quarterly counts'
+    metrics: { oeeUtilization: 82, accuracy: 92.5, processTime: 4 },
+    details: 'RFID-enabled stock counting with improved staff training'
+  },
+  'inventory-receiving': {
+    metrics: { waitTime: 2 }
+  },
+  'inventory-storage': {
+    metrics: { waitTime: 48 }
+  },
+  'inventory-transit': {
+    metrics: { waitTime: 3 }
   }
 };
 
-// Ideal state changes for each process
+// Ideal state changes (metrics and details for ideal state)
 const idealStateChanges = {
   'process-receiving': {
-    metrics: {
-      oeeUtilization: 99,
-      accuracy: 99.5,
-      processTime: 1.5
-    },
-    details: 'Fully automated receiving with AI verification'
+    metrics: { oeeUtilization: 98, accuracy: 99.5, processTime: 1.5 },
+    details: 'Fully automated receiving with supplier integration'
   },
   'process-storage': {
-    metrics: {
-      oeeUtilization: 98,
-      accuracy: 99.5,
-      processTime: 0.3,
-      waitTime: 24
-    },
-    details: 'AI-optimized inventory with predictive management'
+    metrics: { oeeUtilization: 96, accuracy: 99.5, processTime: 0.3, waitTime: 24 },
+    details: 'Automated storage and retrieval system (ASRS)'
   },
   'process-distribution': {
-    metrics: {
-      oeeUtilization: 97,
-      accuracy: 99,
-      processTime: 0.5
-    },
-    details: 'Autonomous transport systems between locations'
+    metrics: { oeeUtilization: 97, accuracy: 99, processTime: 0.4 },
+    details: 'Automated guided vehicles (AGVs) for distribution'
   },
   'process-shopfloor': {
-    metrics: {
-      oeeUtilization: 96,
-      accuracy: 99.5,
-      processTime: 0.1
-    },
-    details: 'Smart shelves with automatic replenishment triggering'
+    metrics: { oeeUtilization: 95, accuracy: 99, processTime: 0.1 },
+    details: 'Smart shelves with automatic replenishment'
   },
   'process-stocktake': {
-    metrics: {
-      oeeUtilization: 98,
-      accuracy: 99.5,
-      processTime: 0
-    },
-    details: 'Real-time perpetual inventory eliminates traditional counting'
+    metrics: { oeeUtilization: 95, accuracy: 99.5, processTime: 1.6 },
+    details: 'Real-time inventory management with AI optimization'
+  },
+  'inventory-receiving': {
+    metrics: { waitTime: 1 }
+  },
+  'inventory-storage': {
+    metrics: { waitTime: 24 }
+  },
+  'inventory-transit': {
+    metrics: { waitTime: 0.5 }
   }
 };
