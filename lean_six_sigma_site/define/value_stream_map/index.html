@@ -216,6 +216,18 @@
       talent: { icon: '👤', name: 'Talent Waste', color: 'bg-indigo-200 border-indigo-500' }
     };
     
+    // Define improvement icons with more distinctive visuals
+    const improvementIcons = {
+      rfid: { icon: '🏷️', name: 'RFID Implementation', color: 'bg-purple-200 border-purple-500' },
+      layout: { icon: '📊', name: 'Layout Optimization', color: 'bg-blue-200 border-blue-500' },
+      automation: { icon: '🤖', name: 'Automation', color: 'bg-green-200 border-green-500' },
+      training: { icon: '🎓', name: 'Training Program', color: 'bg-yellow-200 border-yellow-500' },
+      kaizen: { icon: '⚡', name: 'Kaizen Event', color: 'bg-red-200 border-red-500' },
+      kanban: { icon: '📋', name: 'Kanban System', color: 'bg-indigo-200 border-indigo-500' },
+      pull: { icon: '⤵️', name: 'Pull System', color: 'bg-orange-200 border-orange-500' },
+      sop: { icon: '📝', name: 'Standard Operating Procedure', color: 'bg-teal-200 border-teal-500' }
+    };
+    
     // Tooltip component that renders at the root level
     const GlobalTooltip = ({ tooltipData }) => {
       if (!tooltipData) return null;
@@ -1067,12 +1079,39 @@
               </div>
             ) : (
               <div className="flex flex-wrap gap-2 justify-center">
-                {Object.entries(improvementIcons).map(([type, info]) => (
-                  <div key={type} className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
-                    <span className={`inline-block ${info.color} rounded-full p-1`}>{info.icon}</span>
-                    <span>{info.name}</span>
-                  </div>
-                ))}
+                {/* Updated to match the icons users see on the map */}
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-purple-200 border-purple-500 rounded-full p-1">🏷️</span>
+                  <span>RFID Implementation</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-blue-200 border-blue-500 rounded-full p-1">📊</span>
+                  <span>Layout Optimization</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-green-200 border-green-500 rounded-full p-1">🤖</span>
+                  <span>Automation</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-yellow-200 border-yellow-500 rounded-full p-1">🎓</span>
+                  <span>Training Program</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-red-200 border-red-500 rounded-full p-1">⚡</span>
+                  <span>Kaizen Event</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-indigo-200 border-indigo-500 rounded-full p-1">📋</span>
+                  <span>Kanban System</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-orange-200 border-orange-500 rounded-full p-1">⤵️</span>
+                  <span>Pull System</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs px-2 py-1 rounded border">
+                  <span className="inline-block bg-teal-200 border-teal-500 rounded-full p-1">📝</span>
+                  <span>Standard Operating Procedure</span>
+                </div>
               </div>
             )}
           </div>

@@ -2,12 +2,12 @@
 // With fallback to emoji when ReactIcons is not available
 var improvementIcons = {
   rfid: { 
-    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdOutlineRssFeed) : '📶', 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.FaTag) : '🏷️', 
     name: 'RFID Implementation', 
     color: 'bg-purple-200 border-purple-500' 
   },
   layout: { 
-    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdAutoAwesomeMotion) : '🔄', 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdDashboard) : '📊', 
     name: 'Layout Optimization', 
     color: 'bg-blue-200 border-blue-500' 
   },
@@ -17,12 +17,12 @@ var improvementIcons = {
     color: 'bg-green-200 border-green-500' 
   },
   training: { 
-    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdModelTraining) : '🎓', 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.FaGraduationCap) : '🎓', 
     name: 'Training Program', 
     color: 'bg-yellow-200 border-yellow-500' 
   },
   kaizen: { 
-    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdAutoAwesomeMotion) : '⚡', 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.FaBolt) : '⚡', 
     name: 'Kaizen Event', 
     color: 'bg-red-200 border-red-500' 
   },
@@ -32,12 +32,12 @@ var improvementIcons = {
     color: 'bg-indigo-200 border-indigo-500' 
   },
   pull: { 
-    icon: typeof ReactIcons !== 'undefined' ? (ReactIcons.IoIosGitPullRequest ? React.createElement(ReactIcons.IoIosGitPullRequest) : '⤵️') : '⤵️', 
+    icon: typeof ReactIcons !== 'undefined' ? (ReactIcons.FaArrowDown ? React.createElement(ReactIcons.FaArrowDown) : '⤵️') : '⤵️', 
     name: 'Pull System', 
     color: 'bg-orange-200 border-orange-500' 
   },
   sop: { 
-    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdOutlineBuild) : '📝', 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.FaFileAlt) : '📝', 
     name: 'Standard Operating Procedure', 
     color: 'bg-teal-200 border-teal-500' 
   }
@@ -112,6 +112,7 @@ const improvementsData = {
     ],
     improved: [
       { type: 'rfid', data: 'RFID-assisted counting' },
+      { type: 'training', data: 'Staff certification program' },
       { type: 'kaizen', data: 'Error-proofing in counting process' },
       { type: 'sop', data: 'Standardized counting procedures' },
       { type: 'kaizen', data: 'Continuous improvement in inventory accuracy' }
