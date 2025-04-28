@@ -1,4 +1,11 @@
-# Script to clear all data from Redis database
+# =============================
+# clear-all-data.ps1
+# Purpose: Clear all data from the Redis database (irreversible!).
+# Usage (PowerShell):
+#   .\clear-all-data.ps1
+# Prerequisites: Docker must be running and able to access a Redis container.
+# Notes: This script is for PowerShell. Do not use & or && as in bash. Prompts for confirmation before deleting.
+# =============================
 
 # Ask for confirmation
 $confirmation = Read-Host "This will clear ALL data from your Redis database. Are you sure? (yes/no)"

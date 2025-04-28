@@ -1,3 +1,12 @@
+# =============================
+# get-all-context.ps1
+# Purpose: Retrieve all key-value pairs from Redis matching a pattern, format for LLMs, and optionally save to file.
+# Usage (PowerShell):
+#   .\get-all-context.ps1 [-pattern "*"] [-formatForLLM] [-saveToFile] [-outputFile "filename.txt"]
+# Prerequisites: Docker must be running and able to access a Redis container.
+# Notes: This script is for PowerShell. Do not use & or && as in bash.
+# =============================
+
 param(
     [Parameter(Mandatory=$false)]
     [string]$pattern = "*",

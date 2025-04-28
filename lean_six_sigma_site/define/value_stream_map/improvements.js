@@ -1,13 +1,46 @@
-// Improvement icons and descriptions
-const improvementIcons = {
-  rfid: { icon: '📶', name: 'RFID Implementation', color: 'bg-purple-200 border-purple-500' },
-  layout: { icon: '🔀', name: 'Layout Optimization', color: 'bg-blue-200 border-blue-500' },
-  automation: { icon: '🤖', name: 'Automation', color: 'bg-green-200 border-green-500' },
-  training: { icon: '👨‍🎓', name: 'Training Program', color: 'bg-yellow-200 border-yellow-500' },
-  kaizen: { icon: '🔄', name: 'Kaizen Event', color: 'bg-red-200 border-red-500' },
-  kanban: { icon: '🔢', name: 'Kanban System', color: 'bg-indigo-200 border-indigo-500' },
-  pull: { icon: '⛓️', name: 'Pull System', color: 'bg-orange-200 border-orange-500' },
-  sop: { icon: '📋', name: 'Standard Operating Procedure', color: 'bg-teal-200 border-teal-500' }
+// Improvement icons and descriptions using React icons
+// With fallback to emoji when ReactIcons is not available
+var improvementIcons = {
+  rfid: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdOutlineRssFeed) : '📶', 
+    name: 'RFID Implementation', 
+    color: 'bg-purple-200 border-purple-500' 
+  },
+  layout: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdAutoAwesomeMotion) : '🔄', 
+    name: 'Layout Optimization', 
+    color: 'bg-blue-200 border-blue-500' 
+  },
+  automation: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.FaRobot) : '🤖', 
+    name: 'Automation', 
+    color: 'bg-green-200 border-green-500' 
+  },
+  training: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdModelTraining) : '🎓', 
+    name: 'Training Program', 
+    color: 'bg-yellow-200 border-yellow-500' 
+  },
+  kaizen: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdAutoAwesomeMotion) : '⚡', 
+    name: 'Kaizen Event', 
+    color: 'bg-red-200 border-red-500' 
+  },
+  kanban: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdOutlineViewKanban) : '📊', 
+    name: 'Kanban System', 
+    color: 'bg-indigo-200 border-indigo-500' 
+  },
+  pull: { 
+    icon: typeof ReactIcons !== 'undefined' ? (ReactIcons.IoIosGitPullRequest ? React.createElement(ReactIcons.IoIosGitPullRequest) : '⤵️') : '⤵️', 
+    name: 'Pull System', 
+    color: 'bg-orange-200 border-orange-500' 
+  },
+  sop: { 
+    icon: typeof ReactIcons !== 'undefined' ? React.createElement(ReactIcons.MdOutlineBuild) : '📝', 
+    name: 'Standard Operating Procedure', 
+    color: 'bg-teal-200 border-teal-500' 
+  }
 };
 
 // Improvement data for each process node
@@ -16,24 +49,59 @@ const improvementsData = {
     improvements: [
       { type: 'rfid', data: 'RFID tagging at receiving for automated tracking' },
       { type: 'sop', data: 'Standardized receiving procedures with visual management' }
+    ],
+    improved: [
+      { type: 'rfid', data: 'RFID-assisted receiving' },
+      { type: 'sop', data: 'Standardized receiving procedures' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Continuous inventory tracking' },
+      { type: 'kaizen', data: 'Continuous improvement in inventory accuracy' },
+      { type: 'automation', data: 'AI-powered inventory reconciliation' },
+      { type: 'automation', data: 'Cloud-based perpetual inventory system' }
     ]
   },
   'process-storage': {
     improvements: [
       { type: 'layout', data: 'Reorganized storage layout by frequency of use' },
       { type: 'kanban', data: 'Implemented kanban system with visual indicators' }
+    ],
+    improved: [
+      { type: 'layout', data: 'Layout optimization for storage' },
+      { type: 'kanban', data: 'Kanban system for inventory management' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Automated storage and retrieval system (ASRS)' },
+      { type: 'automation', data: 'Real-time monitoring' },
+      { type: 'kaizen', data: 'Continuous improvement in storage process' }
     ]
   },
   'process-distribution': {
     improvements: [
       { type: 'pull', data: 'Implemented pull system based on shop floor demand' },
       { type: 'automation', data: 'Automated notification system for replenishment' }
+    ],
+    improved: [
+      { type: 'pull', data: 'Pull-based distribution' },
+      { type: 'automation', data: 'Automated notifications for distribution' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Automated guided vehicles (AGVs) for distribution' },
+      { type: 'automation', data: 'Real-time distribution monitoring' }
     ]
   },
   'process-shopfloor': {
     improvements: [
       { type: 'rfid', data: 'RFID-enabled shelves for real-time inventory tracking' },
       { type: 'layout', data: 'Optimized product placement based on sales data' }
+    ],
+    improved: [
+      { type: 'rfid', data: 'RFID-enabled shelves' },
+      { type: 'layout', data: 'Optimized product placement' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Smart shelves with automatic replenishment' },
+      { type: 'automation', data: 'Real-time monitoring' }
     ]
   },
   'process-stocktake': {
@@ -41,21 +109,51 @@ const improvementsData = {
       { type: 'rfid', data: 'RFID handheld scanners for accurate inventory counts' },
       { type: 'training', data: 'Enhanced staff training program with certification' },
       { type: 'kaizen', data: 'Conducted kaizen event to streamline process' }
+    ],
+    improved: [
+      { type: 'rfid', data: 'RFID-assisted counting' },
+      { type: 'kaizen', data: 'Error-proofing in counting process' },
+      { type: 'sop', data: 'Standardized counting procedures' },
+      { type: 'kaizen', data: 'Continuous improvement in inventory accuracy' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Continuous inventory tracking' },
+      { type: 'automation', data: 'AI-powered inventory reconciliation' },
+      { type: 'automation', data: 'Real-time accuracy monitoring' },
+      { type: 'automation', data: 'Cloud-based perpetual inventory system' }
     ]
   },
   'inventory-receiving': {
     improvements: [
       { type: 'pull', data: 'Reduced WIP with just-in-time processing' }
+    ],
+    improved: [
+      { type: 'pull', data: 'Just-in-time processing' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Fully automated receiving' }
     ]
   },
   'inventory-storage': {
     improvements: [
       { type: 'kanban', data: 'Implemented kanban cards for inventory management' }
+    ],
+    improved: [
+      { type: 'kanban', data: 'Kanban cards for inventory management' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Automated storage management' }
     ]
   },
   'inventory-transit': {
     improvements: [
       { type: 'layout', data: 'Optimized transit routes between locations' }
+    ],
+    improved: [
+      { type: 'layout', data: 'Optimized transit routes' }
+    ],
+    ideal: [
+      { type: 'automation', data: 'Automated transit system' }
     ]
   }
 };

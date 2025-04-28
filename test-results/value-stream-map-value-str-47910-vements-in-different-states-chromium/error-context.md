@@ -6,17 +6,37 @@
 # Error details
 
 ```
-TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
-Call log:
-  - waiting for locator('.bg-blue-700') to be visible
+Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
 
-    at C:\Users\anteb\OneDrive\Desktop\Griffith\Lean Six Sigma\assignment\My version\lean_six_sigma\tests\value-stream-map.spec.js:10:14
+Locator: locator('text=Accuracy Rate')
+Expected string: "99.5%"
+Received string: "Accuracy Rate"
+Call log:
+  - expect.toContainText with timeout 5000ms
+  - waiting for locator('text=Accuracy Rate')
+    9 × locator resolved to <span class="text-xs text-gray-500">Accuracy Rate</span>
+      - unexpected value "Accuracy Rate"
+
+    at C:\Users\anteb\OneDrive\Desktop\Griffith\Lean Six Sigma\assignment\My version\lean_six_sigma\tests\value-stream-map.spec.js:76:52
 ```
 
 # Page snapshot
 
 ```yaml
-- text: Loading React app...
+- banner:
+  - heading "SimplePharma Value Stream Map" [level=1]
+  - button "Info"
+- button "Current"
+- button "Improved"
+- button "Ideal"
+- text: "Lead Time 34.3 hours Value-Added Time 9.9 hours Process Efficiency 28.9% Accuracy Rate 99.5% MedDev 🔗 🧠 DrugSeek 🔗 ☁️ VitaFast 🔗 ⚡ Receiving OEE: 99% 🤖 ☁️ 🛡️ 🧠 Storage OEE: 98% ☁️ 🧠 🤖 Internal Distribution OEE: 97% 🤖 ⏱️ ⚡ Shop Floor OEE: 96% ⚡ 🧠 👁️ 🤖 Stock Take OEE: 98% 🤖 🧠 ⚡ ☁️ Customers WIP 🤖 🧠 Storage 🧠 🤖 Transit 🤖 ⚡ Total Lead Time: 34.3 hours Process Cycle Efficiency: 28.9% Value-Added: 9.9 hours Non-Value-Added: 24.4 hours"
+- heading "Stock Take" [level=3]
+- button "X"
+- paragraph: Real-time perpetual inventory eliminates traditional counting
+- heading "Metrics:" [level=4]
+- text: "oee Utilization: 98 accuracy: 99.5 process Time: 0"
+- heading "Implemented Improvements:" [level=4]
+- text: 🤖 Process Automation Continuous inventory tracking 🧠 AI/ML Integration AI-powered inventory reconciliation ⚡ Real-time Monitoring Real-time accuracy monitoring ☁️ Cloud Integration Cloud-based perpetual inventory system 📶 RFID Implementation 🤖 Process Automation ☁️ Cloud Integration 🔄 Layout Optimization 🧠 AI/ML Integration 👨‍🎓 Staff Training ⚡ Real-time Monitoring 🔗 Supplier Integration 🧹 5S Methodology 🎫 Kanban System 🛡️ Poka-Yoke 📋 Standard Work 👁️ Visual Management ⏱️ Just-In-Time 📈 Kaizen ⚖️ Heijunka
 ```
 
 # Test source
@@ -31,8 +51,7 @@ Call log:
    7 |   await page.goto('file:///' + process.cwd() + '/build/define/value_stream_map/index.html');
    8 |
    9 |   // Wait for the app to fully render by looking for a visible element that indicates the React app is loaded
-> 10 |   await page.waitForSelector('.bg-blue-700', { state: 'visible', timeout: 10000 });
-     |              ^ TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.
+  10 |   await page.waitForSelector('.bg-blue-700', { state: 'visible', timeout: 10000 });
   11 |   await page.waitForTimeout(1000); // Additional small delay to ensure full rendering
   12 |   
   13 |   // Take a screenshot of the current state
@@ -98,6 +117,7 @@ Call log:
   73 |   await expect(detailsPanel).not.toContainText('Standardized counting procedures');
   74 |   
   75 |   // Verify the metrics change appropriately between states
-  76 |   await expect(page.locator('text=Accuracy Rate')).toContainText('99.5%');
+> 76 |   await expect(page.locator('text=Accuracy Rate')).toContainText('99.5%');
+     |                                                    ^ Error: Timed out 5000ms waiting for expect(locator).toContainText(expected)
   77 | });
 ```

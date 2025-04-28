@@ -1,3 +1,12 @@
+# =============================
+# get-context.ps1
+# Purpose: Retrieve the value for a given key from Redis.
+# Usage (PowerShell):
+#   .\get-context.ps1 -key "yourKey"
+# Prerequisites: Docker must be running and able to access a Redis container.
+# Notes: This script is for PowerShell. Do not use & or && as in bash.
+# =============================
+
 param(
     [Parameter(Mandatory=$true)]
     [string]$key

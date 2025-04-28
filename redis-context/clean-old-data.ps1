@@ -1,3 +1,12 @@
+# =============================
+# clean-old-data.ps1
+# Purpose: Remove Redis keys older than 7 days, based on key naming or TTL estimation.
+# Usage (PowerShell):
+#   .\clean-old-data.ps1
+# Prerequisites: Docker must be running and able to access a Redis container. Keys should include a date or timestamp for best results.
+# Notes: This script is for PowerShell. Do not use & or && as in bash. Prompts for confirmation before deleting.
+# =============================
+
 # Script to clean Redis data older than a week
 
 # Function to check if a string is a valid date

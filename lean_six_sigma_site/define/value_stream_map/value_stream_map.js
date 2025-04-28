@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+// Import React icons for waste types
+import { MdAutoAwesomeMotion, MdEmojiTransportation, MdInventory, MdModelTraining, MdOutlineViewKanban, MdOutlineAccessTime, MdError, MdSettings, MdPerson, MdOutlineRssFeed, MdOutlineBuild, MdOutlineEmojiEmotions } from 'react-icons/md';
+import { FaRobot, FaUserCog } from 'react-icons/fa';
 
-// Define waste icons and descriptions
+// Define waste icons and descriptions using React icons
 const wasteIcons = {
-  motion: { icon: '🔄', name: 'Motion Waste', color: 'bg-purple-200' },
-  waiting: { icon: '⏳', name: 'Waiting Waste', color: 'bg-blue-200' },
-  transportation: { icon: '🚚', name: 'Transportation Waste', color: 'bg-green-200' },
-  defects: { icon: '❌', name: 'Defects Waste', color: 'bg-red-200' },
-  overprocessing: { icon: '⚙️', name: 'Overprocessing Waste', color: 'bg-yellow-200' },
-  inventory: { icon: '📦', name: 'Inventory Waste', color: 'bg-orange-200' },
-  talent: { icon: '👤', name: 'Talent Waste', color: 'bg-indigo-200' }
+  motion: { icon: <MdAutoAwesomeMotion />, name: 'Motion Waste', color: 'bg-purple-200' },
+  waiting: { icon: <MdOutlineAccessTime />, name: 'Waiting Waste', color: 'bg-blue-200' },
+  transportation: { icon: <MdEmojiTransportation />, name: 'Transportation Waste', color: 'bg-green-200' },
+  defects: { icon: <MdError />, name: 'Defects Waste', color: 'bg-red-200' },
+  overprocessing: { icon: <MdSettings />, name: 'Overprocessing Waste', color: 'bg-yellow-200' },
+  inventory: { icon: <MdInventory />, name: 'Inventory Waste', color: 'bg-orange-200' },
+  talent: { icon: <FaUserCog />, name: 'Talent Waste', color: 'bg-indigo-200' }
 };
 
 // Main app component
@@ -92,7 +95,7 @@ const WasteIcon = ({ type, data }) => {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <span>{waste.icon}</span>
+      {waste.icon}
       {showTooltip && (
         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-2 bg-gray-800 text-white text-xs rounded shadow-lg whitespace-nowrap z-10">
           <strong>{waste.name}</strong>
