@@ -75,8 +75,8 @@
       cursor: help;
       font-size: 14px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      z-index: 15; /* Increased z-index */
-      transition: transform 0.2s ease; /* Added for hover effect */
+      z-index: 15;
+      transition: transform 0.2s ease;
     }
     
     /* Improvement icon styles */
@@ -91,7 +91,7 @@
       cursor: help;
       font-size: 16px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      z-index: 16; /* Increased z-index */
+      z-index: 16;
       border: 2px solid white;
       transition: transform 0.2s ease;
     }
@@ -110,33 +110,29 @@
        transform: rotate(-45deg) scale(1.1); /* Combine rotation and scale */
     }
     
-    .waste-tooltip, .improvement-tooltip {
-      display: none;
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%); /* Keep this for centering */
-      transform-origin: center bottom; /* Set origin for potential rotation */
-      margin-bottom: 8px;
+    /* Global tooltip container */
+    #tooltip-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    /* Tooltip style */
+    .global-tooltip {
+      position: fixed;
       padding: 6px 10px;
-      background-color: rgba(0,0,0,0.85); /* Slightly darker */
+      background-color: rgba(0,0,0,0.85);
       color: white;
       border-radius: 4px;
       font-size: 12px;
       white-space: nowrap;
-      z-index: 50; /* Significantly increased z-index */
       pointer-events: none;
-    }
-    
-    /* Add rule for counter-rotating tooltips on rotated parents */
-    .waste-tooltip.tooltip-needs-unrotate,
-    .improvement-tooltip.tooltip-needs-unrotate {
-      transform: translateX(-50%) rotate(-45deg);
-    }
-
-    .waste-icon:hover .waste-tooltip,
-    .improvement-icon:hover .improvement-tooltip {
-      display: block;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 300px;
     }
     
     /* Modal styles */
@@ -198,7 +194,11 @@
   <!-- Debug container to show load status -->
   <div id="debug-container" class="debug-info">Loading React app...</div>
   
+  <!-- Root element for React app -->
   <div id="root"></div>
+  
+  <!-- Global tooltip container (outside the React app) -->
+  <div id="tooltip-container"></div>
   
   <!-- Load the improvements data -->
   <script src="improvements.js"></script>
@@ -216,12 +216,26 @@
       talent: { icon: '👤', name: 'Talent Waste', color: 'bg-indigo-200 border-indigo-500' }
     };
     
+    // Tooltip component that renders at the root level
+    const GlobalTooltip = ({ tooltipData }) => {
+      if (!tooltipData) return null;
+      
+      return ReactDOM.createPortal(
+        <div className="global-tooltip" style={tooltipData.style}>
+          <strong>{tooltipData.title}</strong>
+          {tooltipData.content && <div>{tooltipData.content}</div>}
+        </div>,
+        document.getElementById('tooltip-container')
+      );
+    };
+    
     // Basic simplified ValueStreamMap component
     const ValueStreamMap = () => {
       // Basic state
       const [viewMode, setViewMode] = React.useState('current'); // current, improved, ideal
       const [selectedProcess, setSelectedProcess] = React.useState(null);
       const [showInfoModal, setShowInfoModal] = React.useState(false);
+      const [tooltipData, setTooltipData] = React.useState(null);
       const [metrics, setMetrics] = React.useState({
         totalLeadTime: 85.7,
         valueAddedTime: 12.4,
@@ -230,6 +244,25 @@
       });
       const [connectionStyles, setConnectionStyles] = React.useState([]); // State for line styles
       const mapContainerRef = React.useRef(null); // Ref for map container
+
+      // Show tooltip
+      const handleShowTooltip = (e, type, title, content) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        
+        // Position the tooltip above the icon
+        const style = {
+          left: rect.left + (rect.width / 2) - 100, // Center tooltip, assuming ~200px max-width
+          top: rect.top - 10, // Position above with some offset
+          transform: 'translateY(-100%)', // Move up by its height
+        };
+        
+        setTooltipData({ type, title, content, style });
+      };
+      
+      // Hide tooltip
+      const handleHideTooltip = () => {
+        setTooltipData(null);
+      };
 
       // Waste data based on lean waste analysis
       const wasteData = {
@@ -296,7 +329,6 @@
           metrics: { deliveryFrequency: 'Daily', leadTime: '1-2 days' },
           details: 'Medical device supplier',
           position: { x: 8, y: 25 } 
-          // Removed nodeWidth/Height, calculate based on position only for now
         },
         {
           id: 'supplier-drugseek',
@@ -429,9 +461,6 @@
           // Calculate horizontal offset for multiple icons - Increased spacing
           const iconSpacing = 32; // Increased from 28
           const offset = index * iconSpacing - ((wasteData[process.id].wastes.length - 1) * (iconSpacing / 2));
-          
-          // Determine if counter-rotation is needed for the tooltip
-          const tooltipClass = process.type === 'inventory' ? 'waste-tooltip tooltip-needs-unrotate' : 'waste-tooltip';
 
           return (
             <div 
@@ -441,12 +470,10 @@
                 top: `${top}px`, 
                 left: `calc(50% + ${offset}px)`,
               }}
+              onMouseEnter={(e) => handleShowTooltip(e, 'waste', wasteInfo.name, waste.data)}
+              onMouseLeave={handleHideTooltip}
             >
               <span>{wasteInfo.icon}</span>
-              <div className={tooltipClass}>
-                <strong>{wasteInfo.name}</strong>
-                {waste.data && <div>{waste.data}</div>}
-              </div>
             </div>
           );
         });
@@ -454,21 +481,21 @@
       
       // Create the improvement icons for a process
       const createImprovementIcons = (process) => {
-  if (viewMode === 'current' || !improvementsData[process.id]) return null;
+        if (viewMode === 'current' || !improvementsData[process.id]) return null;
 
-  let improvementList = [];
-  if (viewMode === 'improved' && improvementsData[process.id] && improvementsData[process.id].improved) {
-    improvementList = improvementsData[process.id].improved;
-  } else if (viewMode === 'ideal' && improvementsData[process.id] && improvementsData[process.id].ideal) {
-    improvementList = improvementsData[process.id].ideal;
-  } else if (improvementsData[process.id] && improvementsData[process.id].improvements) {
-    improvementList = improvementsData[process.id].improvements;
-  }
+        let improvementList = [];
+        if (viewMode === 'improved' && improvementsData[process.id] && improvementsData[process.id].improved) {
+          improvementList = improvementsData[process.id].improved;
+        } else if (viewMode === 'ideal' && improvementsData[process.id] && improvementsData[process.id].ideal) {
+          improvementList = improvementsData[process.id].ideal;
+        } else if (improvementsData[process.id] && improvementsData[process.id].improvements) {
+          improvementList = improvementsData[process.id].improvements;
+        }
 
-  return improvementList.map((improvement, index) => {
-    const impInfo = improvementIcons[improvement.type];
-    if (!impInfo) return null;
-          
+        return improvementList.map((improvement, index) => {
+          const impInfo = improvementIcons[improvement.type];
+          if (!impInfo) return null;
+                
           // Special positioning for Kaizen icon on Stock Take process
           if (process.id === 'process-stocktake' && improvement.type === 'kaizen') {
             return (
@@ -480,12 +507,10 @@
                   left: '-14px',    // Position at left border (half the icon width)
                   transform: 'translateY(-50%)', // Center the icon vertically
                 }}
+                onMouseEnter={(e) => handleShowTooltip(e, 'improvement', impInfo.name, improvement.data)}
+                onMouseLeave={handleHideTooltip}
               >
                 <span>{impInfo.icon}</span>
-                <div className="improvement-tooltip">
-                  <strong>{impInfo.name}</strong>
-                  {improvement.data && <div>{improvement.data}</div>}
-                </div>
               </div>
             );
           }
@@ -495,11 +520,7 @@
           const bottom = process.type === 'inventory' ? -45 : -35;
           // Calculate horizontal offset for multiple icons - Increased spacing
           const iconSpacing = 32;
-          // *** FIX: Use improvementList.length instead of improvementsData[process.id].improvements.length ***
           const offset = index * iconSpacing - ((improvementList.length - 1) * (iconSpacing / 2));
-          
-          // Determine if counter-rotation is needed for the tooltip
-          const tooltipClass = process.type === 'inventory' ? 'improvement-tooltip tooltip-needs-unrotate' : 'improvement-tooltip';
 
           return (
             <div 
@@ -509,12 +530,10 @@
                 bottom: `${bottom}px`, 
                 left: `calc(50% + ${offset}px)`,
               }}
+              onMouseEnter={(e) => handleShowTooltip(e, 'improvement', impInfo.name, improvement.data)}
+              onMouseLeave={handleHideTooltip}
             >
               <span>{impInfo.icon}</span>
-              <div className={tooltipClass}>
-                <strong>{impInfo.name}</strong>
-                {improvement.data && <div>{improvement.data}</div>}
-              </div>
             </div>
           );
         });
@@ -1021,6 +1040,9 @@
           {/* Info Modal */}
           {renderInfoModal()}
           
+          {/* Render global tooltip component */}
+          <GlobalTooltip tooltipData={tooltipData} />
+          
           {/* Legend bar at bottom */}
           <div className="bg-white border-t p-2">
             {viewMode === 'current' ? (
@@ -1064,7 +1086,7 @@
           // Hide the debug message after 5 seconds
           setTimeout(() => {
             const debugEl = document.getElementById('debug-container');
-            if (debugEl) { // Added closing parenthesis and curly brace
+            if (debugEl) {
               debugEl.style.display = 'none';
             }
           }, 5000);
