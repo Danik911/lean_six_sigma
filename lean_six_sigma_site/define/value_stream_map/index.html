@@ -129,7 +129,7 @@
       color: white;
       border-radius: 4px;
       font-size: 12px;
-      white-space: nowrap;
+      white-space: normal;
       pointer-events: none;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       max-width: 300px;
@@ -574,7 +574,11 @@
           zIndex: 20,
           maxWidth: '400px',
           bottom: '5rem',
-          right: '1.5rem'
+          right: '1.5rem',
+          overflow: 'auto', // Add overflow auto
+          maxHeight: '400px', // Add max height to prevent overflow
+          wordWrap: 'break-word', // Ensure text wraps
+          overflowWrap: 'break-word' // Modern property for text wrapping
         };
 
         if (nodeElement) {
@@ -585,19 +589,26 @@
           let top = nodeRect.top - containerRect.top; // Align top with node top initially
           let left = nodeRect.right - containerRect.left + 15; // 15px offset to the right
 
-          // Basic boundary check (simplified) - Check if it goes off right edge
-          if (left + 400 > containerRect.width) { // Use panel max width for check
-            left = nodeRect.left - containerRect.left - 400 - 15; // Place to the left
+          // Special handling for Stock Take node which is lower in the diagram
+          if (processDetails.id === 'process-stocktake') {
+            // Position the panel above the node instead of to the side
+            top = nodeRect.top - containerRect.top - 220; // Position above with some margin
+            left = nodeRect.left - containerRect.left - 100; // Center it more
+          } else {
+            // Basic boundary check (simplified) - Check if it goes off right edge
+            if (left + 400 > containerRect.width) { // Use panel max width for check
+              left = nodeRect.left - containerRect.left - 420; // Place to the left with more margin
+            }
           }
+          
           // Basic boundary check - Check if it goes off bottom edge
-          // This needs panel height, which is dynamic. Let's keep it simple and adjust top slightly if needed.
           if (top + 200 > containerRect.height) { // Assuming max height ~200px
              top = containerRect.height - 220; // Place near bottom edge
           }
+          
           // Ensure it doesn't go off the top or left
           if (top < 10) top = 10;
           if (left < 10) left = 10;
-
 
           panelStyle = {
             ...panelStyle,
@@ -622,7 +633,7 @@
           <div className="bg-white border rounded shadow-lg p-4" style={panelStyle}>
             <h3 className="font-semibold mb-2">{processDetails.name}</h3>
             <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700" onClick={() => setSelectedProcess(null)}>X</button>
-            <p className="mb-2 text-sm">{processDetails.details}</p>
+            <p className="mb-2 text-sm break-words">{processDetails.details}</p>
             <h4 className="font-medium mb-1">Metrics:</h4>
             <div className="grid grid-cols-2 gap-2 mb-3">
               {processDetails.metrics && Object.entries(processDetails.metrics).map(([key, value]) => (
@@ -642,8 +653,8 @@
                         <span className={`inline-block ${impInfo.color} rounded-full p-1`}>
                           {impInfo.icon}
                         </span>
-                        <div>
-                          <div className="font-medium">{improvement.data}</div>
+                        <div className="flex-1">
+                          <div className="font-medium break-words">{improvement.data}</div>
                         </div>
                       </div>
                     );
