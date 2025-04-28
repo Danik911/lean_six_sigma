@@ -75,3 +75,43 @@ test('value stream map should show correct improvements in different states', as
   // Verify the metrics change appropriately between states
   await expect(page.locator('text=Accuracy Rate')).toContainText('99.5%');
 });
+
+// New test for description panel visibility behavior
+test('description panels should close when clicking elsewhere and switch when clicking another element', async ({ page }) => {
+  // Navigate to the value stream map page
+  await page.goto('file:///' + process.cwd() + '/build/define/value_stream_map/index.html');
+
+  // Wait for the app to fully render
+  await page.waitForSelector('.bg-blue-700', { state: 'visible', timeout: 10000 });
+  await page.waitForTimeout(1000); // Additional small delay to ensure full rendering
+  
+  // First test - clicking on a process node should show its details panel
+  const receivingNode = page.locator('[data-process-id="process-receiving"]');
+  await receivingNode.click();
+  
+  // Verify the details panel is visible and contains the right information
+  const detailsPanel = page.locator('.process-details-panel');
+  await expect(detailsPanel).toBeVisible();
+  await expect(detailsPanel).toContainText('Receiving');
+  
+  // Second test - clicking on another process node should switch the panel
+  const storageNode = page.locator('[data-process-id="process-storage"]');
+  await storageNode.click();
+  
+  // Verify the details panel now shows the storage information
+  await expect(detailsPanel).toBeVisible();
+  await expect(detailsPanel).toContainText('Storage');
+  await expect(detailsPanel).not.toContainText('Receiving');
+  
+  // Third test - clicking elsewhere (not on a process node or details panel) should close the panel
+  // Click on an empty area of the map
+  await page.click('.map-container-inner', { position: { x: 10, y: 10 } });
+  
+  // Verify the details panel is no longer visible
+  await expect(detailsPanel).not.toBeVisible();
+  
+  // Final test - click on a process node again to make sure we can reopen panels
+  await receivingNode.click();
+  await expect(detailsPanel).toBeVisible();
+  await expect(detailsPanel).toContainText('Receiving');
+});

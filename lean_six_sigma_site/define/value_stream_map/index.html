@@ -256,6 +256,7 @@
       });
       const [connectionStyles, setConnectionStyles] = React.useState([]); // State for line styles
       const mapContainerRef = React.useRef(null); // Ref for map container
+      const detailsPanelRef = React.useRef(null); // Ref for details panel
 
       // Show tooltip
       const handleShowTooltip = (e, type, title, content) => {
@@ -456,8 +457,20 @@
       };
       
       // Handle process click
-      const handleProcessClick = (process) => {
+      const handleProcessClick = (process, event) => {
+        // Check if we're clicking on the same process that's already selected
+        if (selectedProcess && selectedProcess.id === process.id) {
+          // If clicking on the same one, do nothing (panel stays open)
+          // The click event will be captured but not propagate to document
+          return;
+        }
+        
+        // Otherwise, set the new selected process (this will switch panels if one is open)
         setSelectedProcess(process);
+        
+        // This prevents the click from bubbling up to the document handler
+        // which would otherwise close the panel immediately
+        if (event) event.stopPropagation();
       };
       
       // Create the waste icons for a process
@@ -642,7 +655,7 @@
         }
 
         return (
-          <div className="bg-white border rounded shadow-lg p-4" style={panelStyle}>
+          <div className="bg-white border rounded shadow-lg p-4 process-details-panel" style={panelStyle}>
             <h3 className="font-semibold mb-2">{processDetails.name}</h3>
             <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700" onClick={() => setSelectedProcess(null)}>X</button>
             <p className="mb-2 text-sm break-words">{processDetails.details}</p>
@@ -914,6 +927,36 @@
         }
       }, [viewMode]);
       
+      // Effect to handle clicks outside of process nodes
+      React.useEffect(() => {
+        // Skip if no process is selected
+        if (!selectedProcess) return;
+        
+        // Handler function for document clicks
+        const handleOutsideClick = (e) => {
+          // Get the details panel element if it exists
+          const detailsPanel = document.querySelector('.process-details-panel');
+          
+          // Check if the click was on a process node or inside the details panel
+          const isProcessNodeClick = e.target.closest('[data-process-id]');
+          const isDetailsPanelClick = detailsPanel && detailsPanel.contains(e.target);
+          
+          // If clicking on a different process node, the handleProcessClick will handle it
+          // If clicking outside both process nodes and details panel, close the panel
+          if (!isProcessNodeClick && !isDetailsPanelClick) {
+            setSelectedProcess(null);
+          }
+        };
+        
+        // Add the event listener
+        document.addEventListener('click', handleOutsideClick);
+        
+        // Clean up the event listener on unmount or when selectedProcess changes
+        return () => {
+          document.removeEventListener('click', handleOutsideClick);
+        };
+      }, [selectedProcess]); // Dependency on selectedProcess
+      
       return (
         <div className="flex flex-col h-screen bg-gray-100">
           {/* Header */}
@@ -995,7 +1038,7 @@
                       data-process-id={process.id} // Added data attribute
                       className={`inventory-node ${colorClass} border-2`}
                       style={style}
-                      onClick={() => handleProcessClick(process)}
+                      onClick={(event) => handleProcessClick(process, event)}
                     >
                       <div className="inventory-node-content">
                         <div className="text-xs font-medium text-center">{process.name}</div>
@@ -1012,7 +1055,7 @@
                     data-process-id={process.id} // Added data attribute
                     className={`process-node ${colorClass} border-2`}
                     style={style}
-                    onClick={() => handleProcessClick(process)}
+                    onClick={(event) => handleProcessClick(process, event)}
                   >
                     <div className="text-sm font-medium mb-1">{processDetails.name}</div>
                     {processDetails.metrics && processDetails.metrics.oeeUtilization && (
