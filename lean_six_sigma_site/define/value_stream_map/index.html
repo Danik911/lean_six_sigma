@@ -188,6 +188,14 @@
       transform-origin: 0 50%; /* Rotate around the starting point */
       z-index: 5; /* Ensure lines are behind nodes but above background */
     }
+    
+    /* Process details panel styles */
+    .process-details-panel {
+      white-space: normal;
+      overflow: auto;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
   </style>
 </head>
 <body>
@@ -339,24 +347,39 @@
           id: 'supplier-meddev',
           name: 'MedDev',
           type: 'supplier',
-          metrics: { deliveryFrequency: 'Daily', leadTime: '1-2 days' },
-          details: 'Medical device supplier',
+          metrics: { 
+            deliveryFrequency: 'Daily (working days)', 
+            leadTime: '1-2 days',
+            processTime: '0.5 days',
+            orderAccuracy: '92%'
+          },
+          details: 'Medical device supplier providing diagnostic equipment and devices. Orders placed through Omega ERP system. Primary supplier for all medical devices. Deliveries to inward goods zone, then transported to main warehouse (3rd floor).',
           position: { x: 8, y: 25 } 
         },
         {
           id: 'supplier-drugseek',
           name: 'DrugSeek',
           type: 'supplier',
-          metrics: { deliveryFrequency: '3 times/week', leadTime: '1 day' },
-          details: 'Pharmaceutical supplier',
+          metrics: { 
+            deliveryFrequency: '3 times/week', 
+            leadTime: '1 day',
+            processTime: '0.3 days',
+            orderAccuracy: '94%'
+          },
+          details: 'Pharmaceutical supplier for prescription, OTC, and controlled substances. Orders placed through Omega ERP system. Main supplier for all pharmaceutical products. Deliveries to inward goods zone, then transported to drugs warehouse in shop building (ground floor).',
           position: { x: 8, y: 50 }
         },
         {
           id: 'supplier-vitafast',
           name: 'VitaFast',
           type: 'supplier',
-          metrics: { deliveryFrequency: '2 times/week', leadTime: '2-3 days' },
-          details: 'Miscellaneous goods supplier',
+          metrics: { 
+            deliveryFrequency: '2 times/week', 
+            leadTime: '1-3 days',
+            processTime: '0.4 days',
+            orderAccuracy: '90%'
+          },
+          details: 'Supplementary supplier for non-medical, non-pharmaceutical items including vitamins, supplements, and personal care items. Orders placed through Omega ERP system. Deliveries to inward goods zone, then transported to miscellaneous warehouse section in shop building.',
           position: { x: 8, y: 75 }
         },
         
@@ -407,8 +430,16 @@
           id: 'customer',
           name: 'Customers',
           type: 'customer',
-          metrics: { satisfaction: 82 },
-          details: 'End customers purchasing products',
+          metrics: { 
+            satisfaction: 82, 
+            waitTime: '5-12 minutes',
+            serviceTime: '4-8 minutes',
+            shelfAvailability: 93,
+            outOfStockRate: 7,
+            productFindability: 75,
+            revenuePerStaffHour: '€120'
+          },
+          details: 'SimplePharma serves four main customer segments: 1) Individual Patients - Regular customers needing prescriptions, OTC medications, and health advice. 2) Healthcare Providers - Professional clients requiring special orders and professional-grade supplies. 3) Long-term Care Facilities - Scheduled bulk orders with specialized packaging needs. 4) Walk-in Retail Customers - Varied purchasing patterns for health and wellness products.',
           position: { x: 92, y: 35 }
         },
         
@@ -614,11 +645,15 @@
           let top = nodeRect.top - containerRect.top; // Align top with node top initially
           let left = nodeRect.right - containerRect.left + 15; // 15px offset to the right
 
-          // Special handling for Stock Take node which is lower in the diagram
+          // Special handling for nodes positioned at the bottom of the screen
           if (processDetails.id === 'process-stocktake') {
             // Position the panel above the node instead of to the side
             top = nodeRect.top - containerRect.top - 220; // Position above with some margin
             left = nodeRect.left - containerRect.left - 100; // Center it more
+          } else if (processDetails.id === 'supplier-vitafast') {
+            // Special positioning for VitaFast, which is at the bottom of the screen
+            top = nodeRect.top - containerRect.top - 200; // Position panel above the node
+            left = nodeRect.left - containerRect.left + 80; // Position to the right but still visible
           } else {
             // Basic boundary check (simplified) - Check if it goes off right edge
             if (left + 400 > containerRect.width) { // Use panel max width for check
