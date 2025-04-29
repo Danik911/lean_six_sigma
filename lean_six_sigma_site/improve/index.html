@@ -331,20 +331,9 @@
                 <h3>RFID Implementation Design</h3>
                 <p>While full RFID conversion was identified as a future initiative, we did implement targeted RFID technology for high-value pharmaceuticals:</p>
 
-                <div class="rfid-implementation-container">
-                    <div class="rfid-section">
-                        <h4>Pilot RFID Implementation</h4>
-                        <p>A targeted RFID implementation was designed for the high-value pharmaceutical storage area, which had shown the highest discrepancy rates in our analysis:</p>
-                        <ul>
-                            <li><strong>Scope:</strong> 1,200 high-value pharmaceutical SKUs in three secured storage locations</li>
-                            <li><strong>Hardware:</strong> Zebra FX9600 fixed RFID readers at entry/exit points and 3 handheld RFID readers</li>
-                            <li><strong>Tags:</strong> UHF RFID tags with pharmaceutical-grade adhesives compliant with regulatory requirements</li>
-                            <li><strong>Integration:</strong> Middleware layer connecting RFID data capture with the existing WMS</li>
-                            <li><strong>Data Flow:</strong> Real-time inventory updates, automated threshold alerts, and historical movement tracking</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="rfid-diagram">
+                <div class="rfid-implementation-container" style="display: flex; flex-direction: column;">
+                    <!-- RFID diagram first (full width) -->
+                    <div class="rfid-diagram" style="width: 100%;">
                         <h4>RFID System Architecture</h4>
                         <div id="rfid-architecture-container" class="rfid-architecture-container">
                             <!-- Vanilla JS RFID System Architecture component will be rendered here -->
@@ -356,7 +345,8 @@
                         <p class="diagram-caption">RFID system architecture showing the data flow from RFID tags through readers to the middleware and WMS integration</p>
                     </div>
                     
-                    <div class="rfid-benefits">
+                    <!-- Benefits section directly under the diagram -->
+                    <div class="rfid-benefits" style="margin-top: 20px; width: 100%;">
                         <h4>RFID Implementation Benefits</h4>
                         <ul>
                             <li><strong>Inventory Visibility:</strong> Real-time tracking of high-value inventory movement</li>
@@ -364,6 +354,19 @@
                             <li><strong>Efficiency:</strong> 73% reduction in time required for inventory counts in the pilot area</li>
                             <li><strong>Security:</strong> Automated alerting for unauthorized movement of tagged items</li>
                             <li><strong>Analytics:</strong> Enhanced data collection for movement patterns and dwell times</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Implementation details last -->
+                    <div class="rfid-section" style="margin-top: 20px; width: 100%;">
+                        <h4>Pilot RFID Implementation</h4>
+                        <p>A targeted RFID implementation was designed for the high-value pharmaceutical storage area, which had shown the highest discrepancy rates in our analysis:</p>
+                        <ul>
+                            <li><strong>Scope:</strong> 1,200 high-value pharmaceutical SKUs in three secured storage locations</li>
+                            <li><strong>Hardware:</strong> Zebra FX9600 fixed RFID readers at entry/exit points and 3 handheld RFID readers</li>
+                            <li><strong>Tags:</strong> UHF RFID tags with pharmaceutical-grade adhesives compliant with regulatory requirements</li>
+                            <li><strong>Integration:</strong> Middleware layer connecting RFID data capture with the existing WMS</li>
+                            <li><strong>Data Flow:</strong> Real-time inventory updates, automated threshold alerts, and historical movement tracking</li>
                         </ul>
                     </div>
                 </div>
