@@ -45,14 +45,14 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
-    .inventory-node {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      transform: translate(-50%, -50%) rotate(45deg);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      cursor: pointer;
-    }
+.inventory-node {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
     
     .inventory-node-content {
       transform: rotate(-45deg);
@@ -187,6 +187,19 @@
       background-color: #888; /* Line color */
       transform-origin: 0 50%; /* Rotate around the starting point */
       z-index: 5; /* Ensure lines are behind nodes but above background */
+    }
+    
+    /* Add arrow to connection line */
+    .connection-line::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid #888;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
     }
     
     /* Process details panel styles */
@@ -851,6 +864,8 @@
         const calculateLines = () => {
           const suppliers = processes.filter(p => p.type === 'supplier');
           const receivingNode = processes.find(p => p.id === 'process-receiving');
+          const shopFloorNode = processes.find(p => p.id === 'process-shopfloor');
+          const customerNode = processes.find(p => p.id === 'customer');
           const mapContainer = mapContainerRef.current;
 
           if (!receivingNode || !mapContainer) {
@@ -871,8 +886,10 @@
           // Define node dimensions for calculations
           const supplierWidth = 160; // Width of supplier node
           const receivingWidth = 160; // Width of receiving node
+          const processWidth = 160; // Width of process nodes
 
-          const styles = suppliers.map(supplier => {
+          // Start with supplier to receiving connections
+          let styles = suppliers.map(supplier => {
             // Calculate pixel coordinates (center points)
             const supplierCenterX = (supplier.position.x / 100) * containerWidth;
             const supplierCenterY = (supplier.position.y / 100) * containerHeight;
@@ -913,6 +930,50 @@
               }
             };
           });
+          
+          // Add shop floor to customer connection
+          if (shopFloorNode && customerNode) {
+            const shopFloorCenterX = (shopFloorNode.position.x / 100) * containerWidth;
+            const shopFloorCenterY = (shopFloorNode.position.y / 100) * containerHeight;
+            const customerCenterX = (customerNode.position.x / 100) * containerWidth;
+            const customerCenterY = (customerNode.position.y / 100) * containerHeight;
+
+            // Calculate border positions
+            const shopFloorRightX = shopFloorCenterX + (processWidth / 2);
+            const customerLeftX = customerCenterX - (processWidth / 2);
+
+            // Use Y from center points since we're connecting horizontally
+            const y1 = shopFloorCenterY;
+            const y2 = customerCenterY;
+
+            // Start and end points at the borders
+            const x1 = shopFloorRightX;
+            const x2 = customerLeftX;
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI); // Angle in degrees
+
+            console.log(`Line shopfloor-customer: (${x1},${y1}) to (${x2},${y2}), len: ${length}, angle: ${angle}`);
+
+            // Add the connection to styles array
+            styles.push({
+              key: 'conn-shopfloor-customer',
+              style: {
+                position: 'absolute',
+                left: `${x1}px`,
+                top: `${y1}px`,
+                width: `${length}px`,
+                height: '2px',
+                backgroundColor: '#888',
+                transform: `rotate(${angle}deg)`,
+                transformOrigin: '0 50%',
+                zIndex: 5
+              }
+            });
+          }
+          
           setConnectionStyles(styles);
         };
 
