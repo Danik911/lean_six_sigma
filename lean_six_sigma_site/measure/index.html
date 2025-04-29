@@ -8,6 +8,101 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Add Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Add Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+    <style>
+        /* Custom styles for code viewer */
+        .code-viewer-container {
+            display: none;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            max-height: 80vh;
+            overflow: auto;
+        }
+        
+        .code-viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .code-actions button {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .code-actions button:hover {
+            background: #e0e0e0;
+        }
+        
+        .code-content {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .code-content pre {
+            margin: 0;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        /* Code section highlighting */
+        .code-section {
+            margin-bottom: 15px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-bottom: none;
+        }
+        
+        .section-header:hover {
+            background: #e0e0e0;
+        }
+        
+        .section-content {
+            border: 1px solid #ddd;
+        }
+        
+        /* Message styles */
+        .copy-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -44,7 +139,7 @@
                     <p>The Attribute Agreement Analysis evaluates the consistency and accuracy of our measurement system, ensuring that data collection methods produce reliable results. This CSV file contains raw data from our measurement system analysis that was used in Minitab to assess agreement among appraisers.</p>
                     
                     <div class="document-link file-py">
-                        <a href="msa/msa_data_generation.py" target="_blank">
+                        <a href="#" onclick="showPythonCode('msa/msa_data_generation.py', 'MSA Data Generation Script'); return false;">
                             <i class="fab fa-python"></i>
                             <span>MSA Data Generation Script (msa_data_generation.py)</span>
                         </a>
@@ -52,7 +147,7 @@
                     <p>This Python script generates properly formatted MSA data for Minitab analysis, simulating the assessment of inventory items by different appraisers to measure agreement levels.</p>
                     
                     <div class="document-link file-py">
-                        <a href="msa/size_proportion.py" target="_blank">
+                        <a href="#" onclick="showPythonCode('msa/size_proportion.py', 'Sample Size Calculation Script'); return false;">
                             <i class="fab fa-python"></i>
                             <span>Sample Size Calculation Script (size_proportion.py)</span>
                         </a>
@@ -68,7 +163,7 @@
                     <p>This report details the methodology and results of our sample size calculations, providing the statistical justification for our data collection approach.</p>
                     
                     <div class="document-link file-py">
-                        <a href="main_data_generation.py" target="_blank">
+                        <a href="#" onclick="showPythonCode('main_data_generation.py', 'Main Data Generation Script'); return false;">
                             <i class="fab fa-python"></i>
                             <span>Main Data Generation Script (main_data_generation.py)</span>
                         </a>
@@ -151,6 +246,21 @@
                     </div>
                     <p>The Data Collection Plan outlines what data was collected, how it was measured, sample sizes, collection frequency, and responsibilities. This structured approach ensured consistent and reliable data collection for analysis.</p>
                 </div>
+                
+                <!-- Code Viewer Component -->
+                <div id="code-viewer" class="code-viewer-container">
+                    <div class="code-viewer-header">
+                        <h3 id="code-title">Code Viewer</h3>
+                        <div class="code-actions">
+                            <button id="btn-copy-code" onclick="copyCodeToClipboard()"><i class="far fa-copy"></i> Copy All</button>
+                            <button onclick="closeCodeViewer()"><i class="fas fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                    <div id="code-content" class="code-content"></div>
+                </div>
+                
+                <!-- Notification message for copy action -->
+                <div id="copy-message" class="copy-message">Code copied to clipboard!</div>
                 
                 <!-- Markdown Viewer Section -->
                 <div id="markdown-viewer" class="markdown-container" style="display: none; padding: 20px; border: 1px solid #eee; border-radius: 5px; margin-top: 20px; background-color: #f9f9f9;">
@@ -457,6 +567,297 @@
             }
         }
 
+        // Embedded Python code content to avoid CORS issues
+        const embeddedPythonCode = {
+            "msa/msa_data_generation.py": `import pandas as pd
+import numpy as np
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+def generate_msa_data(n_items=60):
+    """
+    Generate properly formatted MSA data for Minitab analysis
+    
+    Parameters:
+    n_items: Number of items to evaluate (standard is 60 for attribute MSA)
+    
+    Returns:
+    DataFrame formatted for Minitab attribute agreement analysis
+    """
+    # Item details based on product type stratification
+    items = []
+    
+    # Generate 30% medical devices (18 items)
+    for i in range(18):
+        items.append({
+            'Item_ID': f'MD{i+1:03d}',
+            'Product_Type': 'Medical Device',
+            'True_Quantity': np.random.randint(1, 50)
+        })
+    
+    # Generate 50% drugs (30 items)
+    for i in range(30):
+        items.append({
+            'Item_ID': f'DR{i+1:03d}',
+            'Product_Type': 'Drug',
+            'True_Quantity': np.random.randint(5, 200)
+        })
+    
+    # Generate 20% miscellaneous items (12 items)
+    for i in range(12):
+        items.append({
+            'Item_ID': f'MS{i+1:03d}',
+            'Product_Type': 'Miscellaneous',
+            'True_Quantity': np.random.randint(10, 100)
+        })
+    
+    # Create MSA results
+    msa_results = []
+    
+    # Define error rates for different appraiser-product combinations
+    # This creates realistic relationships between appraiser expertise and product types
+    error_rates = {
+        ('Pharmacy Staff', 'Medical Device'): 0.20,
+        ('Pharmacy Staff', 'Drug'): 0.12,
+        ('Pharmacy Staff', 'Miscellaneous'): 0.15,
+        
+        ('Warehouse Team', 'Medical Device'): 0.10,
+        ('Warehouse Team', 'Drug'): 0.15,
+        ('Warehouse Team', 'Miscellaneous'): 0.08,
+        
+        ('Team Leader', 'Medical Device'): 0.05,
+        ('Team Leader', 'Drug'): 0.06,
+        ('Team Leader', 'Miscellaneous'): 0.04
+    }
+    
+    for item in items:
+        # For Minitab attribute MSA, we need:
+        # - Standard (known correct value)
+        # - Results from each appraiser's trials
+        
+        # Create record
+        record = {
+            'Item_ID': item['Item_ID'],
+            'True_Quantity': item['True_Quantity'],
+            'Standard': 1  # Standard is always 1 (accurate)
+        }
+        
+        # Generate results for each appraiser's trials
+        for appraiser in ['Pharmacy Staff', 'Warehouse Team', 'Team Leader']:
+            # Get error rate for this appraiser-product combination
+            error_rate = error_rates[(appraiser, item['Product_Type'])]
+            
+            # Generate two trials per appraiser
+            for trial in [1, 2]:
+                # Determine if this count will be accurate (1) or inaccurate (0)
+                # First trial might be slightly better as they're more focused
+                trial_modifier = 0.9 if trial == 1 else 1.1
+                is_accurate = np.random.random() > (error_rate * trial_modifier)
+                
+                # Add to record with proper column naming for Minitab
+                record[f'{appraiser}_{trial}'] = 1 if is_accurate else 0
+        
+        msa_results.append(record)
+    
+    # Create DataFrame
+    msa_df = pd.DataFrame(msa_results)
+    
+    # Calculate baseline agreement statistics for validation
+    within_appraiser = {}
+    for appraiser in ['Pharmacy Staff', 'Warehouse Team', 'Team Leader']:
+        agreement = sum(msa_df[f'{appraiser}_1'] == msa_df[f'{appraiser}_2']) / len(msa_df)
+        within_appraiser[appraiser] = agreement * 100
+    
+    print("Within-Appraiser Agreement (Repeatability):")
+    for appraiser, agreement in within_appraiser.items():
+        print(f"{appraiser}: {agreement:.2f}%")
+    
+    return msa_df
+
+# Generate and save MSA data in Minitab format
+msa_df = generate_msa_data()
+msa_df.to_csv('minitab_attribute_msa_binary.csv', index=False)`,
+
+            "msa/size_proportion.py": `import math
+import os
+from scipy import stats
+
+def sample_size_proportion(confidence_level, margin_of_error, estimated_proportion=0.5):
+    """
+    Calculate sample size for estimating a proportion
+
+    Parameters:
+    confidence_level: Desired confidence level (e.g., 0.95 for 95% confidence)
+    margin_of_error: Desired margin of error (e.g., 0.05 for ±5%)
+    estimated_proportion: Estimated proportion (0.5 gives maximum sample size)
+
+    Returns:
+    Required sample size
+    """
+    z_score = stats.norm.ppf(1 - (1 - confidence_level) / 2)
+    sample_size = (z_score**2 * estimated_proportion * (1 - estimated_proportion)) / (margin_of_error**2)
+    return math.ceil(sample_size)
+
+# --- Configuration ---
+confidence_level = 0.95
+margin_of_error = 0.05
+estimated_accuracy = 0.85  # Based on initial assumption of 85% accuracy
+product_proportions = {'Medical Device': 0.3, 'Drug': 0.5, 'Miscellaneous': 0.2}
+location_proportions = {
+    'Shop Floor': 0.4,
+    'Storage Rooms': 0.3,
+    'Warehouse': 0.3
+}
+attribute_msa_total_items = 60
+output_filename = "sample_size_report.md"
+
+# --- Calculations ---
+total_sample_size = sample_size_proportion(confidence_level, margin_of_error, estimated_accuracy)
+
+# --- Generate Markdown Report ---
+markdown_output = []
+markdown_output.append("# Sample Size Calculation Report")
+markdown_output.append(f"\\nCalculated based on:\\n- Confidence Level: {confidence_level*100}%")
+markdown_output.append(f"- Margin of Error: ±{margin_of_error*100}%")
+markdown_output.append(f"- Estimated Accuracy/Proportion: {estimated_accuracy*100}%")
+
+markdown_output.append(f"\\n## Required Total Sample Size\\n\\n**{total_sample_size}** items")
+
+markdown_output.append("\\n## Stratification by Product Type")
+markdown_output.append("\\nBased on SimplePharma's product distribution:")
+for product_type, proportion in product_proportions.items():
+    stratum_sample_size = math.ceil(total_sample_size * proportion)
+    markdown_output.append(f"- {product_type} ({proportion*100}%): **{stratum_sample_size}** items")
+
+markdown_output.append("\\n## Stratification by Location")
+markdown_output.append("\\nBased on estimated distribution across major locations:")
+for location, proportion in location_proportions.items():
+    stratum_sample_size = math.ceil(total_sample_size * proportion)
+    markdown_output.append(f"- {location} ({proportion*100}%): **{stratum_sample_size}** items")
+
+markdown_output.append(f"\\n## Attribute MSA Sample Sizes ({attribute_msa_total_items} items total)")
+markdown_output.append("\\nProportionally distributed by product type:")
+for product_type, proportion in product_proportions.items():
+    stratum_sample_size = math.ceil(attribute_msa_total_items * proportion)
+    markdown_output.append(f"- {product_type}: **{stratum_sample_size}** items")
+
+# --- Save Report to File ---
+script_dir = os.path.dirname(__file__)
+output_filepath = os.path.join(script_dir, output_filename)
+
+try:
+    with open(output_filepath, 'w') as f:
+        f.write("\\n".join(markdown_output))
+    print(f"\\nMarkdown report saved successfully to: {output_filepath}")
+except IOError as e:
+    print(f"\\nError writing report to file: {e}")`,
+
+            "main_data_generation.py": `# This is an abbreviated version of the main data generation script
+# The full script is very long, so we're showing just the key sections
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime, timedelta
+import os
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+def generate_simplepharma_baseline_data(n_records=1000):
+    """
+    Generate synthetic baseline data for SimplePharma's inventory accuracy analysis
+    
+    Parameters:
+    n_records: Number of inventory count records to generate
+    
+    Returns:
+    DataFrame with baseline inventory accuracy data with realistic X-Y relationships
+    """
+    # Define the potential X variables with meaningful distributions
+    
+    # 1. Staff factors
+    staff_ids = list(range(1, 21))  # 20 staff members
+    
+    # Experience years with realistic distribution
+    staff_experience = {}
+    for staff_id in staff_ids:
+        # Gamma distribution creates right-skewed experience distribution (more junior staff)
+        experience = np.random.gamma(shape=2.0, scale=3.0)
+        staff_experience[staff_id] = max(1, min(15, round(experience)))
+    
+    # Training levels correlated with experience
+    staff_training = {}
+    for staff_id, exp in staff_experience.items():
+        if exp < 3:
+            probs = [0.7, 0.3, 0.0]  # Mostly basic training for new staff
+        elif exp < 8:
+            probs = [0.2, 0.7, 0.1]  # Mostly intermediate for mid-experience
+        else:
+            probs = [0.1, 0.4, 0.5]  # Mostly advanced for experienced staff
+        staff_training[staff_id] = np.random.choice(['Basic', 'Intermediate', 'Advanced'], p=probs)
+    
+    # ... [additional data generation code omitted for brevity] ...
+    
+    # Start building our sample data record
+    data = []
+    for i in range(n_records):
+        # Select random date in last year
+        record_date = (datetime(2023, 1, 1) + timedelta(days=np.random.randint(0, 365)))
+        
+        # Select staff member
+        staff_id = np.random.choice(staff_ids)
+        staff_exp = staff_experience[staff_id]
+        staff_train = staff_training[staff_id]
+        staff_role = "Inventory Specialist"  # Simplified for this excerpt
+        
+        # Apply business rules to determine accuracy based on training level
+        if staff_train == 'Advanced':
+            accuracy_probability = 0.87  # Advanced training has 87% accuracy
+        elif staff_train == 'Intermediate':
+            accuracy_probability = 0.77  # Intermediate has 77% accuracy
+        else:  # Basic
+            accuracy_probability = 0.65  # Basic training has 65% accuracy
+            
+        # Determine if count is accurate
+        count_accurate = np.random.random() < accuracy_probability
+        
+        # Add record to dataset
+        record = {
+            'Record_ID': f'REC{i+1:04d}',
+            'Date': record_date.strftime('%Y-%m-%d'),
+            'Staff_ID': staff_id,
+            'Staff_Experience_Years': staff_exp,
+            'Staff_Training': staff_train,
+            'Count_Accurate': count_accurate
+        }
+        data.append(record)
+    
+    # Create DataFrame and calculate metrics
+    inventory_df = pd.DataFrame(data)
+    
+    # Overall accuracy percentage
+    accuracy_percentage = inventory_df['Count_Accurate'].mean() * 100
+    print(f"Overall Count Accuracy: {accuracy_percentage:.2f}%")
+    
+    # Accuracy by training level
+    training_accuracy = inventory_df.groupby('Staff_Training')['Count_Accurate'].mean()
+    print("Accuracy by Staff Training:")
+    print(training_accuracy)
+    
+    return inventory_df
+
+# Generate data
+inventory_df = generate_simplepharma_baseline_data(n_records=1000)
+inventory_df.to_csv('simplepharma_inventory_analysis.csv', index=False)
+
+# ... [additional analysis and visualization code omitted for brevity] ...
+
+print("Data generation, validation, and reporting complete!")`,
+        };
+
         // Embedded markdown content to avoid CORS issues
         const embeddedMarkdownContent = {
             "sample_size_report": `# Sample Size Calculation Report
@@ -640,6 +1041,69 @@ Data analysis suggests several opportunities for process improvement:
         // Function to close the markdown viewer
         function closeMarkdownViewer() {
             document.getElementById('markdown-viewer').style.display = 'none';
+        }
+
+        // Function to display Python code with syntax highlighting using embedded code
+        function showPythonCode(filePath, title) {
+            const codeViewer = document.getElementById('code-viewer');
+            const codeContent = document.getElementById('code-content');
+            const codeTitle = document.getElementById('code-title');
+            
+            // Set the title
+            codeTitle.textContent = title;
+            
+            // Get the embedded code content
+            const pythonCode = embeddedPythonCode[filePath];
+            
+            if (pythonCode) {
+                // Clear existing content
+                codeContent.innerHTML = '';
+                
+                // Create a pre and code element for syntax highlighting
+                const preElement = document.createElement('pre');
+                const codeElement = document.createElement('code');
+                codeElement.className = 'language-python';
+                
+                // Set code content with HTML escaping
+                codeElement.textContent = pythonCode; // textContent automatically escapes HTML
+                
+                // Append elements
+                preElement.appendChild(codeElement);
+                codeContent.appendChild(preElement);
+                
+                // Apply syntax highlighting
+                hljs.highlightElement(codeElement);
+                
+                // Show the code viewer
+                codeViewer.style.display = 'block';
+                
+                // Scroll to the viewer
+                codeViewer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                codeContent.innerHTML = `<div class="error-message">Code file "${filePath}" not found in embedded code.</div>`;
+                codeViewer.style.display = 'block';
+            }
+        }
+
+        // Function to copy code to clipboard
+        function copyCodeToClipboard() {
+            const codeContent = document.getElementById('code-content');
+            const range = document.createRange();
+            range.selectNode(codeContent);
+            window.getSelection().removeAllRanges();  // Clear current selections
+            window.getSelection().addRange(range);    // Select the code content
+            document.execCommand('copy');             // Copy the selected content
+            window.getSelection().removeAllRanges();  // Deselect the code content
+
+            // Show the copy message
+            const copyMessage = document.getElementById('copy-message');
+            copyMessage.style.display = 'block';
+            setTimeout(() => { copyMessage.style.display = 'none'; }, 2000); // Hide after 2 seconds
+        }
+
+        // Function to close the code viewer
+        function closeCodeViewer() {
+            document.getElementById('code-viewer').style.display = 'none';
         }
     </script>
 
