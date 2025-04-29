@@ -8,6 +8,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- PDF.js library for rendering PDFs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <style>
+        /* External link styling */
+        .external-link {
+            display: inline-flex;
+            margin-left: 10px;
+            padding: 4px 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            color: #0066cc;
+            text-decoration: none;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .external-link:hover {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        .document-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Make sure the iframe containers still display properly */
+        .iframe-container {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -40,8 +69,11 @@
                             <i class="fas fa-project-diagram"></i>
                             <span>Value Stream Map</span>
                         </a>
+                        <a href="../define/value_stream_map/index.html" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
                         <div id="vsm-iframe-container" class="iframe-container">
-                            <iframe src="../value_stream_map/index.html" class="embed-frame"></iframe>
+                            <iframe src="../define/value_stream_map/index.html" class="embed-frame"></iframe>
                         </div>
                     </div>
                     <p>The Value Stream Map visualizes the flow of materials and information in the inventory management process, highlighting value-added and non-value-added activities. This map helped identify opportunities for waste reduction and process optimization.</p>
@@ -51,16 +83,22 @@
                             <i class="fas fa-sitemap"></i>
                             <span>Process Flow Diagram</span>
                         </a>
+                        <a href="../define/process_flow_diagram/stocktake_process.html" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
                         <div id="process-iframe-container" class="iframe-container">
-                            <iframe src="../process_flow_diagram/stocktake_process.html" class="embed-frame"></iframe>
+                            <iframe src="../define/process_flow_diagram/stocktake_process.html" class="embed-frame"></iframe>
                         </div>
                     </div>
                     <p>The redesigned Process Flow Diagram shows the improved inventory count procedure with standardized steps, error-proofing measures, and clear responsibilities.</p>
                     
                     <div class="document-link file-txt">
-                        <a href="#" onclick="loadTextContent('../value_stream_map/text_description.txt', 'text-content-container'); return false;">
+                        <a href="#" onclick="loadTextContent('../define/value_stream_map/text_description.txt', 'text-content-container'); return false;">
                             <i class="far fa-file-alt"></i>
                             <span>Value Stream Analysis</span>
+                        </a>
+                        <a href="../define/value_stream_map/text_description.txt" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
                         </a>
                         <div id="text-content-container" class="text-content-container">
                             <div class="loading-text">Loading content...</div>
@@ -221,7 +259,7 @@
                         <p>Created special handling procedures for small, high-value items with double verification and secure storage.</p>
                     </div>
                     
-                    <div class="solution-card">
+                    <div class="solution-card"></div>
                         <div class="solution-icon"><i class="fas fa-clipboard-check"></i></div>
                         <h4>Error-Proofing Checklists</h4>
                         <p>Developed error-proofing checklists for critical inventory processes to prevent common mistakes.</p>
@@ -431,7 +469,7 @@
                 <div class="tool-links-container">
                     <h4>External Links to Interactive Tools</h4>
                     <p>The tools below are hosted on Claude.ai and provide fully functional interactive experiences:</p>
-                    <ul>
+                    <ul></ul>
                         <li><a href="https://claude.ai/public/artifacts/91ff4525-34f3-4247-b7c0-993acd0df00e" class="external-tool-link" target="_blank"><i class="fas fa-tablet-alt"></i> 5S Digital Organization System (Claude Artifact)</a></li>
                         <li><a href="https://claude.ai/public/artifacts/554808fc-8635-47da-8b06-bfb9c03592ab" class="external-tool-link" target="_blank"><i class="fas fa-project-diagram"></i> Kanban System (Claude Artifact)</a></li>
                     </ul>

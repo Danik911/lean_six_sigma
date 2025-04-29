@@ -8,6 +8,83 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Marked.js - Markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Additional CSS for report viewer */
+        .markdown-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            min-height: 300px;
+        }
+        .markdown-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .loading-indicator {
+            text-align: center;
+            padding: 20px;
+            color: #3498db;
+        }
+        .error-message {
+            background-color: #ffeeee;
+            border-left: 4px solid #ff5555;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+        .success-message {
+            background-color: #eeffee;
+            border-left: 4px solid #55cc55;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 3px;
+        }
+        .btn {
+            cursor: pointer;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .file-input-container {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+        }
+        .markdown-preview {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -44,10 +121,42 @@
                         <option value="../measure/baseline_data_report.md">Baseline Data Report</option>
                         <option value="../measure/msa/sample_size_report.md">Measurement System Analysis - Sample Size Report</option>
                     </select>
+                    <button id="view-report-btn" class="btn btn-primary" style="margin-left: 10px;">
+                        <i class="fas fa-eye"></i> View Report
+                    </button>
                 </div>
                 
                 <div id="loading-indicator" class="loading-indicator" style="display: none;">
                     <p><i class="fas fa-spinner fa-spin"></i> Loading report...</p>
+                </div>
+                
+                <div id="cors-error" class="error-message" style="display: none;">
+                    <h4><i class="fas fa-exclamation-triangle"></i> CORS Policy Restriction</h4>
+                    <p>The browser cannot load the markdown files due to security restrictions when running from a local file system.</p>
+                    <p><strong>Solutions:</strong></p>
+                    <ol>
+                        <li>Use the "Upload Report File" option below to view the report directly</li>
+                        <li>Use the "Open Report in New Tab" button to view the raw markdown file</li>
+                        <li>Use a local development server to serve the files (for developers)</li>
+                    </ol>
+                    <button id="open-report-btn" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Open Report in New Tab
+                    </button>
+                </div>
+                
+                <div id="file-upload-container" class="file-input-container">
+                    <h4><i class="fas fa-file-upload"></i> Upload Report File</h4>
+                    <p>Browse and select the markdown file to view it directly:</p>
+                    <input type="file" id="file-input" accept=".md" />
+                    <p class="small" style="margin-top: 10px; color: #666; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> 
+                        This method bypasses CORS restrictions by loading the file directly.
+                    </p>
+                </div>
+                
+                <div id="success-message" class="success-message" style="display: none;">
+                    <h4><i class="fas fa-check-circle"></i> Report Loaded Successfully</h4>
+                    <p>The markdown report has been loaded and rendered below.</p>
                 </div>
                 
                 <div id="markdown-container" class="markdown-container"></div>
@@ -73,93 +182,569 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const reportSelect = document.getElementById('report-select');
+            const viewReportBtn = document.getElementById('view-report-btn');
             const markdownContainer = document.getElementById('markdown-container');
             const loadingIndicator = document.getElementById('loading-indicator');
+            const corsError = document.getElementById('cors-error');
+            const openReportBtn = document.getElementById('open-report-btn');
+            const fileInput = document.getElementById('file-input');
+            const successMessage = document.getElementById('success-message');
             
-            // Handle report selection
-            reportSelect.addEventListener('change', function() {
-                const selectedReport = this.value;
+            // Store markdown content in JavaScript variables to avoid CORS issues
+            const embeddedMarkdownContent = {
+                "../analyze_flow/initial_exploration_report.md": `# Initial Data Exploration Report
+
+## Overview
+This report provides an initial exploration of the SimplePharma inventory data, focusing on understanding the overall patterns and identifying key areas for further analysis.
+
+## Dataset Summary
+
+| Metric | Value |
+|--------|-------|
+| Total Records | 1,248 |
+| Time Period | Jan 2025 - Mar 2025 |
+| Locations Covered | 12 |
+| Product Categories | 8 |
+| Overall Discrepancy Rate | 18.2% |
+
+## Data Distribution
+
+The inventory records show the following distribution:
+
+- 62% Regular pharmaceuticals
+- 28% High-value pharmaceuticals
+- 10% Controlled substances
+
+## Discrepancy Overview
+![Discrepancy by Department](data_validation_plots.png)
+
+Inventory discrepancies vary significantly across departments:
+- Receiving: 12.3%
+- Main warehouse: 17.8%
+- Cold storage: 26.5%
+- Shipping: 15.9%
+
+## Initial Observations
+
+1. Discrepancies appear to cluster around specific:
+   - Product types (high-value items)
+   - Locations (cold storage areas)
+   - Times (end-of-month periods)
+   - Staff roles (temporary staff)
+
+2. Key metrics showing concerning patterns:
+   - 18.2% overall discrepancy rate
+   - 23% variance in high-value pharmaceuticals
+   - €33,000 estimated financial impact
+
+## Recommendations for Further Analysis
+
+Based on initial data exploration, we recommend:
+
+1. Detailed categorical analysis of:
+   - Product type
+   - Location type
+   - Staff training level
+   - Scanner equipment status
+
+2. Continuous variable analysis of:
+   - Discrepancy quantity
+   - Staff experience level
+   - Count process time
+
+3. Root cause analysis focusing on the highest impact areas:
+   - Cold storage discrepancies
+   - High-value pharmaceuticals
+   - End-of-month periods
+
+The following reports will examine these areas in greater depth.`,
+
+                "../analyze_flow/categorical_analysis_report.md": `# Categorical Analysis Report
+
+## Overview
+This report analyzes the categorical variables in the SimplePharma inventory data to identify factors associated with inventory discrepancies.
+
+## Key Findings
+
+### Product Type Analysis
+![Product Type Analysis](categorical_plots/Product_Type_analysis.png)
+
+- High-value pharmaceuticals show a 24% higher discrepancy rate compared to standard items
+- Controlled substances have the highest discrepancy rate at 27.8%
+- OTC products show the lowest discrepancy rate at 8.5%
+
+### Location Type Analysis
+![Location Type Analysis](categorical_plots/Location_Type_analysis.png)
+
+- High-traffic areas show 18% more discrepancies than low-traffic areas
+- Cold storage locations have a 15% higher discrepancy rate compared to room temperature storage
+- Restricted access zones show significantly fewer discrepancies (8.3%) compared to open access areas (21.6%)
+
+### Staff Training Analysis
+![Staff Training Analysis](categorical_plots/Staff_Training_analysis.png)
+
+- Staff with basic training have discrepancy rates of 23.7% compared to 11.2% for those with advanced training
+- The clear correlation between training level and accuracy suggests staff training is a critical factor
+
+## Statistical Significance
+
+Statistical tests were performed to determine if the observed differences are statistically significant:
+
+| Factor | Chi-Square Value | p-value | Significant? |
+|--------|-----------------|---------|--------------|
+| Product Type | 18.76 | <0.001 | Yes |
+| Location Type | 15.43 | <0.001 | Yes |
+| Staff Training | 22.91 | <0.001 | Yes |
+| Scanner Calibration | 19.58 | <0.001 | Yes |
+| Time of Day | 8.72 | 0.033 | Yes |
+| WiFi Strength | 14.21 | <0.001 | Yes |
+
+## Conclusion
+
+The categorical analysis indicates that inventory discrepancies are significantly associated with:
+
+1. Product characteristics: High-value and controlled substances
+2. Location factors: High-traffic and cold storage areas
+3. Process factors: Uncalibrated scanners and poor WiFi connectivity
+4. Staff factors: Training level and experience
+
+These findings will guide our improvement efforts in the next phase of the project.`,
+
+                "../analyze_flow/continuous_analysis_output/continuous_analysis_report.md": `# Continuous Variables Analysis Report
+
+## Overview
+This report analyzes the continuous variables in the SimplePharma inventory dataset to identify patterns and correlations that may contribute to inventory discrepancies.
+
+## Key Continuous Variables Analyzed
+
+### Actual Quantity
+![Actual Quantity Boxplot](plots/Actual_Quantity_boxplot.png)
+
+- Mean: 247.8 units
+- Median: 175.0 units
+- Standard Deviation: 215.6 units
+- Higher quantities show greater absolute discrepancies, but similar percentage discrepancies
+
+### Count Time (Seconds)
+![Count Time Boxplot](plots/Count_Time_Seconds_boxplot.png)
+
+- Mean: 143.2 seconds
+- Median: 120.0 seconds
+- Standard Deviation: 87.3 seconds
+- Correlation analysis shows that rushed counts (< 60 seconds) have 2.3x higher discrepancy rates
+
+### Staff Experience Years
+![Staff Experience Boxplot](plots/Staff_Experience_Years_boxplot.png)
+
+- Mean: 3.7 years
+- Median: 2.5 years
+- Standard Deviation: 3.2 years
+- Staff with less than 1 year experience show discrepancy rates 2.8x higher than those with 5+ years
+
+## Regression Analysis
+
+Multiple regression analysis was conducted to identify the relationship between continuous variables and inventory discrepancies:
+
+| Variable | Coefficient | p-value | Significance |
+|----------|-------------|---------|--------------|
+| Count Time | -0.87 | <0.001 | High |
+| Staff Experience | -0.72 | <0.001 | High |
+| Quantity | 0.31 | 0.028 | Moderate |
+| Scanner Battery Level | -0.44 | 0.003 | High |
+| WiFi Signal Strength | -0.65 | <0.001 | High |
+
+R = 0.68 (68% of discrepancy variance explained by these factors)
+
+## Key Findings
+
+1. **Count Time Impact**: Each additional 30 seconds spent on inventory count reduces discrepancy probability by approximately 12%.
+
+2. **Experience Factor**: Each additional year of staff experience correlates with a 15% reduction in discrepancy rate.
+
+3. **Technology Factors**: 
+   - Scanner battery below 20% increases discrepancy probability by 35%
+   - WiFi signal below 2 bars increases discrepancy probability by 42%
+
+## Conclusion
+
+The continuous variable analysis reveals strong correlations between inventory discrepancies and:
+
+1. Process factors: Rushed counts strongly correlate with discrepancies
+2. Staff factors: Experience shows a clear negative correlation with discrepancy rates
+3. Technology factors: Equipment performance (battery, connectivity) significantly impacts accuracy
+
+These findings, combined with the categorical analysis, provide clear direction for targeted improvements in the process.`,
+
+                "../analyze_flow/root_cause_analysis_output/root_cause_analysis_report.md": `# Root Cause Analysis Report
+
+## Overview
+This report presents the findings from a detailed root cause analysis of inventory discrepancies at SimplePharma, using the 5-Why technique, Ishikawa (fishbone) diagram analysis, and statistical verification of potential causes.
+
+## 5-Why Analysis Results
+
+### Primary Issue: Inventory System Shows 18% Discrepancy Rate
+
+1. **Why?** Physical counts don't match system records
+   2. **Why?** Transactions aren't being properly recorded or are recorded incorrectly
+      3. **Why?** Staff use inconsistent methods or skip scanning steps
+         4. **Why?** Process is time-consuming and training is inconsistent
+            5. **Why?** No standardized procedures and insufficient training program
+
+## Ishikawa (Fishbone) Diagram Summary
+
+Root causes were categorized into six key areas:
+
+1. **People**
+   - Inconsistent training levels
+   - High staff turnover in warehouse positions
+   - Rushed counts during busy periods
+
+2. **Methods**
+   - Non-standardized count procedures
+   - Manual data entry for exception cases
+   - Batch processing of transactions
+
+3. **Machines**
+   - Scanner battery issues
+   - WiFi connectivity problems
+   - System timeout issues
+
+4. **Materials**
+   - Similar packaging for different products
+   - Small items packed in large containers
+   - High-value items stored inconsistently
+
+5. **Measurement**
+   - Lack of intermediate accuracy checks
+   - Infrequent cycle counts
+   - Inconsistent methods for partial containers
+
+6. **Environment**
+   - Poor lighting in some storage areas
+   - Cold storage ergonomic issues
+   - Crowded aisles in high-volume areas
+
+## Statistical Verification
+
+Odds ratio analysis was performed to quantify the relationship between identified factors and inventory discrepancies:
+
+![Odds Ratio Plot](plots/odds_ratio_plot.png)
+
+Statistically significant factors (p < 0.05) ranked by impact:
+
+1. Uncalibrated scanners (OR: 4.82)
+2. Staff with <1 year experience (OR: 3.76)
+3. Cold storage locations (OR: 3.21)
+4. Basic training only (OR: 2.97)
+5. Poor WiFi connectivity (OR: 2.83)
+6. High-value pharmaceuticals (OR: 2.52)
+7. End-of-month period (OR: 2.18)
+8. Manual data entry (OR: 2.03)
+
+## Prioritized Root Causes
+
+Based on statistical significance, impact magnitude, and organizational influence assessment, the highest priority root causes are:
+
+1. **Equipment & Technology**
+   - Scanner calibration issues
+   - Poor WiFi connectivity in certain areas
+   - System timeout during high-volume periods
+
+2. **Process**
+   - Lack of standardized procedures
+   - Inefficient counting methodology
+   - Inadequate exception handling process
+
+3. **Training**
+   - Inconsistent training program
+   - Lack of regular refresher training
+   - No specific training for high-value/controlled items
+
+## Conclusion
+
+The root cause analysis reveals that inventory discrepancies at SimplePharma stem primarily from a combination of technology issues, process inconsistencies, and training gaps. These findings will guide our improvement efforts in the next phase, where we will develop targeted solutions for each critical root cause.`,
+
+                "../measure/baseline_data_report.md": `# Baseline Data Generation Report
+
+This report summarizes the key metrics and validation results from the generated baseline inventory data.
+
+## Overall Baseline Metrics
+- **Overall Count Accuracy:** 76.50%
+- **Average Error Percentage (when errors occur):** 10.19%
+- **Average Count Time:** 1137.62 seconds
+
+## Accuracy by Key Factors
+
+### Accuracy by Staff Training
+| Staff_Training   |   Count_Accurate |
+|:-----------------|-----------------:|
+| Advanced         |         0.873096 |
+| Basic            |         0.652542 |
+| Intermediate     |         0.77425  |
+
+### Accuracy by Count Method
+| Count_Method    |   Count_Accurate |
+|:----------------|-----------------:|
+| Combined Method |         0.623656 |
+| Manual Count    |         0.621908 |
+| Scanner Count   |         0.850962 |
+
+### Accuracy by Location Type
+| Location_Type   |   Count_Accurate |
+|:----------------|-----------------:|
+| Shop Floor      |         0.788054 |
+| Storage         |         0.764925 |
+| Warehouse       |         0.70892  |
+
+## Identified Issues and Root Causes
+
+Analysis of the inventory data reveals several critical issues affecting the stocktake process:
+
+1. **Staff Training Deficiencies:** Staff with basic training have significantly lower accuracy rates (65.3%) compared to those with advanced training (87.3%), indicating a clear relationship between training level and count accuracy (p < 0.001).
+
+2. **Counting Method Inefficiencies:** Manual counting shows substantially lower accuracy (62.2%) compared to scanner-based counting (85.1%), representing a 22.9 percentage point gap in performance (p < 0.001).
+
+3. **Time-of-Day Impact:** Morning counts are more accurate than evening counts, with a statistically significant difference (p = 0.027), suggesting fatigue or time pressure affects accuracy.
+
+4. **Staff Experience Gap:** Staff with more experience (average of 5.6 years) demonstrate higher accuracy compared to less experienced staff (average of 4.2 years), highlighting the importance of experience in inventory counting (p < 0.001).
+
+## Process Bottlenecks
+
+The stocktake process contains several bottlenecks that limit efficiency and accuracy:
+
+1. **Scanner Availability Constraints:** Only six scanners are distributed among staff groups, limiting the use of the more accurate scanning method and forcing some groups to use less accurate manual counting.
+
+2. **Data Upload Delays:** The process of having the sales manager upload data to the Omega ERP system creates a bottleneck, with staff waiting for this step to complete before proceeding.
+
+3. **Verification and Recount Cycles:** When discrepancies are found, items must be recounted, creating additional bottlenecks and extending the total process time beyond the target takt time of 6 hours.
+
+4. **Staff Allocation Issues:** Suboptimal distribution of skilled staff across counting zones leads to inefficient resource utilization, with team leaders (who demonstrate higher accuracy) not always assigned to the most critical counting areas.
+
+## Waste Analysis (Lean Perspective)
+
+The inventory process contains multiple forms of waste as defined by Lean principles:
+
+### Motion Waste
+- Unnecessary movement during counting process
+- Placing sticky notes with counted quantities on shelves
+- Movement between manual counting and scanning phases
+
+### Waiting Waste
+- Staff lunch break (1 hour)
+- Waiting for data upload to Omega ERP (variable time)
+- Waiting for scanner distribution and return
+
+### Transportation Waste
+- Moving between building areas (shop floor, storage, warehouse)
+- Returning scanners to sales manager
+
+### Defects Waste
+- 23.5% overall error rate in counting
+- 10.19% average magnitude of errors when they occur
+- Recounting required for discrepancies
+
+### Overprocessing Waste
+- Double counting (manual and scanner)
+- Placing sticky notes as a temporary record
+- Multiple data entry points (paper to scanner to ERP)
+
+### Inventory Waste
+- Inaccurate counts leading to potential stockouts or excess inventory
+- Extended process duration (7 hours vs. target 6 hours)
+
+### Talent Waste
+- Misalignment of staff skills and counting responsibilities
+- Underutilization of advanced-trained staff
+
+## Cost of Poor Quality (COPQ)
+
+The current inventory process generates significant costs due to quality issues:
+
+- **Revenue Loss:** €3,600 per stocktake due to closure during counting
+- **Staff Overtime:** €720 per stocktake
+- **Inventory Inaccuracy Cost:** €4,200 per quarter
+- **Total Annual COPQ:** €34,080
+
+## Improvement Opportunities
+
+Data analysis suggests several opportunities for process improvement:
+
+1. **Standardize on Scanner-Based Counting:** Given the 22.9 percentage point accuracy advantage, increasing scanner availability and standardizing on scanner counting could significantly improve accuracy.
+
+2. **Training Program Enhancement:** The 21.8 percentage point gap between basic and advanced training indicates substantial ROI potential for enhanced training programs.
+
+3. **Morning Scheduling:** Rescheduling stocktakes to morning hours could improve accuracy based on the statistically significant time-of-day effect.
+
+4. **Process Redesign:** Eliminating non-value-added activities like sticky notes and multiple data entry points could reduce the current 50% non-value-added time.
+
+5. **RFID Implementation:** As outlined in the project charter, RFID technology implementation could eliminate manual counting entirely, achieving the target 99% accuracy rate.
+
+## Visualizations
+Validation plots have been generated and saved:
+- factor_relationship_validation.png`
+            };
+            
+            let currentReportPath = '';
+            
+            // Handle view report button click
+            viewReportBtn.addEventListener('click', function() {
+                const selectedReport = reportSelect.value;
                 if (!selectedReport) {
                     markdownContainer.innerHTML = '<p>Please select a report to view.</p>';
+                    corsError.style.display = 'none';
                     return;
                 }
                 
-                loadMarkdownReport(selectedReport);
+                currentReportPath = selectedReport;
+                
+                // Setup the open report button
+                openReportBtn.onclick = function() {
+                    window.open(selectedReport, '_blank');
+                };
+                
+                // Try to load the report using pre-embedded content first, then fallback to XMLHttpRequest
+                tryLoadMarkdownReport(selectedReport);
             });
             
-            // Function to load and render Markdown report using fetch
-            function loadMarkdownReport(reportPath) {
+            // Function to try loading the markdown report (with pre-embedded content first)
+            function tryLoadMarkdownReport(reportPath) {
                 // Show loading indicator
                 loadingIndicator.style.display = 'block';
                 markdownContainer.innerHTML = '';
+                corsError.style.display = 'none';
+                successMessage.style.display = 'none';
                 
-                console.log('Loading report from:', reportPath);
+                console.log('Attempting to load report from:', reportPath);
                 
-                // Fetch the Markdown file from local path
-                fetch(reportPath)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Report could not be loaded');
-                        }
-                        return response.text();
-                    })
-                    .then(markdownText => {
-                        console.log('Markdown content loaded, processing image paths...');
-                        // Process image paths to make them relative to the markdown file
-                        const processedMarkdown = processImagePaths(markdownText, reportPath);
-                        
-                        // Add custom image error handler
-                        const renderedHtml = marked.parse(processedMarkdown);
-                        
-                        // Add the HTML to the container
-                        markdownContainer.innerHTML = renderedHtml;
-                        
-                        // Add error handlers to all images
-                        setTimeout(() => {
-                            const images = markdownContainer.querySelectorAll('img');
-                            console.log(`Found ${images.length} images in the document`);
-                            
-                            images.forEach((img, index) => {
-                                console.log(`Image ${index}: src="${img.src}"`);
-                                
-                                img.onerror = function() {
-                                    console.error(`Failed to load image: ${img.src}`);
-                                    img.style.border = '2px dashed red';
-                                    img.style.padding = '10px';
-                                    img.style.display = 'inline-block';
-                                    img.style.background = '#ffeeee';
-                                    img.title = `Error: Could not load image from ${img.src}`;
-                                    img.alt = `[Missing Image: ${img.alt}]`;
-                                };
-                                
-                                img.onload = function() {
-                                    console.log(`Successfully loaded image: ${img.src}`);
-                                };
-                            });
-                        }, 100);
-                        
-                        // Hide loading indicator
+                // First check if the content is available in our pre-embedded variables
+                if (embeddedMarkdownContent[reportPath]) {
+                    console.log('Using pre-embedded content for:', reportPath);
+                    renderMarkdown(embeddedMarkdownContent[reportPath], reportPath);
+                    loadingIndicator.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    return;
+                }
+                
+                // If not pre-embedded, try using XMLHttpRequest as a fallback
+                console.log('No pre-embedded content found, trying XMLHttpRequest...');
+                
+                // Use XMLHttpRequest to attempt to load the file
+                const xhr = new XMLHttpRequest();
+                xhr.responseType = 'text';
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200 || xhr.status === 0 && xhr.responseText) {
+                        // Success - but this rarely works with file:// protocol
+                        console.log('Report loaded successfully via XMLHttpRequest');
+                        renderMarkdown(xhr.responseText, reportPath);
                         loadingIndicator.style.display = 'none';
-                    })
-                    .catch(error => {
-                        console.error('Error loading report:', error);
-                        markdownContainer.innerHTML = `
-                            <div class="error-message">
-                                <p>Error loading the report. ${error.message}</p>
-                                <p>Please try again or select a different report.</p>
-                            </div>
-                        `;
+                        successMessage.style.display = 'block';
+                    } else {
+                        handleLoadError(`HTTP error: ${xhr.status} ${xhr.statusText}`);
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    handleLoadError("Network or CORS error occurred. Browser security prevents loading local files directly.");
+                };
+                
+                try {
+                    xhr.open('GET', reportPath, true);
+                    xhr.send();
+                } catch (error) {
+                    handleLoadError(`Exception: ${error.message}`);
+                }
+            }
+            
+            // Handle file input change (user selected a file)
+            fileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    
+                    // Show loading indicator
+                    loadingIndicator.style.display = 'block';
+                    markdownContainer.innerHTML = '';
+                    corsError.style.display = 'none';
+                    successMessage.style.display = 'none';
+                    
+                    console.log('Loading file via FileReader:', file.name);
+                    
+                    // Use FileReader to read the file content (this bypasses CORS)
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const content = e.target.result;
+                        renderMarkdown(content, file.name);
                         loadingIndicator.style.display = 'none';
+                        successMessage.style.display = 'block';
+                    };
+                    
+                    reader.onerror = function() {
+                        handleLoadError(`Error reading file: ${file.name}`);
+                    };
+                    
+                    reader.readAsText(file);
+                }
+            });
+            
+            // Handle loading errors
+            function handleLoadError(errorMessage) {
+                console.error('Error loading report:', errorMessage);
+                loadingIndicator.style.display = 'none';
+                corsError.style.display = 'block';
+                successMessage.style.display = 'none';
+            }
+            
+            // Function to render markdown content
+            function renderMarkdown(markdownText, sourcePath) {
+                // Process image paths to make them relative to the markdown file
+                const processedMarkdown = processImagePaths(markdownText, sourcePath);
+                
+                // Render the markdown using the marked library
+                const renderedHtml = marked.parse(processedMarkdown);
+                
+                // Add the HTML to the container
+                markdownContainer.innerHTML = renderedHtml;
+                
+                // Add error handlers to all images
+                setTimeout(() => {
+                    const images = markdownContainer.querySelectorAll('img');
+                    console.log(`Found ${images.length} images in the document`);
+                    
+                    images.forEach((img, index) => {
+                        console.log(`Image ${index}: src="${img.src}"`);
+                        
+                        img.onerror = function() {
+                            console.error(`Failed to load image: ${img.src}`);
+                            img.style.border = '2px dashed red';
+                            img.style.padding = '10px';
+                            img.style.display = 'inline-block';
+                            img.style.background = '#ffeeee';
+                            img.title = `Error: Could not load image from ${img.src}`;
+                            img.alt = `[Missing Image: ${img.alt || 'image'}]`;
+                        };
+                        
+                        img.onload = function() {
+                            console.log(`Successfully loaded image: ${img.src}`);
+                        };
                     });
+                }, 100);
             }
             
             // Function to process image paths in Markdown for local viewing
-            function processImagePaths(markdownText, reportPath) {
-                // Get the directory of the markdown file
-                const reportDir = reportPath.substring(0, reportPath.lastIndexOf('/') + 1);
+            function processImagePaths(markdownText, sourcePath) {
+                let reportDir;
                 
-                // Check if reportPath is an analyze_flow file or another location
-                const isAnalyzeFlow = reportPath.includes('analyze_flow/');
+                if (typeof sourcePath === 'string' && sourcePath.includes('/')) {
+                    // Get the directory of the markdown file (if it's a path)
+                    reportDir = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+                } else {
+                    // If it's a filename from the file input, assume it's relative to the current page
+                    reportDir = '../analyze_flow/';
+                }
+                
+                // Check if path is an analyze_flow file or another location
+                const isAnalyzeFlow = sourcePath.includes('analyze_flow/');
                 
                 // Replace relative image paths with correct paths relative to the HTML file
                 return markdownText.replace(
@@ -177,8 +762,7 @@
                             // For files in analyze_flow directory, use the local path structure 
                             correctPath = reportDir + imgPath;
                         } else {
-                            // For other locations (like GitHub paths), adjust accordingly
-                            // Change this part based on where your images are actually stored
+                            // For other locations, adjust accordingly
                             correctPath = '../analyze_flow/' + imgPath;
                         }
                         
@@ -199,7 +783,7 @@
                 
                 if (matchingOption) {
                     reportSelect.value = matchingOption.value;
-                    loadMarkdownReport(matchingOption.value);
+                    viewReportBtn.click(); // Trigger the view button click
                 }
             }
         });

@@ -1949,8 +1949,7 @@
           if (recountNote) recountNote.style.display = 'none';
           if (recountPath) recountPath.style.display = 'none';
           if (updatePath) updatePath.style.display = 'none';
-               } else {
-          // Corrected typo: nonvalueSteps -> nonValueSteps
+        } else {
           nonValueSteps.forEach(step => step.style.display = 'block');
           decisions.forEach(decision => decision.style.display = 'flex');
           if (finalSteps) finalSteps.style.marginTop = '60px';
@@ -2049,25 +2048,28 @@
       
       // Function to draw arrows based on the current state
       function drawArrowsForState(state) {
+        // Clear any existing arrows in all containers first
+        ['arrow-container', 'imp-arrow-container', 'ideal-arrow-container'].forEach(containerId => {
+          const container = document.getElementById(containerId);
+          if (container) {
+            while (container.firstChild) {
+              container.removeChild(container.firstChild);
+            }
+          }
+        });
+        
+        // Only draw arrows for the "current" state
         if (state === 'current') {
-          createSvgArrows('arrow-container', 'decision-1', 
-            { targetId: 'step-2-3', useRightEdge: true }, 
-            { targetId: 'step-3-2', useRightEdge: false },
-            true
-          );
-        } else if (state === 'improved') {
-          createSvgArrows('imp-arrow-container', 'imp-decision-1', 
-            { targetId: 'imp-step-2-5', useRightEdge: true, midX: 500 }, // Adjusted midX for potential layout
-            { targetId: 'imp-step-3-2', useRightEdge: false },
-            true
-          );
-        } else if (state === 'ideal') {
-           createSvgArrows('ideal-arrow-container', 'ideal-decision-1', 
-            { targetId: 'ideal-step-2-3', useRightEdge: false, midX: 500 }, // Adjusted midX for potential layout
-            null, // No 'No' path needed visually for ideal state
-            true // Show 'Yes'/'No' labels if needed, adjust as necessary
-          );
+          // Add a small delay to ensure DOM has updated
+          setTimeout(() => {
+            createSvgArrows('arrow-container', 'decision-1', 
+              { targetId: 'step-2-3', useRightEdge: true }, 
+              { targetId: 'step-3-2', useRightEdge: false },
+              true
+            );
+          }, 100);
         }
+        // No arrows for "improved" and "ideal" states
       }
 
       // Initial setup
