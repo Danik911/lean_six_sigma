@@ -1,0 +1,110 @@
+ 
+Project SimplePharma Digital Transformation
+Operations & Lean Six Sigma Implementation Plan
+April 15th   
+
+Document Status: Draft | In Review | Approved 
+________________________________________
+
+Executive Summary:
+To establish a sustainable and efficient pharmaceutical retail operation by implementing digital transformation technologies and Lean Six Sigma principles that eliminate wasteful processes, improve inventory accuracy, and enhance customer value delivery.
+Project Goal
+SMART: Specific, Measurable, Attainable, Relevant, and Time-bound
+●	Transform SimplePharma's inventory management and stock-taking processes by implementing RFID technology and AI-powered systems, eliminating quarterly stock-take closures, reducing inventory discrepancies by 95%, and increasing revenue by 15% within 18 months of implementation.
+
+
+Deliverables
+1.	Implement an RFID-based inventory tracking system with AWS cloud infrastructure to achieve continuous inventory visibility and eliminate quarterly stock-take closures within 12 months.
+2.	Deploy AI-powered demand forecasting and smart replenishment systems to reduce stockouts by 95% and excess inventory by 30% within 15 months.
+3.	Develop and implement digital process flows that eliminate manual, paper-based tasks and reduce staff time spent on inventory management by 80% within 18 months.
+4.	Establish a control and monitoring system with real-time dashboards to maintain inventory accuracy above 99% and ensure continuous improvement.
+
+
+Business Case / Background	
+Why are we doing this?
+●	SimplePharma currently operates with inefficient, manual processes for inventory management, particularly the quarterly stock-take process that requires store closure, manual counting, sticky notes, and frequent recounting due to inconsistencies.
+●	The current process results in revenue loss during the 6-hour closure period (3 p.m. to 9 p.m.), inefficient use of staff time, inventory inaccuracies leading to stockouts and excess inventory, and poor customer experience.
+●	Digital transformation through RFID technology, cloud infrastructure, and AI solutions will eliminate these inefficiencies, drastically improve inventory accuracy, optimize staff utilization, and enhance the overall value stream.
+
+
+Benefits, Costs, and Budget
+Benefits:
+●	Elimination of revenue loss during quarterly stock-takes (estimated at 24 hours of sales annually)
+●	95% reduction in inventory discrepancies, leading to fewer stockouts and lost sales
+●	80% reduction in staff time spent on inventory tasks, allowing reallocation to customer service
+●	Improved demand forecasting accuracy leading to optimized inventory levels
+●	Enhanced customer experience through better product availability (99.5% target)
+Additional benefits: 
+●	Real-time visibility across all inventory locations
+●	Automated replenishment triggering based on actual demand
+●	Predictive analytics for seasonal demand fluctuations
+●	Reduced waste in movement, waiting, and overprocessing
+●	Enhanced compliance and audit capabilities
+Costs:
+●	RFID infrastructure (tags, readers, edge computing)
+●	AWS cloud architecture implementation and subscription
+●	AI/ML model development and implementation
+●	Staff training on new systems and processes
+●	Project management and implementation services
+Additional cost areas (optional):
+●	System integration with existing ERP (Omega)
+●	Change management activities
+●	Hardware upgrades where needed
+●	Potential short-term productivity dip during transition
+Budget needed:
+●	 €150,000
+
+Scope and Exclusion
+In-Scope: 
+●	Inventory management processes (receiving, storage, replenishment, stock-taking)
+●	RFID implementation across all product categories
+●	AWS cloud infrastructure deployment
+●	AI-powered forecasting and replenishment systems
+●	Staff training on new technologies and processes
+●	Integration with existing ERP system (Omega)
+●	Process redesign for warehouse operations
+●	Development of new standard operating procedures
+●	Implementation of digital process flows
+●	Real-time monitoring dashboards
+Out-of-Scope: 
+●	Point-of-sale system upgrades
+●	E-commerce platform development
+●	Prescription processing systems
+●	Facility layout redesign
+●	Pharmacy clinical services
+●	Regulatory compliance systems (beyond inventory)
+●	Customer loyalty program
+  
+Project Team
+Project Sponsor: CEO of SimplePharma
+
+Project Lead: Operations Excellence Manager (Lean Six Sigma Black Belt)
+
+Project Team: 
+•	Warehouse Manager
+•	Shop Floor Manager
+•	IT Systems Manager
+•	Digital Transformation Specialist
+•	AI/ML Engineer
+•	Lean Six Sigma Green Belt
+•	Finance Analyst
+•	Change Management Specialist
+
+Additional Stakeholders: 
+•	Pharmacy Staff
+•	Suppliers (MedDev, DrugSeek, VitaFast)
+•	IT Support
+•	Customers
+•	Regulatory Compliance Officer
+ 
+ 
+Measuring Success
+What is acceptable:
+1.	Complete elimination of quarterly stock-take closures within 12 months of implementation.
+2.	Real-time inventory accuracy of 99% or higher, measured by weekly spot-checks.
+3.	80% reduction in staff time spent on inventory-related tasks within 18 months.
+4.	95% reduction in stockouts without increasing overall inventory value.
+5.	15% increase in revenue through improved operations and availability.
+6.	90% of staff proficient in new technologies and processes within 6 months of implementation.
+ 
+

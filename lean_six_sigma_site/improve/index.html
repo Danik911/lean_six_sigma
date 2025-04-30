@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Improve Phase - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- PDF.js library for rendering PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <!-- Optional Feather Icons for RFID diagram -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        /* External link styling */
+        .external-link {
+            display: inline-flex;
+            margin-left: 10px;
+            padding: 4px 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            color: #0066cc;
+            text-decoration: none;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .external-link:hover {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        .document-link {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Make sure the iframe containers still display properly */
+        .iframe-container {
+            margin-top: 15px;
+        }
+        
+        /* RFID Architecture component styling */
+        .rfid-architecture-container {
+            width: 100%;
+            min-height: 400px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            background-color: #fff;
+        }
+        
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: #666;
+        }
+        
+        /* Error styling for RFID component */
+        .error-message {
+            padding: 15px;
+            background-color: #fff2f2;
+            border: 1px solid #ffdddd;
+            color: #d8000c;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="../define/index.html">Define</a></li>
+                    <li><a href="../measure/index.html">Measure</a></li>
+                    <li><a href="../analyze/index.html">Analyze</a></li>
+                    <li><a href="index.html" class="active">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Improve Phase</h2>
+            <div class="content-box">
+                <h3>Phase Overview</h3>
+                <p>The Improve phase focuses on developing, testing, and implementing solutions to address the root causes identified in the Analyze phase. We used lean principles to redesign key aspects of the inventory management process, eliminate waste, and create more effective workflows.</p>
+                
+                <h3>Key Artifacts</h3>
+                <div class="document-links">
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('vsm-iframe-container'); return false;">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Value Stream Map</span>
+                        </a>
+                        <a href="../define/value_stream_map/index.html" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <div id="vsm-iframe-container" class="iframe-container">
+                            <iframe src="../define/value_stream_map/index.html" class="embed-frame"></iframe>
+                        </div>
+                    </div>
+                    <p>The Value Stream Map visualizes the flow of materials and information in the inventory management process, highlighting value-added and non-value-added activities. This map helped identify opportunities for waste reduction and process optimization.</p>
+                    
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('process-iframe-container'); return false;">
+                            <i class="fas fa-sitemap"></i>
+                            <span>Process Flow Diagram</span>
+                        </a>
+                        <a href="../define/process_flow_diagram/stocktake_process.html" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <div id="process-iframe-container" class="iframe-container">
+                            <iframe src="../define/process_flow_diagram/stocktake_process.html" class="embed-frame"></iframe>
+                        </div>
+                    </div>
+                    <p>The redesigned Process Flow Diagram shows the improved inventory count procedure with standardized steps, error-proofing measures, and clear responsibilities.</p>
+                    
+                    <div class="document-link file-txt">
+                        <a href="#" onclick="loadTextContent('../define/value_stream_map/text_description.txt', 'text-content-container'); return false;">
+                            <i class="far fa-file-alt"></i>
+                            <span>Value Stream Analysis</span>
+                        </a>
+                        <a href="../define/value_stream_map/text_description.txt" class="external-link" target="_blank" title="Open in new tab">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <div id="text-content-container" class="text-content-container">
+                            <div class="loading-text">Loading content...</div>
+                            <pre id="text-content"></pre>
+                        </div>
+                    </div>
+                    <p>Detailed analysis of the value stream, including cycle times, waiting times, and improvement opportunities identified during the mapping exercise.</p>
+                </div>
+                
+                <h3>Value Stream Approach</h3>
+                <div class="vsm-methodology">
+                    <h4>Value Stream Mapping Methodology</h4>
+                    <p>Our value stream mapping process followed these steps:</p>
+                    <ol>
+                        <li>Identified inventory process boundaries and key stakeholders</li>
+                        <li>Documented the current state with cycle times, waiting times, and information flow</li>
+                        <li>Analyzed the map to identify non-value-added activities and bottlenecks</li>
+                        <li>Created a future state map incorporating lean principles</li>
+                        <li>Developed an implementation plan based on the future state vision</li>
+                    </ol>
+                    <p>The interactive Value Stream Map linked above allows you to explore both the current and future states, with detailed metrics for each process step.</p>
+                </div>
+
+                <!-- Add Solution Selection Matrix after the Value Stream Approach section -->
+                <h3>Solution Selection Matrix</h3>
+                <p>We used a structured approach to evaluate potential solutions based on their impact, feasibility, and cost:</p>
+
+                <div class="solution-matrix-container">
+                    <table class="solution-matrix-table">
+                        <thead>
+                            <tr>
+                                <th>Potential Solution</th>
+                                <th>Impact<br><small>(1-10)</small></th>
+                                <th>Feasibility<br><small>(1-10)</small></th>
+                                <th>Cost<br><small>(10=low)</small></th>
+                                <th>Timeline<br><small>(10=quick)</small></th>
+                                <th>Total Score</th>
+                                <th>Decision</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="selected-solution">
+                                <td>Scanner Calibration Protocol</td>
+                                <td>9</td>
+                                <td>8</td>
+                                <td>7</td>
+                                <td>9</td>
+                                <td>33</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr class="selected-solution">
+                                <td>WiFi Network Enhancement</td>
+                                <td>8</td>
+                                <td>7</td>
+                                <td>5</td>
+                                <td>6</td>
+                                <td>26</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr class="selected-solution">
+                                <td>Standardized Training Program</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>6</td>
+                                <td>5</td>
+                                <td>28</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr class="selected-solution">
+                                <td>Cycle Counting Redesign</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>7</td>
+                                <td>31</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr class="selected-solution">
+                                <td>Special Handling Protocol</td>
+                                <td>7</td>
+                                <td>9</td>
+                                <td>8</td>
+                                <td>8</td>
+                                <td>32</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr class="selected-solution">
+                                <td>Error-Proofing Checklists</td>
+                                <td>6</td>
+                                <td>9</td>
+                                <td>9</td>
+                                <td>8</td>
+                                <td>32</td>
+                                <td><span class="decision-implement">Implement</span></td>
+                            </tr>
+                            <tr>
+                                <td>Full WMS System Replacement</td>
+                                <td>10</td>
+                                <td>3</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>16</td>
+                                <td><span class="decision-reject">Reject</span></td>
+                            </tr>
+                            <tr>
+                                <td>Full Inventory Outsourcing</td>
+                                <td>6</td>
+                                <td>4</td>
+                                <td>2</td>
+                                <td>4</td>
+                                <td>16</td>
+                                <td><span class="decision-reject">Reject</span></td>
+                            </tr>
+                            <tr>
+                                <td>Barcode to RFID Conversion</td>
+                                <td>9</td>
+                                <td>5</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>21</td>
+                                <td><span class="decision-future">Future</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>Based on this evaluation, we selected six key improvements for implementation, with a comprehensive RFID conversion planned as a future initiative after the current improvements are stabilized.</p>
+                
+                <h3>Improvement Solutions</h3>
+                <div class="solutions-grid">
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-tablet-alt"></i></div>
+                        <h4>Scanner Calibration Protocol</h4>
+                        <p>Implemented a daily automated scanner calibration check and maintenance schedule, reducing scanner-related errors by 85%.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-wifi"></i></div>
+                        <h4>WiFi Network Enhancement</h4>
+                        <p>Installed additional access points and signal boosters in warehouse areas with weak coverage, eliminating connectivity-related data loss.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-user-graduate"></i></div>
+                        <h4>Standardized Training Program</h4>
+                        <p>Developed a competency-based training program with hands-on practice sessions and knowledge verification checkpoints.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <h4>Cycle Counting Redesign</h4>
+                        <p>Replaced large end-of-month counts with daily cycle counting of smaller sections, distributing workload more evenly.</p>
+                    </div>
+                    
+                    <div class="solution-card">
+                        <div class="solution-icon"><i class="fas fa-cubes"></i></div>
+                        <h4>Special Handling Protocol</h4>
+                        <p>Created special handling procedures for small, high-value items with double verification and secure storage.</p>
+                    </div>
+                    
+                    <div class="solution-card"></div>
+                        <div class="solution-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <h4>Error-Proofing Checklists</h4>
+                        <p>Developed error-proofing checklists for critical inventory processes to prevent common mistakes.</p>
+                    </div>
+                </div>
+
+                <h3>Implementation Approach</h3>
+                <p>We used a phased implementation approach to minimize disruption while maximizing improvement impact:</p>
+                <div class="implementation-timeline">
+                    <div class="timeline-phase">
+                        <h4>Phase 1: Pilot (2 weeks)</h4>
+                        <ul>
+                            <li>Implemented solutions in one warehouse section</li>
+                            <li>Gathered feedback and refined approaches</li>
+                            <li>Validated results with statistical analysis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-phase">
+                        <h4>Phase 2: Roll-Out (8 weeks)</h4>
+                        <ul>
+                            <li>Sequential implementation across all warehouse sections</li>
+                            <li>Staff training on new procedures and technologies</li>
+                            <li>Daily monitoring of key metrics during transition</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-phase">
+                        <h4>Phase 3: Stabilization (4 weeks)</h4>
+                        <ul>
+                            <li>Fine-tuning of processes based on implementation learnings</li>
+                            <li>Standardization of procedures and documentation</li>
+                            <li>Transition to sustaining control measures</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>RFID Implementation Design</h3>
+                <p>While full RFID conversion was identified as a future initiative, we did implement targeted RFID technology for high-value pharmaceuticals:</p>
+
+                <div class="rfid-implementation-container" style="display: flex; flex-direction: column;">
+                    <!-- RFID diagram first (full width) -->
+                    <div class="rfid-diagram" style="width: 100%;">
+                        <h4>RFID System Architecture</h4>
+                        <div id="rfid-architecture-container" class="rfid-architecture-container">
+                            <!-- Vanilla JS RFID System Architecture component will be rendered here -->
+                            <noscript>
+                                <p class="error-message">JavaScript is required to display the RFID Architecture diagram.</p>
+                                <img src="../improve/rfid-system-architecture.png" alt="RFID System Architecture" class="rfid-architecture-img" style="max-width: 100%;">
+                            </noscript>
+                        </div>
+                        <p class="diagram-caption">RFID system architecture showing the data flow from RFID tags through readers to the middleware and WMS integration</p>
+                    </div>
+                    
+                    <!-- Benefits section directly under the diagram -->
+                    <div class="rfid-benefits" style="margin-top: 20px; width: 100%;">
+                        <h4>RFID Implementation Benefits</h4>
+                        <ul>
+                            <li><strong>Inventory Visibility:</strong> Real-time tracking of high-value inventory movement</li>
+                            <li><strong>Accuracy:</strong> 99.8% read accuracy compared to 94% with barcode scanning</li>
+                            <li><strong>Efficiency:</strong> 73% reduction in time required for inventory counts in the pilot area</li>
+                            <li><strong>Security:</strong> Automated alerting for unauthorized movement of tagged items</li>
+                            <li><strong>Analytics:</strong> Enhanced data collection for movement patterns and dwell times</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Implementation details last -->
+                    <div class="rfid-section" style="margin-top: 20px; width: 100%;">
+                        <h4>Pilot RFID Implementation</h4>
+                        <p>A targeted RFID implementation was designed for the high-value pharmaceutical storage area, which had shown the highest discrepancy rates in our analysis:</p>
+                        <ul>
+                            <li><strong>Scope:</strong> 1,200 high-value pharmaceutical SKUs in three secured storage locations</li>
+                            <li><strong>Hardware:</strong> Zebra FX9600 fixed RFID readers at entry/exit points and 3 handheld RFID readers</li>
+                            <li><strong>Tags:</strong> UHF RFID tags with pharmaceutical-grade adhesives compliant with regulatory requirements</li>
+                            <li><strong>Integration:</strong> Middleware layer connecting RFID data capture with the existing WMS</li>
+                            <li><strong>Data Flow:</strong> Real-time inventory updates, automated threshold alerts, and historical movement tracking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Add 5S Implementation section after RFID Implementation Design -->
+                <h3>5S Implementation</h3>
+                <p>We implemented the 5S methodology (Sort, Set in order, Shine, Standardize, Sustain) to improve workplace organization and efficiency:</p>
+
+                <div class="implementation-5s-container">
+                    <div class="implementation-5s-stages">
+                        <div class="stage-5s">
+                            <div class="stage-5s-icon"><i class="fas fa-filter"></i></div>
+                            <div class="stage-5s-details">
+                                <h4>1. Sort</h4>
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Conducted inventory of all tools, equipment, and supplies</li>
+                                    <li>Removed unused or expired items from warehouse areas</li>
+                                    <li>Implemented red-tag system for items of questionable value</li>
+                                </ul>
+                                <p><strong>Outcome:</strong> Removed 345 unnecessary items from the work area, freeing up 18% more space</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stage-5s">
+                            <div class="stage-5s-icon"><i class="fas fa-th"></i></div>
+                            <div class="stage-5s-details">
+                                <h4>2. Set in Order</h4>
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Reorganized inventory based on usage frequency and relationships</li>
+                                    <li>Implemented visual management with floor markings and labels</li>
+                                    <li>Created shadow boards for equipment and tool organization</li>
+                                </ul>
+                                <p><strong>Outcome:</strong> Reduced motion waste by 30% through optimized layout</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stage-5s">
+                            <div class="stage-5s-icon"><i class="fas fa-broom"></i></div>
+                            <div class="stage-5s-details">
+                                <h4>3. Shine</h4>
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Developed daily cleaning schedules for all work areas</li>
+                                    <li>Created maintenance checklists for scanners and equipment</li>
+                                    <li>Established inspection procedures to identify issues early</li>
+                                </ul>
+                                <p><strong>Outcome:</strong> 62% reduction in scanner-related issues through regular maintenance</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stage-5s">
+                            <div class="stage-5s-icon"><i class="fas fa-clipboard-check"></i></div>
+                            <div class="stage-5s-details">
+                                <h4>4. Standardize</h4>
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Created visual standard operating procedures for common tasks</li>
+                                    <li>Implemented color-coding system for inventory categories</li>
+                                    <li>Developed standardized workstation layouts</li>
+                                </ul>
+                                <p><strong>Outcome:</strong> 25% improvement in process adherence through visual standards</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stage-5s">
+                            <div class="stage-5s-icon"><i class="fas fa-sync-alt"></i></div>
+                            <div class="stage-5s-details">
+                                <h4>5. Sustain</h4>
+                                <p><strong>Actions:</strong></p>
+                                <ul>
+                                    <li>Implemented weekly 5S audits with scoring system</li>
+                                    <li>Created visual management boards to track 5S performance</li>
+                                    <li>Established recognition program for 5S champions</li>
+                                </ul>
+                                <p><strong>Outcome:</strong> Maintained 90%+ compliance with 5S standards over six months</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="implementation-5s-results">
+                        <h4>5S Implementation Results</h4>
+                        <p>The 5S implementation yielded significant benefits across multiple dimensions:</p>
+                        <div class="results-5s-grid">
+                            <div class="result-5s-item">
+                                <div class="result-5s-value">28%</div>
+                                <div class="result-5s-label">Reduction in Motion Waste</div>
+                            </div>
+                            <div class="result-5s-item">
+                                <div class="result-5s-value">62%</div>
+                                <div class="result-5s-label">Fewer Equipment Issues</div>
+                            </div>
+                            <div class="result-5s-item">
+                                <div class="result-5s-value">18%</div>
+                                <div class="result-5s-label">Space Utilization Improvement</div>
+                            </div>
+                            <div class="result-5s-item">
+                                <div class="result-5s-value">22%</div>
+                                <div class="result-5s-label">Time Saved in Inventory Activities</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Interactive 5S Digital Organization System</h3>
+                <p>To help implement and maintain the 5S methodology, we developed a digital tool that supports staff in their daily organization activities:</p>
+
+                <div class="document-links">
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('5s-app-iframe-container'); return false;">
+                            <i class="fas fa-tablet-alt"></i>
+                            <span>5S Digital Organization System</span>
+                        </a>
+                        <div id="5s-app-iframe-container" class="iframe-container" style="display: block;">
+                            <div class="placeholder-container">
+                                <div class="placeholder-icon"><i class="fas fa-tablet-alt fa-3x"></i></div>
+                                <h3>5S Digital Organization System</h3>
+                                <p>This interactive tool demonstrates how technology enhances workplace organization through digital audits, computer vision for shelf scanning, and gamification for staff engagement.</p>
+                                <p class="placeholder-info">Due to technical limitations, the interactive tool cannot be displayed directly within this page.</p>
+                                <a href="https://claude.ai/public/artifacts/91ff4525-34f3-4247-b7c0-993acd0df00e" class="external-tool-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open 5S Digital Organization System
+                                </a>
+                                <div class="placeholder-features">
+                                    <h4>Key Features:</h4>
+                                    <ul>
+                                        <li>Digital audit checklists for each 5S component</li>
+                                        <li>Visual verification tools with image recognition</li>
+                                        <li>Real-time compliance tracking and scoring</li>
+                                        <li>Automated notification system for issues</li>
+                                        <li>Historical trend analysis and reporting</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>This interactive 5S Digital Organization System demonstrates how technology enhances workplace organization through digital audits, computer vision for shelf scanning, and gamification for staff engagement. The simulation shows how staff can use these digital tools for real-time issue identification and compliance verification.</p>
+                </div>
+
+                <div class="tool-links-container">
+                    <h4>External Links to Interactive Tools</h4>
+                    <p>The tools below are hosted on Claude.ai and provide fully functional interactive experiences:</p>
+                    <ul></ul>
+                        <li><a href="https://claude.ai/public/artifacts/91ff4525-34f3-4247-b7c0-993acd0df00e" class="external-tool-link" target="_blank"><i class="fas fa-tablet-alt"></i> 5S Digital Organization System (Claude Artifact)</a></li>
+                        <li><a href="https://claude.ai/public/artifacts/554808fc-8635-47da-8b06-bfb9c03592ab" class="external-tool-link" target="_blank"><i class="fas fa-project-diagram"></i> Kanban System (Claude Artifact)</a></li>
+                    </ul>
+                    <p class="tool-tip"><i class="fas fa-info-circle"></i> <strong>Tip:</strong> These links will open in a new tab and provide the full interactive experience.</p>
+                </div>
+
+                <h3>Digital Kanban Implementation</h3>
+                <p>Our RFID implementation was enhanced with a digital Kanban system that automates inventory replenishment triggers based on real-time consumption:</p>
+
+                <div class="document-links">
+                    <div class="document-link file-html">
+                        <a href="#" onclick="toggleContent('kanban-iframe-container'); return false;">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Digital Kanban System</span>
+                        </a>
+                        <div id="kanban-iframe-container" class="iframe-container" style="display: block;">
+                            <div class="placeholder-container">
+                                <div class="placeholder-icon"><i class="fas fa-project-diagram fa-3x"></i></div>
+                                <h3>Digital Kanban System</h3>
+                                <p>This system creates a pull-based approach to inventory management, where replenishment is triggered automatically based on actual usage.</p>
+                                <p class="placeholder-info">Due to technical limitations, the interactive tool cannot be displayed directly within this page.</p>
+                                <a href="https://claude.ai/public/artifacts/554808fc-8635-47da-8b06-bfb9c03592ab" class="external-tool-link" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Open Digital Kanban System
+                                </a>
+                                <div class="placeholder-features">
+                                    <h4>Key Features:</h4>
+                                    <ul>
+                                        <li>Real-time inventory level monitoring</li>
+                                        <li>Automated replenishment triggers based on thresholds</li>
+                                        <li>Visual card management system</li>
+                                        <li>Demand pattern analysis for reorder optimization</li>
+                                        <li>Integration with RFID technology for immediate updates</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>The Digital Kanban System creates a pull-based approach to inventory management, where replenishment is triggered automatically based on actual usage. This simulation demonstrates how the system connects shop floor inventory with warehouse supply, eliminating the manual visual checks previously required and reducing wait times from 5 hours to just 18 minutes.</p>
+                </div>
+
+                <h3>Pilot Implementation Results</h3>
+                <p>We conducted a three-week pilot implementation of these improvements in one warehouse section. The results showed:</p>
+                <ul>
+                    <li>Reduction in inventory discrepancies from 18% to 3.5%</li>
+                    <li>Process cycle time reduced by 42%</li>
+                    <li>Staff satisfaction with the inventory process improved by 67%</li>
+                    <li>Process sigma level improved from 2.4 to 3.9</li>
+                </ul>
+                <p>Based on these positive results, the improvements were rolled out to all warehouse areas. The full implementation plan included detailed training materials, standardized work instructions, and a phased roll-out schedule to minimize disruption.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to toggle content visibility
+        function toggleContent(containerId) {
+            const container = document.getElementById(containerId);
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+            } else {
+                container.style.display = 'block';
+            }
+        }
+        
+        // Function to load text content
+        function loadTextContent(url, containerId) {
+            const container = document.getElementById(containerId);
+            const textContent = document.getElementById('text-content');
+            const loadingText = container.querySelector('.loading-text');
+            
+            // Toggle container visibility
+            if (container.style.display === 'block') {
+                container.style.display = 'none';
+                return;
+            }
+            
+            container.style.display = 'block';
+            loadingText.style.display = 'block';
+            textContent.textContent = '';
+            
+            // Fetch text content
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    loadingText.style.display = 'none';
+                    textContent.textContent = data;
+                })
+                .catch(error => {
+                    loadingText.style.display = 'none';
+                    textContent.textContent = 'Error loading content: ' + error.message;
+                });
+        }
+
+        // Function to initialize content on page load
+        window.onload = function() {
+            // Show the 5S app and Kanban system by default
+            document.getElementById('5s-app-iframe-container').style.display = 'block';
+            document.getElementById('kanban-iframe-container').style.display = 'block';
+            
+            // Handle any iframe loading errors
+            const iframes = document.querySelectorAll('.embed-frame');
+            iframes.forEach(iframe => {
+                iframe.onerror = function() {
+                    const container = iframe.closest('.iframe-container');
+                    if (container) {
+                        container.innerHTML = '<p class="error-message">Error loading content. Please try the direct link below.</p>';
+                    }
+                };
+            });
+        };
+    </script>
+
+    <script src="../js/main.js"></script>
+    
+    <!-- RFID Architecture component script -->
+    <script src="rfid_architecture.js"></script>
+</body>
+</html>

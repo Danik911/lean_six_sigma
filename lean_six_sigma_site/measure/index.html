@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measure Phase - Lean Six Sigma Project</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Add Highlight.js for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+    <style>
+        /* Custom styles for code viewer */
+        .code-viewer-container {
+            display: none;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            max-height: 80vh;
+            overflow: auto;
+        }
+        
+        .code-viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .code-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .code-actions button {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .code-actions button:hover {
+            background: #e0e0e0;
+        }
+        
+        .code-content {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+        
+        .code-content pre {
+            margin: 0;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        /* Code section highlighting */
+        .code-section {
+            margin-bottom: 15px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-bottom: none;
+        }
+        
+        .section-header:hover {
+            background: #e0e0e0;
+        }
+        
+        .section-content {
+            border: 1px solid #ddd;
+        }
+        
+        /* Message styles */
+        .copy-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Lean Six Sigma Project</h1>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Introduction</a></li>
+                    <li><a href="../define/index.html">Define</a></li>
+                    <li><a href="index.html" class="active">Measure</a></li>
+                    <li><a href="../analyze/index.html">Analyze</a></li>
+                    <li><a href="../improve/index.html">Improve</a></li>
+                    <li><a href="../control/index.html">Control</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Measure Phase</h2>
+            <div class="content-box">
+                <h3>Phase Overview</h3>
+                <p>The Measure phase focuses on gathering baseline data about the current process performance. During this phase, we validated our measurement system, collected data on inventory discrepancies, and established a performance baseline to measure future improvements against.</p>
+                
+                <h3>Key Artifacts</h3>
+                <div class="document-links">
+                    <div class="document-link file-doc">
+                        <a href="msa/minitab_attribute_msa_binary.csv" target="_blank">
+                            <i class="far fa-file-alt"></i>
+                            <span>Attribute Agreement Analysis Data (CSV)</span>
+                        </a>
+                    </div>
+                    <p>The Attribute Agreement Analysis evaluates the consistency and accuracy of our measurement system, ensuring that data collection methods produce reliable results. This CSV file contains raw data from our measurement system analysis that was used in Minitab to assess agreement among appraisers.</p>
+                    
+                    <div class="document-link file-py">
+                        <a href="#" onclick="showPythonCode('msa/msa_data_generation.py', 'MSA Data Generation Script'); return false;">
+                            <i class="fab fa-python"></i>
+                            <span>MSA Data Generation Script (msa_data_generation.py)</span>
+                        </a>
+                    </div>
+                    <p>This Python script generates properly formatted MSA data for Minitab analysis, simulating the assessment of inventory items by different appraisers to measure agreement levels.</p>
+                    
+                    <div class="document-link file-py">
+                        <a href="#" onclick="showPythonCode('msa/size_proportion.py', 'Sample Size Calculation Script'); return false;">
+                            <i class="fab fa-python"></i>
+                            <span>Sample Size Calculation Script (size_proportion.py)</span>
+                        </a>
+                    </div>
+                    <p>This Python script calculates the required sample size for our inventory analysis based on statistical power and confidence levels, ensuring that our data collection is both sufficient and efficient.</p>
+                    
+                    <div class="document-link file-md">
+                        <a href="#" onclick="showEmbeddedMarkdown('sample_size_report'); return false;">
+                            <i class="fab fa-markdown"></i>
+                            <span>Sample Size Report</span>
+                        </a>
+                    </div>
+                    <p>This report details the methodology and results of our sample size calculations, providing the statistical justification for our data collection approach.</p>
+                    
+                    <div class="document-link file-py">
+                        <a href="#" onclick="showPythonCode('main_data_generation.py', 'Main Data Generation Script'); return false;">
+                            <i class="fab fa-python"></i>
+                            <span>Main Data Generation Script (main_data_generation.py)</span>
+                        </a>
+                    </div>
+                    <p>This Python script generates the synthetic baseline data for our inventory accuracy analysis, ensuring realistic relationships between variables based on the operational characteristics of SimplePharma.</p>
+                    
+                    <div class="document-link file-md">
+                        <a href="#" onclick="showEmbeddedMarkdown('baseline_data_report'); return false;">
+                            <i class="fab fa-markdown"></i>
+                            <span>Baseline Performance Report</span>
+                        </a>
+                    </div>
+                    <p>The Baseline Report establishes the current performance levels of the inventory process, quantifying the extent and impact of discrepancies. This serves as our reference point for measuring improvement throughout the project.</p>
+                    
+                    <div class="document-link file-img">
+                        <a href="#" onclick="toggleDiagram('data-collection-plan'); return false;">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Data Collection Plan</span>
+                        </a>
+                        <div id="data-collection-plan" class="diagram-container">
+                            <div class="data-collection-content">
+                                <h4>Data Collection Plan</h4>
+                                <table class="data-collection-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Data Point</th>
+                                            <th>Measurement Method</th>
+                                            <th>Sample Size</th>
+                                            <th>Frequency</th>
+                                            <th>Responsibility</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Inventory Count Accuracy</td>
+                                            <td>Physical count vs. System record</td>
+                                            <td>196 items</td>
+                                            <td>Weekly</td>
+                                            <td>Inventory Specialist</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Scanner Calibration Status</td>
+                                            <td>Calibration check with known standard</td>
+                                            <td>All scanners (42)</td>
+                                            <td>Daily</td>
+                                            <td>IT Support</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WiFi Signal Strength</td>
+                                            <td>Signal meter readings</td>
+                                            <td>20 locations</td>
+                                            <td>Once</td>
+                                            <td>Network Engineer</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Process Cycle Time</td>
+                                            <td>Time study</td>
+                                            <td>30 cycles</td>
+                                            <td>Daily for 1 week</td>
+                                            <td>Process Engineer</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Staff Training Level</td>
+                                            <td>Training records review</td>
+                                            <td>All staff (68)</td>
+                                            <td>Once</td>
+                                            <td>Training Manager</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Process Adherence</td>
+                                            <td>Direct observation</td>
+                                            <td>25 observations</td>
+                                            <td>Daily for 1 week</td>
+                                            <td>Quality Analyst</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <p>The Data Collection Plan outlines what data was collected, how it was measured, sample sizes, collection frequency, and responsibilities. This structured approach ensured consistent and reliable data collection for analysis.</p>
+                </div>
+                
+                <!-- Code Viewer Component -->
+                <div id="code-viewer" class="code-viewer-container">
+                    <div class="code-viewer-header">
+                        <h3 id="code-title">Code Viewer</h3>
+                        <div class="code-actions">
+                            <button id="btn-copy-code" onclick="copyCodeToClipboard()"><i class="far fa-copy"></i> Copy All</button>
+                            <button onclick="closeCodeViewer()"><i class="fas fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                    <div id="code-content" class="code-content"></div>
+                </div>
+                
+                <!-- Notification message for copy action -->
+                <div id="copy-message" class="copy-message">Code copied to clipboard!</div>
+                
+                <!-- Markdown Viewer Section -->
+                <div id="markdown-viewer" class="markdown-container" style="display: none; padding: 20px; border: 1px solid #eee; border-radius: 5px; margin-top: 20px; background-color: #f9f9f9;">
+                    <div class="markdown-header" style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+                        <h3 id="markdown-title">Report Viewer</h3>
+                        <button onclick="closeMarkdownViewer()" style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">×</button>
+                    </div>
+                    <div id="markdown-content"></div>
+                </div>
+                
+                <h3>Measurement System Analysis (MSA)</h3>
+                <p>Before collecting data for process improvement, we needed to validate that our measurement system itself was capable of producing reliable and consistent results. MSA is a critical first step in the Measure phase that examines the collection process to ensure data integrity.</p>
+                
+                <div class="msa-methodology">
+                    <h4>What is Measurement System Analysis?</h4>
+                    <p>Measurement System Analysis (MSA) is a structured method to evaluate the reliability and accuracy of a measurement system. It helps determine how much of the observed process variation is due to the measurement system itself versus actual process variation. A reliable measurement system should:</p>
+                    <ul>
+                        <li>Be accurate (provide measurements close to the true value)</li>
+                        <li>Be precise (provide consistent results when measuring the same item multiple times)</li>
+                        <li>Have stability over time (provide the same results when measuring the same item at different times)</li>
+                        <li>Show reproducibility (provide consistent results when different operators measure the same item)</li>
+                    </ul>
+                </div>
+                
+                <div class="msa-diagram">
+                    <h4>Attribute Agreement Analysis</h4>
+                    <p>Since our inventory management process involves binary decisions (accurate count vs. inaccurate count), we conducted an Attribute Agreement Analysis to assess the reliability of our counting system.</p>
+                    <div class="msa-diagram-image">
+                        <img src="msa/assessment_agreement.png" alt="Attribute Agreement Analysis Results" style="max-width: 100%; height: auto;">
+                    </div>
+                    <p class="image-caption">Figure 1: Attribute Agreement Analysis showing appraiser agreement levels for inventory counting</p>
+                </div>
+
+                <div class="msa-methodology">
+                    <h4>MSA Methodology</h4>
+                    <p>We conducted our MSA using the following approach:</p>
+                    <ol>
+                        <li>Selected 60 representative inventory items stratified by product type:</li>
+                        <ul>
+                            <li>Medical Device: 18 items</li>
+                            <li>Drug: 30 items</li>
+                            <li>Miscellaneous: 12 items</li>
+                        </ul>
+                        <li>Had 3 different appraisers (Pharmacy Staff, Warehouse Team, and Team Leader) evaluate each item twice</li>
+                        <li>Compared their assessments against known standard values</li>
+                        <li>Analyzed the results using Minitab's Attribute Agreement Analysis</li>
+                        <li>Set acceptance criteria at 90% agreement for all metrics</li>
+                    </ol>
+                </div>
+                
+                <div class="msa-results">
+                    <h4>MSA Results</h4>
+                    <table class="msa-results-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Result</th>
+                                <th>Acceptance Criteria</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Between Appraiser Agreement</td>
+                                <td>92.5%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Within Appraiser Agreement</td>
+                                <td>94.1%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Agreement with Standard</td>
+                                <td>93.2%</td>
+                                <td>≥ 90%</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Kappa Statistic</td>
+                                <td>0.85</td>
+                                <td>≥ 0.7</td>
+                                <td><span class="status-passed">Passed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="msa-findings">
+                    <h4>MSA Key Findings</h4>
+                    <p>Our MSA revealed several important insights about our measurement system:</p>
+                    <ul>
+                        <li>The Team Leader showed the highest accuracy (95.2% agreement with standard), followed by Warehouse Team (91.8%) and Pharmacy Staff (89.5%)</li>
+                        <li>Medical devices had the lowest agreement rates (88.7%), likely due to their complexity</li>
+                        <li>The measurement system passed all acceptance criteria, indicating it is sufficiently reliable for data collection</li>
+                        <li>Slight differences in appraisal methods were observed, suggesting the need for additional standardization in counting procedures</li>
+                    </ul>
+                </div>
+
+                <h3>Sample Size Determination</h3>
+                <p>Proper sample size calculation was essential to ensure our data collection would provide statistically valid results while minimizing resource expenditure.</p>
+
+                <div class="sample-size-methodology">
+                    <h4>Sample Size Calculation Approach</h4>
+                    <p>We used a statistical approach to determine the appropriate sample size based on:</p>
+                    <ul>
+                        <li>Confidence Level: 95.0% (standard for business process improvements)</li>
+                        <li>Margin of Error: ±5.0% (acceptable precision for our project goals)</li>
+                        <li>Estimated Accuracy/Proportion: 85.0% (based on preliminary assessments)</li>
+                    </ul>
+                    <p>Using these parameters, our calculations determined we needed <strong>196 items</strong> for our baseline data collection.</p>
+                </div>
+
+                <div class="sample-size-stratification">
+                    <h4>Sample Stratification</h4>
+                    <p>To ensure representative sampling across SimplePharma's operations, we stratified our sample across:</p>
+                    
+                    <h5>Product Type Distribution</h5>
+                    <ul>
+                        <li>Medical Device (30.0%): <strong>59 items</strong></li>
+                        <li>Drug (50.0%): <strong>98 items</strong></li>
+                        <li>Miscellaneous (20.0%): <strong>40 items</strong></li>
+                    </ul>
+                    
+                    <h5>Location Distribution</h5>
+                    <ul>
+                        <li>Shop Floor (40.0%): <strong>79 items</strong></li>
+                        <li>Storage Rooms (30.0%): <strong>59 items</strong></li>
+                        <li>Warehouse (30.0%): <strong>59 items</strong></li>
+                    </ul>
+                </div>
+
+                <h3>Baseline Performance</h3>
+                <p>After confirming our measurement system was reliable and determining the appropriate sample size, we collected baseline data to understand the current state of the inventory management process.</p>
+
+                <div class="baseline-metrics">
+                    <h4>Overall Baseline Metrics</h4>
+                    <ul>
+                        <li><strong>Overall Count Accuracy:</strong> 76.50% (well below the target of 99%)</li>
+                        <li><strong>Average Error Percentage (when errors occur):</strong> 10.19%</li>
+                        <li><strong>Average Count Time:</strong> 1137.62 seconds per inventory area</li>
+                        <li><strong>Process Sigma Level:</strong> 2.4 (indicating significant opportunity for improvement)</li>
+                        <li><strong>Financial Impact of Discrepancies:</strong> €34,080 annually in COPQ (Cost of Poor Quality)</li>
+                    </ul>
+                </div>
+
+                <div class="baseline-factors">
+                    <h4>Accuracy by Key Factors</h4>
+                    
+                    <h5>Accuracy by Staff Training</h5>
+                    <table class="baseline-data-table">
+                        <thead>
+                            <tr>
+                                <th>Staff Training</th>
+                                <th>Count Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Advanced</td>
+                                <td>87.31%</td>
+                            </tr>
+                            <tr>
+                                <td>Intermediate</td>
+                                <td>77.43%</td>
+                            </tr>
+                            <tr>
+                                <td>Basic</td>
+                                <td>65.25%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h5>Accuracy by Count Method</h5>
+                    <table class="baseline-data-table">
+                        <thead>
+                            <tr>
+                                <th>Count Method</th>
+                                <th>Count Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Scanner Count</td>
+                                <td>85.10%</td>
+                            </tr>
+                            <tr>
+                                <td>Combined Method</td>
+                                <td>62.37%</td>
+                            </tr>
+                            <tr>
+                                <td>Manual Count</td>
+                                <td>62.19%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h5>Accuracy by Location Type</h5>
+                    <table class="baseline-data-table">
+                        <thead>
+                            <tr>
+                                <th>Location Type</th>
+                                <th>Count Accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Shop Floor</td>
+                                <td>78.81%</td>
+                            </tr>
+                            <tr>
+                                <td>Storage</td>
+                                <td>76.49%</td>
+                            </tr>
+                            <tr>
+                                <td>Warehouse</td>
+                                <td>70.89%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="baseline-insights">
+                    <h4>Key Baseline Insights</h4>
+                    <p>The baseline data revealed several critical insights about the inventory management process:</p>
+                    <ul>
+                        <li><strong>Staff Training Impact:</strong> Staff with advanced training have 22.06 percentage points higher accuracy than those with basic training, indicating a clear relationship between training level and accuracy.</li>
+                        <li><strong>Count Method Effectiveness:</strong> Scanner counting shows 22.91 percentage points higher accuracy than manual counting, demonstrating the superiority of technology-assisted counting.</li>
+                        <li><strong>Location Challenges:</strong> Warehouse locations show 7.92 percentage points lower accuracy than shop floor locations, highlighting environmental factors affecting count accuracy.</li>
+                        <li><strong>Time-of-Day Effect:</strong> Morning counts are statistically more accurate than evening counts, suggesting fatigue or time pressure impacts.</li>
+                    </ul>
+                </div>
+
+                <h3>Related Artifacts in Other Phases</h3>
+                <div class="related-artifacts-container">
+                    <div class="related-artifact">
+                        <div class="related-phase define-phase">
+                            <span><i class="fas fa-flag"></i> Define</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Define Phase Foundation</h4>
+                            <ul>
+                                <li><a href="../define/index.html#sipoc-diagram">SIPOC Diagram</a> - High-level process overview that was measured in detail during this phase</li>
+                                <li><a href="../define/index.html#problem-statement">Problem Statement</a> - The business problem that guided our measurement focus</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="related-artifact">
+                        <div class="related-phase analyze-phase">
+                            <span><i class="fas fa-search"></i> Analyze</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Analysis of Measured Data</h4>
+                            <ul>
+                                <li><a href="../analyze/index.html#categorical-analysis-results">Categorical Analysis Results</a> - Statistical analysis of the data collected in this phase</li>
+                                <li><a href="../analyze/reports.html">Analysis Reports</a> - Comprehensive reports based on measurements collected</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="related-artifact">
+                        <div class="related-phase improve-phase">
+                            <span><i class="fas fa-arrow-up"></i> Improve</span>
+                        </div>
+                        <div class="related-content">
+                            <h4>Improvements Based on Measurements</h4>
+                            <ul>
+                                <li><a href="../improve/index.html#process-iframe-container">Improved Process Flow</a> - Solutions targeting the key factors identified in measurement</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Measure Phase Outcomes</h3>
+                <p>Our measurement phase produced several key outcomes that set the foundation for the subsequent phases:</p>
+                <ul>
+                    <li>Confirmed the reliability of our measurement system with agreement rates above 90% in all key metrics</li>
+                    <li>Established statistically valid sample sizes for data collection (196 items, stratified by product and location)</li>
+                    <li>Documented current baseline performance (76.50% accuracy, well below the target of 99%)</li>
+                    <li>Identified key factors affecting count accuracy (training level, count method, location)</li>
+                    <li>Quantified the financial impact of inventory discrepancies (€34,080 annually)</li>
+                    <li>Established a process sigma level of 2.4, indicating significant opportunity for improvement</li>
+                </ul>
+                <p>These findings provided a clear quantitative understanding of the problem and established the foundation for our analysis phase, where we investigated the root causes of the identified issues.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle diagram visibility
+        function toggleDiagram(diagramId) {
+            const diagram = document.getElementById(diagramId);
+            if (diagram.style.display === 'block') {
+                diagram.style.display = 'none';
+            } else {
+                diagram.style.display = 'block';
+            }
+        }
+
+        // Embedded Python code content to avoid CORS issues
+        const embeddedPythonCode = {
+            "msa/msa_data_generation.py": `import pandas as pd
+import numpy as np
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+def generate_msa_data(n_items=60):
+    """
+    Generate properly formatted MSA data for Minitab analysis
+    
+    Parameters:
+    n_items: Number of items to evaluate (standard is 60 for attribute MSA)
+    
+    Returns:
+    DataFrame formatted for Minitab attribute agreement analysis
+    """
+    # Item details based on product type stratification
+    items = []
+    
+    # Generate 30% medical devices (18 items)
+    for i in range(18):
+        items.append({
+            'Item_ID': f'MD{i+1:03d}',
+            'Product_Type': 'Medical Device',
+            'True_Quantity': np.random.randint(1, 50)
+        })
+    
+    # Generate 50% drugs (30 items)
+    for i in range(30):
+        items.append({
+            'Item_ID': f'DR{i+1:03d}',
+            'Product_Type': 'Drug',
+            'True_Quantity': np.random.randint(5, 200)
+        })
+    
+    # Generate 20% miscellaneous items (12 items)
+    for i in range(12):
+        items.append({
+            'Item_ID': f'MS{i+1:03d}',
+            'Product_Type': 'Miscellaneous',
+            'True_Quantity': np.random.randint(10, 100)
+        })
+    
+    # Create MSA results
+    msa_results = []
+    
+    # Define error rates for different appraiser-product combinations
+    # This creates realistic relationships between appraiser expertise and product types
+    error_rates = {
+        ('Pharmacy Staff', 'Medical Device'): 0.20,
+        ('Pharmacy Staff', 'Drug'): 0.12,
+        ('Pharmacy Staff', 'Miscellaneous'): 0.15,
+        
+        ('Warehouse Team', 'Medical Device'): 0.10,
+        ('Warehouse Team', 'Drug'): 0.15,
+        ('Warehouse Team', 'Miscellaneous'): 0.08,
+        
+        ('Team Leader', 'Medical Device'): 0.05,
+        ('Team Leader', 'Drug'): 0.06,
+        ('Team Leader', 'Miscellaneous'): 0.04
+    }
+    
+    for item in items:
+        # For Minitab attribute MSA, we need:
+        # - Standard (known correct value)
+        # - Results from each appraiser's trials
+        
+        # Create record
+        record = {
+            'Item_ID': item['Item_ID'],
+            'True_Quantity': item['True_Quantity'],
+            'Standard': 1  # Standard is always 1 (accurate)
+        }
+        
+        # Generate results for each appraiser's trials
+        for appraiser in ['Pharmacy Staff', 'Warehouse Team', 'Team Leader']:
+            # Get error rate for this appraiser-product combination
+            error_rate = error_rates[(appraiser, item['Product_Type'])]
+            
+            # Generate two trials per appraiser
+            for trial in [1, 2]:
+                # Determine if this count will be accurate (1) or inaccurate (0)
+                # First trial might be slightly better as they're more focused
+                trial_modifier = 0.9 if trial == 1 else 1.1
+                is_accurate = np.random.random() > (error_rate * trial_modifier)
+                
+                # Add to record with proper column naming for Minitab
+                record[f'{appraiser}_{trial}'] = 1 if is_accurate else 0
+        
+        msa_results.append(record)
+    
+    # Create DataFrame
+    msa_df = pd.DataFrame(msa_results)
+    
+    # Calculate baseline agreement statistics for validation
+    within_appraiser = {}
+    for appraiser in ['Pharmacy Staff', 'Warehouse Team', 'Team Leader']:
+        agreement = sum(msa_df[f'{appraiser}_1'] == msa_df[f'{appraiser}_2']) / len(msa_df)
+        within_appraiser[appraiser] = agreement * 100
+    
+    print("Within-Appraiser Agreement (Repeatability):")
+    for appraiser, agreement in within_appraiser.items():
+        print(f"{appraiser}: {agreement:.2f}%")
+    
+    return msa_df
+
+# Generate and save MSA data in Minitab format
+msa_df = generate_msa_data()
+msa_df.to_csv('minitab_attribute_msa_binary.csv', index=False)`,
+
+            "msa/size_proportion.py": `import math
+import os
+from scipy import stats
+
+def sample_size_proportion(confidence_level, margin_of_error, estimated_proportion=0.5):
+    """
+    Calculate sample size for estimating a proportion
+
+    Parameters:
+    confidence_level: Desired confidence level (e.g., 0.95 for 95% confidence)
+    margin_of_error: Desired margin of error (e.g., 0.05 for ±5%)
+    estimated_proportion: Estimated proportion (0.5 gives maximum sample size)
+
+    Returns:
+    Required sample size
+    """
+    z_score = stats.norm.ppf(1 - (1 - confidence_level) / 2)
+    sample_size = (z_score**2 * estimated_proportion * (1 - estimated_proportion)) / (margin_of_error**2)
+    return math.ceil(sample_size)
+
+# --- Configuration ---
+confidence_level = 0.95
+margin_of_error = 0.05
+estimated_accuracy = 0.85  # Based on initial assumption of 85% accuracy
+product_proportions = {'Medical Device': 0.3, 'Drug': 0.5, 'Miscellaneous': 0.2}
+location_proportions = {
+    'Shop Floor': 0.4,
+    'Storage Rooms': 0.3,
+    'Warehouse': 0.3
+}
+attribute_msa_total_items = 60
+output_filename = "sample_size_report.md"
+
+# --- Calculations ---
+total_sample_size = sample_size_proportion(confidence_level, margin_of_error, estimated_accuracy)
+
+# --- Generate Markdown Report ---
+markdown_output = []
+markdown_output.append("# Sample Size Calculation Report")
+markdown_output.append(f"\\nCalculated based on:\\n- Confidence Level: {confidence_level*100}%")
+markdown_output.append(f"- Margin of Error: ±{margin_of_error*100}%")
+markdown_output.append(f"- Estimated Accuracy/Proportion: {estimated_accuracy*100}%")
+
+markdown_output.append(f"\\n## Required Total Sample Size\\n\\n**{total_sample_size}** items")
+
+markdown_output.append("\\n## Stratification by Product Type")
+markdown_output.append("\\nBased on SimplePharma's product distribution:")
+for product_type, proportion in product_proportions.items():
+    stratum_sample_size = math.ceil(total_sample_size * proportion)
+    markdown_output.append(f"- {product_type} ({proportion*100}%): **{stratum_sample_size}** items")
+
+markdown_output.append("\\n## Stratification by Location")
+markdown_output.append("\\nBased on estimated distribution across major locations:")
+for location, proportion in location_proportions.items():
+    stratum_sample_size = math.ceil(total_sample_size * proportion)
+    markdown_output.append(f"- {location} ({proportion*100}%): **{stratum_sample_size}** items")
+
+markdown_output.append(f"\\n## Attribute MSA Sample Sizes ({attribute_msa_total_items} items total)")
+markdown_output.append("\\nProportionally distributed by product type:")
+for product_type, proportion in product_proportions.items():
+    stratum_sample_size = math.ceil(attribute_msa_total_items * proportion)
+    markdown_output.append(f"- {product_type}: **{stratum_sample_size}** items")
+
+# --- Save Report to File ---
+script_dir = os.path.dirname(__file__)
+output_filepath = os.path.join(script_dir, output_filename)
+
+try:
+    with open(output_filepath, 'w') as f:
+        f.write("\\n".join(markdown_output))
+    print(f"\\nMarkdown report saved successfully to: {output_filepath}")
+except IOError as e:
+    print(f"\\nError writing report to file: {e}")`,
+
+            "main_data_generation.py": `# This is an abbreviated version of the main data generation script
+# The full script is very long, so we're showing just the key sections
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime, timedelta
+import os
+
+# Set random seed for reproducibility
+np.random.seed(42)
+
+def generate_simplepharma_baseline_data(n_records=1000):
+    """
+    Generate synthetic baseline data for SimplePharma's inventory accuracy analysis
+    
+    Parameters:
+    n_records: Number of inventory count records to generate
+    
+    Returns:
+    DataFrame with baseline inventory accuracy data with realistic X-Y relationships
+    """
+    # Define the potential X variables with meaningful distributions
+    
+    # 1. Staff factors
+    staff_ids = list(range(1, 21))  # 20 staff members
+    
+    # Experience years with realistic distribution
+    staff_experience = {}
+    for staff_id in staff_ids:
+        # Gamma distribution creates right-skewed experience distribution (more junior staff)
+        experience = np.random.gamma(shape=2.0, scale=3.0)
+        staff_experience[staff_id] = max(1, min(15, round(experience)))
+    
+    # Training levels correlated with experience
+    staff_training = {}
+    for staff_id, exp in staff_experience.items():
+        if exp < 3:
+            probs = [0.7, 0.3, 0.0]  # Mostly basic training for new staff
+        elif exp < 8:
+            probs = [0.2, 0.7, 0.1]  # Mostly intermediate for mid-experience
+        else:
+            probs = [0.1, 0.4, 0.5]  # Mostly advanced for experienced staff
+        staff_training[staff_id] = np.random.choice(['Basic', 'Intermediate', 'Advanced'], p=probs)
+    
+    # ... [additional data generation code omitted for brevity] ...
+    
+    # Start building our sample data record
+    data = []
+    for i in range(n_records):
+        # Select random date in last year
+        record_date = (datetime(2023, 1, 1) + timedelta(days=np.random.randint(0, 365)))
+        
+        # Select staff member
+        staff_id = np.random.choice(staff_ids)
+        staff_exp = staff_experience[staff_id]
+        staff_train = staff_training[staff_id]
+        staff_role = "Inventory Specialist"  # Simplified for this excerpt
+        
+        # Apply business rules to determine accuracy based on training level
+        if staff_train == 'Advanced':
+            accuracy_probability = 0.87  # Advanced training has 87% accuracy
+        elif staff_train == 'Intermediate':
+            accuracy_probability = 0.77  # Intermediate has 77% accuracy
+        else:  # Basic
+            accuracy_probability = 0.65  # Basic training has 65% accuracy
+            
+        # Determine if count is accurate
+        count_accurate = np.random.random() < accuracy_probability
+        
+        # Add record to dataset
+        record = {
+            'Record_ID': f'REC{i+1:04d}',
+            'Date': record_date.strftime('%Y-%m-%d'),
+            'Staff_ID': staff_id,
+            'Staff_Experience_Years': staff_exp,
+            'Staff_Training': staff_train,
+            'Count_Accurate': count_accurate
+        }
+        data.append(record)
+    
+    # Create DataFrame and calculate metrics
+    inventory_df = pd.DataFrame(data)
+    
+    # Overall accuracy percentage
+    accuracy_percentage = inventory_df['Count_Accurate'].mean() * 100
+    print(f"Overall Count Accuracy: {accuracy_percentage:.2f}%")
+    
+    # Accuracy by training level
+    training_accuracy = inventory_df.groupby('Staff_Training')['Count_Accurate'].mean()
+    print("Accuracy by Staff Training:")
+    print(training_accuracy)
+    
+    return inventory_df
+
+# Generate data
+inventory_df = generate_simplepharma_baseline_data(n_records=1000)
+inventory_df.to_csv('simplepharma_inventory_analysis.csv', index=False)
+
+# ... [additional analysis and visualization code omitted for brevity] ...
+
+print("Data generation, validation, and reporting complete!")`,
+        };
+
+        // Embedded markdown content to avoid CORS issues
+        const embeddedMarkdownContent = {
+            "sample_size_report": `# Sample Size Calculation Report
+
+Calculated based on:
+- Confidence Level: 95.0%
+- Margin of Error: ±5.0%
+- Estimated Accuracy/Proportion: 85.0%
+
+## Required Total Sample Size
+
+**196** items
+
+## Stratification by Product Type
+
+Based on SimplePharma's product distribution:
+- Medical Device (30.0%): **59** items
+- Drug (50.0%): **98** items
+- Miscellaneous (20.0%): **40** items
+
+## Stratification by Location
+
+Based on estimated distribution across major locations:
+- Shop Floor (40.0%): **79** items
+- Storage Rooms (30.0%): **59** items
+- Warehouse (30.0%): **59** items
+
+## Attribute MSA Sample Sizes (60 items total)
+
+Proportionally distributed by product type:
+- Medical Device: **18** items
+- Drug: **30** items
+- Miscellaneous: **12** items`,
+
+            "baseline_data_report": `# Baseline Data Generation Report
+
+This report summarizes the key metrics and validation results from the generated baseline inventory data.
+
+## Overall Baseline Metrics
+- **Overall Count Accuracy:** 76.50%
+- **Average Error Percentage (when errors occur):** 10.19%
+- **Average Count Time:** 1137.62 seconds
+
+## Accuracy by Key Factors
+
+### Accuracy by Staff Training
+| Staff_Training   |   Count_Accurate |
+|:-----------------|-----------------:|
+| Advanced         |         0.873096 |
+| Basic            |         0.652542 |
+| Intermediate     |         0.77425  |
+
+### Accuracy by Count Method
+| Count_Method    |   Count_Accurate |
+|:----------------|-----------------:|
+| Combined Method |         0.623656 |
+| Manual Count    |         0.621908 |
+| Scanner Count   |         0.850962 |
+
+### Accuracy by Location Type
+| Location_Type   |   Count_Accurate |
+|:----------------|-----------------:|
+| Shop Floor      |         0.788054 |
+| Storage         |         0.764925 |
+| Warehouse       |         0.70892  |
+
+## Identified Issues and Root Causes
+
+Analysis of the inventory data reveals several critical issues affecting the stocktake process:
+
+1. **Staff Training Deficiencies:** Staff with basic training have significantly lower accuracy rates (65.3%) compared to those with advanced training (87.3%), indicating a clear relationship between training level and count accuracy (p < 0.001).
+
+2. **Counting Method Inefficiencies:** Manual counting shows substantially lower accuracy (62.2%) compared to scanner-based counting (85.1%), representing a 22.9 percentage point gap in performance (p < 0.001).
+
+3. **Time-of-Day Impact:** Morning counts are more accurate than evening counts, with a statistically significant difference (p = 0.027), suggesting fatigue or time pressure affects accuracy.
+
+4. **Staff Experience Gap:** Staff with more experience (average of 5.6 years) demonstrate higher accuracy compared to less experienced staff (average of 4.2 years), highlighting the importance of experience in inventory counting (p < 0.001).
+
+## Process Bottlenecks
+
+The stocktake process contains several bottlenecks that limit efficiency and accuracy:
+
+1. **Scanner Availability Constraints:** Only six scanners are distributed among staff groups, limiting the use of the more accurate scanning method and forcing some groups to use less accurate manual counting.
+
+2. **Data Upload Delays:** The process of having the sales manager upload data to the Omega ERP system creates a bottleneck, with staff waiting for this step to complete before proceeding.
+
+3. **Verification and Recount Cycles:** When discrepancies are found, items must be recounted, creating additional bottlenecks and extending the total process time beyond the target takt time of 6 hours.
+
+4. **Staff Allocation Issues:** Suboptimal distribution of skilled staff across counting zones leads to inefficient resource utilization, with team leaders (who demonstrate higher accuracy) not always assigned to the most critical counting areas.
+
+## Waste Analysis (Lean Perspective)
+
+The inventory process contains multiple forms of waste as defined by Lean principles:
+
+### Motion Waste
+- Unnecessary movement during counting process
+- Placing sticky notes with counted quantities on shelves
+- Movement between manual counting and scanning phases
+
+### Waiting Waste
+- Staff lunch break (1 hour)
+- Waiting for data upload to Omega ERP (variable time)
+- Waiting for scanner distribution and return
+
+### Transportation Waste
+- Moving between building areas (shop floor, storage, warehouse)
+- Returning scanners to sales manager
+
+### Defects Waste
+- 23.5% overall error rate in counting
+- 10.19% average magnitude of errors when they occur
+- Recounting required for discrepancies
+
+### Overprocessing Waste
+- Double counting (manual and scanner)
+- Placing sticky notes as a temporary record
+- Multiple data entry points (paper to scanner to ERP)
+
+### Inventory Waste
+- Inaccurate counts leading to potential stockouts or excess inventory
+- Extended process duration (7 hours vs. target 6 hours)
+
+### Talent Waste
+- Misalignment of staff skills and counting responsibilities
+- Underutilization of advanced-trained staff
+
+## Cost of Poor Quality (COPQ)
+
+The current inventory process generates significant costs due to quality issues:
+
+- **Revenue Loss:** €3,600 per stocktake due to closure during counting
+- **Staff Overtime:** €720 per stocktake
+- **Inventory Inaccuracy Cost:** €4,200 per quarter
+- **Total Annual COPQ:** €34,080
+
+## Improvement Opportunities
+
+Data analysis suggests several opportunities for process improvement:
+
+1. **Standardize on Scanner-Based Counting:** Given the 22.9 percentage point accuracy advantage, increasing scanner availability and standardizing on scanner counting could significantly improve accuracy.
+
+2. **Training Program Enhancement:** The 21.8 percentage point gap between basic and advanced training indicates substantial ROI potential for enhanced training programs.
+
+3. **Morning Scheduling:** Rescheduling stocktakes to morning hours could improve accuracy based on the statistically significant time-of-day effect.
+
+4. **Process Redesign:** Eliminating non-value-added activities like sticky notes and multiple data entry points could reduce the current 50% non-value-added time.
+
+5. **RFID Implementation:** As outlined in the project charter, RFID technology implementation could eliminate manual counting entirely, achieving the target 99% accuracy rate.
+
+
+`
+        };
+
+        // Function to show embedded markdown content
+        function showEmbeddedMarkdown(reportId) {
+            const markdownViewer = document.getElementById('markdown-viewer');
+            const markdownContent = document.getElementById('markdown-content');
+            const markdownTitle = document.getElementById('markdown-title');
+            
+            // Get the embedded content
+            const content = embeddedMarkdownContent[reportId];
+            
+            if (content) {
+                // Set the title based on report ID
+                markdownTitle.textContent = reportId === 'sample_size_report' ? 
+                    'Sample Size Calculation Report' : 'Baseline Data Report';
+                
+                // Render markdown using Marked.js
+                markdownContent.innerHTML = marked.parse(content);
+                
+                // Show the markdown viewer
+                markdownViewer.style.display = 'block';
+                
+                // Scroll to the viewer
+                markdownViewer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Report content not found.');
+            }
+        }
+        
+        // Function to close the markdown viewer
+        function closeMarkdownViewer() {
+            document.getElementById('markdown-viewer').style.display = 'none';
+        }
+
+        // Function to display Python code with syntax highlighting using embedded code
+        function showPythonCode(filePath, title) {
+            const codeViewer = document.getElementById('code-viewer');
+            const codeContent = document.getElementById('code-content');
+            const codeTitle = document.getElementById('code-title');
+            
+            // Set the title
+            codeTitle.textContent = title;
+            
+            // Get the embedded code content
+            const pythonCode = embeddedPythonCode[filePath];
+            
+            if (pythonCode) {
+                // Clear existing content
+                codeContent.innerHTML = '';
+                
+                // Create a pre and code element for syntax highlighting
+                const preElement = document.createElement('pre');
+                const codeElement = document.createElement('code');
+                codeElement.className = 'language-python';
+                
+                // Set code content with HTML escaping
+                codeElement.textContent = pythonCode; // textContent automatically escapes HTML
+                
+                // Append elements
+                preElement.appendChild(codeElement);
+                codeContent.appendChild(preElement);
+                
+                // Apply syntax highlighting
+                hljs.highlightElement(codeElement);
+                
+                // Show the code viewer
+                codeViewer.style.display = 'block';
+                
+                // Scroll to the viewer
+                codeViewer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                codeContent.innerHTML = `<div class="error-message">Code file "${filePath}" not found in embedded code.</div>`;
+                codeViewer.style.display = 'block';
+            }
+        }
+
+        // Function to copy code to clipboard
+        function copyCodeToClipboard() {
+            const codeContent = document.getElementById('code-content');
+            const range = document.createRange();
+            range.selectNode(codeContent);
+            window.getSelection().removeAllRanges();  // Clear current selections
+            window.getSelection().addRange(range);    // Select the code content
+            document.execCommand('copy');             // Copy the selected content
+            window.getSelection().removeAllRanges();  // Deselect the code content
+
+            // Show the copy message
+            const copyMessage = document.getElementById('copy-message');
+            copyMessage.style.display = 'block';
+            setTimeout(() => { copyMessage.style.display = 'none'; }, 2000); // Hide after 2 seconds
+        }
+
+        // Function to close the code viewer
+        function closeCodeViewer() {
+            document.getElementById('code-viewer').style.display = 'none';
+        }
+    </script>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

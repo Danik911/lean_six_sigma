@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Define Phase - SimplePharma Lean Six Sigma Project</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .tool-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+    
+    .tool-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .card-image-container {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid #edf2f7;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .tool-card:hover .card-image {
+      transform: scale(1.05);
+    }
+    
+    .card-image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tool-card:hover .card-image-overlay {
+      opacity: 1;
+    }
+    
+    .image-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(52, 152, 219, 0.9);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .card-content {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-title {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #2d3748;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #3498db;
+      border-radius: 2px;
+    }
+    
+    .card-description {
+      color: #4a5568;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .card-button {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+    }
+    
+    .card-button:hover {
+      background-color: #2980b9;
+      box-shadow: 0 4px 8px rgba(52, 152, 219, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Value Stream Map specific styling */
+    .value-stream-card {
+      border-top: 4px solid #4caf50;
+    }
+    
+    /* Process Flow specific styling */
+    .process-flow-card {
+      border-top: 4px solid #ff9800;
+    }
+    
+    /* Project Charter specific styling */
+    .project-charter-card {
+      border-top: 4px solid #e91e63;
+    }
+    
+    /* SIPOC specific styling */
+    .sipoc-card {
+      border-top: 4px solid #9c27b0;
+    }
+    
+    /* Swim Lane specific styling */
+    .swimlane-card {
+      border-top: 4px solid #2196f3;
+    }
+    
+    /* Cause and Effect specific styling */
+    .cause-effect-card {
+      border-top: 4px solid #f44336;
+    }
+
+    /* Integration highlight */
+    .integration-highlight {
+      background-color: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 40px;
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.1);
+    }
+
+    .highlight-title {
+      font-size: 22px;
+      color: #0369a1;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .highlight-content {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .highlight-button {
+      display: inline-block;
+      background-color: #0284c7;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(2, 132, 199, 0.3);
+    }
+
+    .highlight-button:hover {
+      background-color: #0369a1;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(2, 132, 199, 0.4);
+    }
+    
+    /* Placeholder image styling */
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background-color: #f8fafc;
+      color: #64748b;
+      font-size: 16px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .placeholder-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      color: #94a3b8;
+    }
+    
+    .placeholder::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: loading 1.5s infinite;
+    }
+    
+    @keyframes loading {
+      0% { left: -100% }
+      100% { left: 100% }
+    }
+    
+    /* Background patterns for cards */
+    .bg-pattern-1 {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .bg-pattern-2 {
+      background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M0 0h12v6H0V0zm24 0h12v6H24V0zm24 0h12v6H48V0zm24 0h12v6H72V0zm0 12h12v6H72v-6zm-24 0h12v6H48v-6zm-24 0h12v6H24v-6zm-24 0h12v6H0v-6zm0 12h12v6H0v-6zm24 0h12v6H24v-6zm24 0h12v6H48v-6zm24 0h12v6H72v-6zm0 12h12v6H72v-6zm-24 0h12v6H48v-6zm-24 0h12v6H24v-6zm-24 0h12v6H0v-6zm0 12h12v6H0v-6zm24 0h12v6H24v-6zm24 0h12v6H48v-6zm24 0h12v6H72v-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .bg-pattern-3 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.05' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Lean Six Sigma Project</h1>
+      <nav>
+        <ul>
+          <li><a href="../index.html">Introduction</a></li>
+          <li><a href="#" class="active">Define</a></li>
+          <li><a href="../measure/index.html">Measure</a></li>
+          <li><a href="../analyze/index.html">Analyze</a></li>
+          <li><a href="../improve/index.html">Improve</a></li>
+          <li><a href="../control/index.html">Control</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <h1>Define Phase</h1>
+      <p>The Define phase establishes the scope, goals, and deliverables of the project. This phase identifies the voice of the customer, process stakeholders, and aligns the team around key objectives.</p>
+      
+      <div class="integration-highlight">
+        <h2 class="highlight-title">Value Stream Map & Process Flow Diagram Integration</h2>
+        <div class="highlight-content">
+          <div class="highlight-text">
+            <p>Explore the integrated view of SimplePharma's inventory management processes. This tool connects high-level Value Stream Map analysis with detailed Process Flow Diagrams to provide a comprehensive view of the entire operation.</p>
+            <p>Use this integration to understand how individual process improvements impact the overall value stream.</p>
+          </div>
+          <a href="process_integration.html" class="highlight-button">Explore Integrated View</a>
+        </div>
+      </div>
+      
+      <h2>Key Define Phase Tools</h2>
+      <div class="tool-cards">
+        <div class="tool-card value-stream-card bg-pattern-1">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">📊</div>
+                <span>Value Stream Map</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Value Stream Map</h3>
+            <p class="card-description">Visualizes the flow of materials and information needed to deliver a product or service to the customer, highlighting value-added and non-value-added activities.</p>
+            <a href="value_stream_map/index.html" class="card-button">View Tool</a>
+          </div>
+        </div>
+        
+        <div class="tool-card process-flow-card bg-pattern-2">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">⚙️</div>
+                <span>Process Flow Diagram</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Process Flow Diagram</h3>
+            <p class="card-description">A detailed visualization of process steps showing the sequence of activities, decision points, and pathways through the system.</p>
+            <a href="process_flow_diagram/stocktake_process.html" class="card-button">View Tool</a>
+          </div>
+        </div>
+        
+        <div class="tool-card project-charter-card bg-pattern-3">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">📝</div>
+                <span>Project Charter</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Project Charter</h3>
+            <p class="card-description">Defines the purpose, scope, objectives, and participants in a project, establishing the foundation for the project plan.</p>
+            <a href="../artifacts/Project-charter-SimplePharma.docx" class="card-button">View Tool</a>
+          </div>
+        </div>
+        
+        <div class="tool-card sipoc-card bg-pattern-1">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">🔄</div>
+                <span>SIPOC Diagram</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">SIPOC Diagram</h3>
+            <p class="card-description">Summarizes the Suppliers, Inputs, Process, Outputs, and Customers of a business process, providing a high-level overview.</p>
+            <a href="../artifacts/SIPOC.pdf" class="card-button">View Tool</a>
+          </div>
+        </div>
+        
+        <div class="tool-card swimlane-card bg-pattern-2">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">🏊</div>
+                <span>Swim Lane Diagram</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Swim Lane Diagram</h3>
+            <p class="card-description">Visualizes complex processes across multiple departments or roles, clarifying responsibilities and handoffs.</p>
+            <a href="../artifacts/Swimlane Diagram.pdf" class="card-button">View Tool</a>
+          </div>
+        </div>
+        
+        <div class="tool-card cause-effect-card bg-pattern-3">
+          <div class="card-image-container">
+            <div class="placeholder">
+              <div style="text-align: center;">
+                <div class="placeholder-icon">🦴</div>
+                <span>Cause and Effect Diagram</span>
+              </div>
+            </div>
+            <div class="card-image-overlay">
+              <span class="image-badge">DMAIC Tool</span>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Cause and Effect Diagram</h3>
+            <p class="card-description">Identifies many possible causes for an effect or problem, organizing ideas into categories to focus improvement efforts.</p>
+            <a href="../artifacts/Cause and Effect Diagram.jpg" class="card-button">View Tool</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Lean Six Sigma Project. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
