@@ -6,6 +6,7 @@
   <title>SimplePharma Value Stream Map</title>
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/react-icons@4.11.0/umd/react-icons.min.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -28,108 +29,85 @@
       font-size: 12px;
     }
     
-    /* Process node styles */
-    .process-node {
-      position: absolute;
-      width: 160px;
-      border-radius: 4px;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.3s ease;
-    }
-    
-    .process-node:hover {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .process-node.highlighted {
-      transform: translate(-50%, -50%) scale(1.05);
-      box-shadow: 0 0 0 3px #FCD34D, 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 20;
-    }
-    
-    .inventory-node {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      transform: translate(-50%, -50%) rotate(45deg);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.3s ease;
-    }
-    
-    .inventory-node.highlighted {
-      transform: translate(-50%, -50%) rotate(45deg) scale(1.05);
-      box-shadow: 0 0 0 3px #FCD34D, 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 20;
-    }
-    
-    .inventory-node-content {
-      transform: rotate(-45deg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-    
-    /* Waste icon styles */
+    /* Waste icon styles - enhanced */
     .waste-icon {
       position: absolute;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: help;
       font-size: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      z-index: 5;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 15;
+      transition: all 0.2s ease;
+      border: 2px solid white;
     }
     
-    .waste-tooltip {
-      display: none;
+    .waste-icon:hover {
+      transform: scale(1.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+    
+    /* Improvement icon styles - enhanced */
+    .improvement-icon {
       position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%); /* Keep this for centering */
-      transform-origin: center bottom; /* Set origin for potential rotation */
-      margin-bottom: 8px;
-      padding: 6px 10px;
-      background-color: rgba(0,0,0,0.8);
-      color: white;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      z-index: 10;
-      pointer-events: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      font-size: 16px;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.25);
+      z-index: 16;
+      border: 2px solid white;
+      transition: all 0.2s ease;
     }
     
-    /* Add rule for counter-rotating tooltips on rotated parents */
-    .waste-tooltip.tooltip-needs-unrotate {
-        transform: translateX(-50%) rotate(-45deg);
+    .improvement-icon:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
     }
-
-    .waste-icon:hover .waste-tooltip {
-      display: block;
+    
+    /* Counter-rotate icons inside inventory nodes */
+    .inventory-node .waste-icon,
+    .inventory-node .improvement-icon {
+      transform: rotate(-45deg); /* Counter the node's rotation */
     }
-
-    /* Connection path styles */
-    .connection-path {
-      stroke: #94a3b8;
-      stroke-width: 2;
-      fill: none;
-      stroke-dasharray: 5, 5;
-      opacity: 0.7;
+    
+    .inventory-node .improvement-icon:hover {
+       transform: rotate(-45deg) scale(1.1); /* Combine rotation and scale */
     }
-
-    .connection-path.highlighted {
-      stroke: #f59e0b;
-      stroke-width: 3;
-      stroke-dasharray: none;
+    
+    /* Global tooltip container */
+    #tooltip-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    /* Tooltip style */
+    .global-tooltip {
+      position: fixed;
+      padding: 8px 12px;
+      background-color: rgba(0,0,0,0.85);
+      color: white;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: normal;
+      pointer-events: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      max-width: 300px;
+      animation: fadeIn 0.2s ease-out;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     /* Modal styles */
@@ -144,54 +122,191 @@
       align-items: center;
       justify-content: center;
       z-index: 50;
+      backdrop-filter: blur(2px);
+      animation: fadeIn 0.2s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     
     .modal-content {
       background-color: white;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       width: 100%;
       max-width: 42rem;
       margin: 0 1rem;
       max-height: 90vh;
       overflow-y: auto;
+      animation: slideUp 0.3s ease-out;
+      border: 1px solid rgba(0, 0, 0, 0.1);
     }
-
-    .process-tooltip {
-      position: fixed;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-      z-index: 100;
-      pointer-events: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      max-width: 220px;
-      white-space: normal;
-      text-align: center;
+    
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
-
-    .drill-down-button {
+    
+    /* Process flow arrows */
+    .process-arrow {
       position: absolute;
-      bottom: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
+      height: 2px;
+      background-color: #666;
+      z-index: 1;
+    }
+    
+    .process-arrow::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid #666;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+    
+    /* Connection line styles */
+    .connection-line {
+      position: absolute;
+      height: 2px;
+      background-color: #888;
+      transform-origin: 0 50%;
+      z-index: 5;
+      transition: all 0.3s ease;
+    }
+    
+    /* Add arrow to connection line */
+    .connection-line::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid #888;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .connection-line:hover {
+      background-color: #555;
+      height: 3px;
+    }
+    
+    /* Process node styles - enhanced */
+    .process-node {
+      position: absolute;
+      width: 160px;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      transform: translate(-50%, -50%);
       cursor: pointer;
-      display: none;
-      white-space: nowrap;
-      z-index: 15;
+      transition: all 0.25s ease;
+      border-width: 2px;
+    }
+    
+    .process-node:hover {
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%) scale(1.03);
     }
 
-    .process-node:hover .drill-down-button,
-    .process-node.highlighted .drill-down-button {
-      display: block;
+    /* Inventory node enhanced styles */
+    .inventory-node {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      transform: translate(-50%, -50%) rotate(37deg);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border-width: 2px;
+    }
+    
+    .inventory-node:hover {
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.05);
+    }
+
+    .inventory-node-content {
+  transform: rotate(-40deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+    
+    /* Process details panel styles - enhanced */
+    .process-details-panel {
+      white-space: normal;
+      overflow: auto;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      border: 1px solid rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .details-panel-header {
+      background: linear-gradient(to right, #f0f4f8, #ffffff);
+      margin: -1rem -1rem 0.75rem -1rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-radius: 10px 10px 0 0;
+    }
+    
+    .metrics-card {
+      background-color: #f0f7ff;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .improvements-card {
+      background-color: #f0fff4;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+    }
+    
+    .metric-item {
+      background-color: white;
+      border-radius: 0.375rem;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    .improvement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background-color: white;
+      border-radius: 0.375rem;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    
+    /* Add animation to value-added time bar */
+    @keyframes barGrow {
+      from { width: 0; }
+      to { width: var(--final-width); }
+    }
+    
+    .value-added-bar {
+      animation: barGrow 1.5s ease-out forwards;
     }
   </style>
 </head>
@@ -199,7 +314,14 @@
   <!-- Debug container to show load status -->
   <div id="debug-container" class="debug-info">Loading React app...</div>
   
+  <!-- Root element for React app -->
   <div id="root"></div>
+  
+  <!-- Global tooltip container (outside the React app) -->
+  <div id="tooltip-container"></div>
+  
+  <!-- Load the improvements data -->
+  <script src="improvements.js"></script>
   
   <!-- Load the App component -->
   <script type="text/babel">
@@ -214,21 +336,67 @@
       talent: { icon: '👤', name: 'Talent Waste', color: 'bg-indigo-200 border-indigo-500' }
     };
     
+    // Define improvement icons with more distinctive visuals
+    const improvementIcons = {
+      rfid: { icon: '🏷️', name: 'RFID Implementation', color: 'bg-purple-200 border-purple-500' },
+      layout: { icon: '📊', name: 'Layout Optimization', color: 'bg-blue-200 border-blue-500' },
+      automation: { icon: '🤖', name: 'Automation', color: 'bg-green-200 border-green-500' },
+      training: { icon: '🎓', name: 'Training Program', color: 'bg-yellow-200 border-yellow-500' },
+      kaizen: { icon: '⚡', name: 'Kaizen Event', color: 'bg-red-200 border-red-500' },
+      kanban: { icon: '📋', name: 'Kanban System', color: 'bg-indigo-200 border-indigo-500' },
+      pull: { icon: '⤵️', name: 'Pull System', color: 'bg-orange-200 border-orange-500' },
+      sop: { icon: '📝', name: 'Standard Operating Procedure', color: 'bg-teal-200 border-teal-500' }
+    };
+    
+    // Tooltip component that renders at the root level
+    const GlobalTooltip = ({ tooltipData }) => {
+      if (!tooltipData) return null;
+      
+      return ReactDOM.createPortal(
+        <div className="global-tooltip" style={tooltipData.style}>
+          <strong>{tooltipData.title}</strong>
+          {tooltipData.content && <div>{tooltipData.content}</div>}
+        </div>,
+        document.getElementById('tooltip-container')
+      );
+    };
+    
     // Basic simplified ValueStreamMap component
     const ValueStreamMap = () => {
       // Basic state
       const [viewMode, setViewMode] = React.useState('current'); // current, improved, ideal
       const [selectedProcess, setSelectedProcess] = React.useState(null);
       const [showInfoModal, setShowInfoModal] = React.useState(false);
+      const [tooltipData, setTooltipData] = React.useState(null);
       const [metrics, setMetrics] = React.useState({
         totalLeadTime: 85.7,
         valueAddedTime: 12.4,
         processCycleEfficiency: 14.5,
         accuracyRate: 76.5
       });
-      const [highlightedProcess, setHighlightedProcess] = React.useState(null);
-      const [tooltip, setTooltip] = React.useState({ show: false, text: '', x: 0, y: 0 });
+      const [connectionStyles, setConnectionStyles] = React.useState([]); // State for line styles
+      const mapContainerRef = React.useRef(null); // Ref for map container
+      const detailsPanelRef = React.useRef(null); // Ref for details panel
+
+      // Show tooltip
+      const handleShowTooltip = (e, type, title, content) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        
+        // Position the tooltip above the icon
+        const style = {
+          left: rect.left + (rect.width / 2) - 100, // Center tooltip, assuming ~200px max-width
+          top: rect.top - 10, // Position above with some offset
+          transform: 'translateY(-100%)', // Move up by its height
+        };
+        
+        setTooltipData({ type, title, content, style });
+      };
       
+      // Hide tooltip
+      const handleHideTooltip = () => {
+        setTooltipData(null);
+      };
+
       // Waste data based on lean waste analysis
       const wasteData = {
         'process-receiving': {
@@ -291,33 +459,39 @@
           id: 'supplier-meddev',
           name: 'MedDev',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: 'Daily',
-            leadTime: '1-2 days'
+          metrics: { 
+            deliveryFrequency: 'Daily (working days)', 
+            leadTime: '1-2 days',
+            processTime: '0.5 days',
+            orderAccuracy: '92%'
           },
-          details: 'Medical device supplier',
-          position: { x: 8, y: 25 }
+          details: 'Medical device supplier providing diagnostic equipment and devices. Orders placed through Omega ERP system. Primary supplier for all medical devices. Deliveries to inward goods zone, then transported to main warehouse (3rd floor).',
+          position: { x: 8, y: 25 } 
         },
         {
           id: 'supplier-drugseek',
           name: 'DrugSeek',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: '3 times/week',
-            leadTime: '1 day'
+          metrics: { 
+            deliveryFrequency: '3 times/week', 
+            leadTime: '1 day',
+            processTime: '0.3 days',
+            orderAccuracy: '94%'
           },
-          details: 'Pharmaceutical supplier',
+          details: 'Pharmaceutical supplier for prescription, OTC, and controlled substances. Orders placed through Omega ERP system. Main supplier for all pharmaceutical products. Deliveries to inward goods zone, then transported to drugs warehouse in shop building (ground floor).',
           position: { x: 8, y: 50 }
         },
         {
           id: 'supplier-vitafast',
           name: 'VitaFast',
           type: 'supplier',
-          metrics: {
-            deliveryFrequency: '2 times/week',
-            leadTime: '2-3 days'
+          metrics: { 
+            deliveryFrequency: '2 times/week', 
+            leadTime: '1-3 days',
+            processTime: '0.4 days',
+            orderAccuracy: '90%'
           },
-          details: 'Miscellaneous goods supplier',
+          details: 'Supplementary supplier for non-medical, non-pharmaceutical items including vitamins, supplements, and personal care items. Orders placed through Omega ERP system. Deliveries to inward goods zone, then transported to miscellaneous warehouse section in shop building.',
           position: { x: 8, y: 75 }
         },
         
@@ -326,11 +500,7 @@
           id: 'process-receiving',
           name: 'Receiving',
           type: 'process',
-          metrics: {
-            oeeUtilization: 92,
-            accuracy: 94,
-            processTime: 3.5
-          },
+          metrics: { oeeUtilization: 92, accuracy: 94, processTime: 3.5 },
           details: 'Trucks arrive at inward goods zone between buildings',
           position: { x: 25, y: 35 }
         },
@@ -338,24 +508,15 @@
           id: 'process-storage',
           name: 'Storage',
           type: 'process',
-          metrics: {
-            oeeUtilization: 88,
-            accuracy: 76.5,
-            processTime: 0.7,
-            waitTime: 72
-          },
+          metrics: { oeeUtilization: 88, accuracy: 76.5, processTime: 0.7, waitTime: 72 },
           details: 'Medical devices stored in main warehouse (3rd floor)',
           position: { x: 42, y: 35 }
         },
         {
           id: 'process-distribution',
-          name: 'Distribution',
+          name: 'Internal Distribution',
           type: 'process',
-          metrics: {
-            oeeUtilization: 85,
-            accuracy: 82,
-            processTime: 1.1
-          },
+          metrics: { oeeUtilization: 85, accuracy: 82, processTime: 1.1 },
           details: 'Staff transfers products between warehouses and shop',
           position: { x: 59, y: 35 }
         },
@@ -363,11 +524,7 @@
           id: 'process-shopfloor',
           name: 'Shop Floor',
           type: 'process',
-          metrics: {
-            oeeUtilization: 82,
-            accuracy: 93,
-            processTime: 0.1
-          },
+          metrics: { oeeUtilization: 82, accuracy: 93, processTime: 0.1 },
           details: 'Products are arranged on shelves and sold to customers',
           position: { x: 76, y: 35 }
         },
@@ -375,15 +532,9 @@
           id: 'process-stocktake',
           name: 'Stock Take',
           type: 'process',
-          metrics: {
-            oeeUtilization: 65,
-            accuracy: 76.5,
-            processTime: 6
-          },
+          metrics: { oeeUtilization: 65, accuracy: 76.5, processTime: 6 },
           details: 'Quarterly stock count process',
-          position: { x: 76, y: 65 },
-          hasDrillDown: true,
-          drillDownUrl: '../process_flow_diagram/stocktake_process.html'
+          position: { x: 76, y: 65 }
         },
         
         // Customer
@@ -391,10 +542,16 @@
           id: 'customer',
           name: 'Customers',
           type: 'customer',
-          metrics: {
-            satisfaction: 82
+          metrics: { 
+            satisfaction: 82, 
+            waitTime: '5-12 minutes',
+            serviceTime: '4-8 minutes',
+            shelfAvailability: 93,
+            outOfStockRate: 7,
+            productFindability: 75,
+            revenuePerStaffHour: '€120'
           },
-          details: 'End customers purchasing products',
+          details: 'SimplePharma serves four main customer segments: 1) Individual Patients - Regular customers needing prescriptions, OTC medications, and health advice. 2) Healthcare Providers - Professional clients requiring special orders and professional-grade supplies. 3) Long-term Care Facilities - Scheduled bulk orders with specialized packaging needs. 4) Walk-in Retail Customers - Varied purchasing patterns for health and wellness products.',
           position: { x: 92, y: 35 }
         },
         
@@ -403,9 +560,7 @@
           id: 'inventory-receiving',
           name: 'WIP',
           type: 'inventory',
-          metrics: {
-            waitTime: 3
-          },
+          metrics: { waitTime: 3 },
           details: 'Work in progress after receiving',
           position: { x: 33.5, y: 35 }
         },
@@ -413,9 +568,7 @@
           id: 'inventory-storage',
           name: 'Storage',
           type: 'inventory',
-          metrics: {
-            waitTime: 72
-          },
+          metrics: { waitTime: 72 },
           details: 'Stored inventory',
           position: { x: 50.5, y: 35 }
         },
@@ -423,35 +576,10 @@
           id: 'inventory-transit',
           name: 'Transit',
           type: 'inventory',
-          metrics: {
-            waitTime: 5
-          },
+          metrics: { waitTime: 5 },
           details: 'In-transit inventory',
           position: { x: 67.5, y: 35 }
         }
-      ];
-
-      // Process connections for material flow
-      const connections = [
-        // Supplier to receiving connections
-        { from: 'supplier-meddev', to: 'process-receiving' },
-        { from: 'supplier-drugseek', to: 'process-receiving' },
-        { from: 'supplier-vitafast', to: 'process-receiving' },
-        
-        // Main flow
-        { from: 'process-receiving', to: 'inventory-receiving' },
-        { from: 'inventory-receiving', to: 'process-storage' },
-        { from: 'process-storage', to: 'inventory-storage' },
-        { from: 'inventory-storage', to: 'process-distribution' },
-        { from: 'process-distribution', to: 'inventory-transit' },
-        { from: 'inventory-transit', to: 'process-shopfloor' },
-        { from: 'process-shopfloor', to: 'customer' },
-        
-        // Stocktake connections
-        { from: 'process-storage', to: 'process-stocktake' },
-        { from: 'process-shopfloor', to: 'process-stocktake' },
-        { from: 'process-stocktake', to: 'process-storage', type: 'feedback' },
-        { from: 'process-stocktake', to: 'process-shopfloor', type: 'feedback' }
       ];
       
       // Get color based on process type and metrics
@@ -470,125 +598,37 @@
         
         return 'bg-gray-100 border-gray-500';
       };
-
-      // Check if a process should be highlighted
-      const isProcessHighlighted = (processId) => {
-        const matchProcess = processId.split('-')[1]; // Extract 'receiving', 'stocktake', etc.
-        return highlightedProcess === matchProcess;
-      };
       
       // Handle process click
-      const handleProcessClick = (process) => {
-        setSelectedProcess(process);
-      };
-
-      // Handle drill-down click
-      const handleDrillDown = (process, e) => {
-        e.stopPropagation(); // Prevent triggering the parent click handler
+      const handleProcessClick = (process, event) => {
+        // Check if we're clicking on the same process that's already selected
+        if (selectedProcess && selectedProcess.id === process.id) {
+          // If clicking on the same one, do nothing (panel stays open)
+          // The click event will be captured but not propagate to document
+          return;
+        }
         
-        if (process.hasDrillDown && process.drillDownUrl) {
-          window.location.href = process.drillDownUrl;
-        }
-      };
-
-      // Handle mouse enter for tooltip
-      const handleMouseEnter = (process) => {
-        setTooltip({
-          show: process.hasDrillDown,
-          text: 'Click to view detailed process flow',
-          x: 0,
-          y: 0
-        });
-      };
-      
-      // Handle mouse move for tooltip
-      const handleMouseMove = (e) => {
-        if (tooltip.show) {
-          setTooltip({
-            ...tooltip,
-            x: e.clientX + 10,
-            y: e.clientY + 10
-          });
-        }
-      };
-      
-      // Handle mouse leave for tooltip
-      const handleMouseLeave = () => {
-        setTooltip({ show: false, text: '', x: 0, y: 0 });
-      };
-
-      // Create SVG paths for connections
-      const renderConnections = () => {
-        return connections.map((conn, index) => {
-          const fromProcess = processes.find(p => p.id === conn.from);
-          const toProcess = processes.find(p => p.id === conn.to);
-          
-          if (!fromProcess || !toProcess) return null;
-          
-          const startX = fromProcess.position.x;
-          const startY = fromProcess.position.y;
-          const endX = toProcess.position.x;
-          const endY = toProcess.position.y;
-          
-          // Calculate if connection should be highlighted
-          const isHighlighted = 
-            isProcessHighlighted(conn.from) || 
-            isProcessHighlighted(conn.to);
-          
-          // For feedback connection, create a curved path
-          if (conn.type === 'feedback') {
-            const controlX = (startX + endX) / 2;
-            const controlY = Math.max(startY, endY) + 20;
-            
-            return (
-              <path 
-                key={`conn-${index}`}
-                d={`M ${startX}% ${startY}% Q ${controlX}% ${controlY}% ${endX}% ${endY}%`}
-                className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-                marker-end="url(#arrowhead)"
-              />
-            );
-          }
-          
-          // For vertical connections from suppliers
-          if (fromProcess.type === 'supplier') {
-            return (
-              <path 
-                key={`conn-${index}`}
-                d={`M ${startX}% ${startY}% L ${startX + 8}% ${startY}% L ${endX - 8}% ${endY}% L ${endX}% ${endY}%`}
-                className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-                marker-end="url(#arrowhead)"
-              />
-            );
-          }
-          
-          // Standard straight connection
-          return (
-            <path 
-              key={`conn-${index}`}
-              d={`M ${startX}% ${startY}% L ${endX}% ${endY}%`}
-              className={`connection-path ${isHighlighted ? 'highlighted' : ''}`}
-              marker-end="url(#arrowhead)"
-            />
-          );
-        });
+        // Otherwise, set the new selected process (this will switch panels if one is open)
+        setSelectedProcess(process);
+        
+        // This prevents the click from bubbling up to the document handler
+        // which would otherwise close the panel immediately
+        if (event) event.stopPropagation();
       };
       
       // Create the waste icons for a process
       const createWasteIcons = (process) => {
-        if (!wasteData[process.id]) return null;
+        if (!wasteData[process.id] || viewMode !== 'current') return null;
         
         return wasteData[process.id].wastes.map((waste, index) => {
           const wasteInfo = wasteIcons[waste.type];
           if (!wasteInfo) return null;
           
           // Position icons above the nodes (outside)
-          const top = process.type === 'inventory' ? -40 : -30;
-          // Calculate horizontal offset for multiple icons
-          const offset = index * 28 - ((wasteData[process.id].wastes.length - 1) * 14);
-          
-          // Determine if counter-rotation is needed for the tooltip
-          const tooltipClass = process.type === 'inventory' ? 'waste-tooltip tooltip-needs-unrotate' : 'waste-tooltip';
+          const top = process.type === 'inventory' ? -45 : -35; // Adjusted vertical position slightly
+          // Calculate horizontal offset for multiple icons - Increased spacing
+          const iconSpacing = 32; // Increased from 28
+          const offset = index * iconSpacing - ((wasteData[process.id].wastes.length - 1) * (iconSpacing / 2));
 
           return (
             <div 
@@ -597,83 +637,215 @@
               style={{
                 top: `${top}px`, 
                 left: `calc(50% + ${offset}px)`,
-                transform: 'translateX(-50%)'
               }}
+              onMouseEnter={(e) => handleShowTooltip(e, 'waste', wasteInfo.name, waste.data)}
+              onMouseLeave={handleHideTooltip}
             >
               <span>{wasteInfo.icon}</span>
-              {/* Apply conditional class here */}
-              <div className={tooltipClass}>
-                <strong>{wasteInfo.name}</strong>
-                {waste.data && <div>{waste.data}</div>}
-              </div>
             </div>
           );
         });
       };
       
+      // Create the improvement icons for a process
+      const createImprovementIcons = (process) => {
+        if (viewMode === 'current' || !improvementsData[process.id]) return null;
+
+        let improvementList = [];
+        if (viewMode === 'improved' && improvementsData[process.id] && improvementsData[process.id].improved) {
+          improvementList = improvementsData[process.id].improved;
+        } else if (viewMode === 'ideal' && improvementsData[process.id] && improvementsData[process.id].ideal) {
+          improvementList = improvementsData[process.id].ideal;
+        } else if (improvementsData[process.id] && improvementsData[process.id].improvements) {
+          improvementList = improvementsData[process.id].improvements;
+        }
+
+        return improvementList.map((improvement, index) => {
+          const impInfo = improvementIcons[improvement.type];
+          if (!impInfo) return null;
+                
+          // Special positioning for Kaizen icon on Stock Take process
+          if (process.id === 'process-stocktake' && improvement.type === 'kaizen') {
+            return (
+              <div 
+                key={`imp-${index}`}
+                className={`improvement-icon ${impInfo.color}`}
+                style={{
+                  top: '50%',       // Center vertically
+                  left: '-14px',    // Position at left border (half the icon width)
+                  transform: 'translateY(-50%)', // Center the icon vertically
+                }}
+                onMouseEnter={(e) => handleShowTooltip(e, 'improvement', impInfo.name, improvement.data)}
+                onMouseLeave={handleHideTooltip}
+              >
+                <span>{impInfo.icon}</span>
+              </div>
+            );
+          }
+          
+          // Standard positioning for all other improvement icons
+          // Position improvement icons below the nodes
+          const bottom = process.type === 'inventory' ? -45 : -35;
+          // Calculate horizontal offset for multiple icons - Increased spacing
+          const iconSpacing = 32;
+          const offset = index * iconSpacing - ((improvementList.length - 1) * (iconSpacing / 2));
+
+          return (
+            <div 
+              key={`imp-${index}`}
+              className={`improvement-icon ${impInfo.color}`}
+              style={{
+                bottom: `${bottom}px`, 
+                left: `calc(50% + ${offset}px)`,
+              }}
+              onMouseEnter={(e) => handleShowTooltip(e, 'improvement', impInfo.name, improvement.data)}
+              onMouseLeave={handleHideTooltip}
+            >
+              <span>{impInfo.icon}</span>
+            </div>
+          );
+        });
+      };
+      
+      // Get process details based on view mode
+      const getProcessDetails = (process) => {
+        if (viewMode === 'improved' && futureStateChanges[process.id]) {
+          return {
+            ...process,
+            metrics: {
+              ...process.metrics,
+              ...futureStateChanges[process.id].metrics
+            },
+            details: futureStateChanges[process.id].details || process.details
+          };
+        } else if (viewMode === 'ideal' && idealStateChanges[process.id]) {
+          return {
+            ...process,
+            metrics: {
+              ...process.metrics,
+              ...idealStateChanges[process.id].metrics
+            },
+            details: idealStateChanges[process.id].details || process.details
+          };
+        }
+        
+        return process;
+      };
+      
       // Render process details panel
       const renderProcessDetails = () => {
         if (!selectedProcess) return null;
+        const processDetails = getProcessDetails(selectedProcess);
+        const nodeElement = document.querySelector(`[data-process-id="${selectedProcess.id}"]`);
+        let panelStyle = {
+          position: 'absolute',
+          zIndex: 20,
+          maxWidth: '400px',
+          bottom: '5rem',
+          right: '1.5rem',
+          overflow: 'auto', // Add overflow auto
+          maxHeight: '400px', // Add max height to prevent overflow
+          wordWrap: 'break-word', // Ensure text wraps
+          overflowWrap: 'break-word' // Modern property for text wrapping
+        };
+
+        if (nodeElement) {
+          const nodeRect = nodeElement.getBoundingClientRect();
+          const containerRect = nodeElement.offsetParent.getBoundingClientRect(); // Get container bounds
+
+          // Calculate position relative to the node, trying to place it to the right first
+          let top = nodeRect.top - containerRect.top; // Align top with node top initially
+          let left = nodeRect.right - containerRect.left + 15; // 15px offset to the right
+
+          // Special handling for nodes positioned at the bottom of the screen
+          if (processDetails.id === 'process-stocktake') {
+            // Position the panel above the node instead of to the side
+            top = nodeRect.top - containerRect.top - 220; // Position above with some margin
+            left = nodeRect.left - containerRect.left - 100; // Center it more
+          } else if (processDetails.id === 'supplier-vitafast') {
+            // Special positioning for VitaFast, which is at the bottom of the screen
+            top = nodeRect.top - containerRect.top - 200; // Position panel above the node
+            left = nodeRect.left - containerRect.left + 80; // Position to the right but still visible
+          } else {
+            // Basic boundary check (simplified) - Check if it goes off right edge
+            if (left + 400 > containerRect.width) { // Use panel max width for check
+              left = nodeRect.left - containerRect.left - 420; // Place to the left with more margin
+            }
+          }
+          
+          // Basic boundary check - Check if it goes off bottom edge
+          if (top + 200 > containerRect.height) { // Assuming max height ~200px
+             top = containerRect.height - 220; // Place near bottom edge
+          }
+          
+          // Ensure it doesn't go off the top or left
+          if (top < 10) top = 10;
+          if (left < 10) left = 10;
+
+          panelStyle = {
+            ...panelStyle,
+            top: `${top}px`,
+            left: `${left}px`,
+            bottom: 'auto', // Override fixed bottom/right
+            right: 'auto'
+          };
+        }
         
+        // Improvements by state
+        let improvementsList = [];
+        if (viewMode === 'improved' && improvementsData[processDetails.id] && improvementsData[processDetails.id].improved) {
+          improvementsList = improvementsData[processDetails.id].improved;
+        } else if (viewMode === 'ideal' && improvementsData[processDetails.id] && improvementsData[processDetails.id].ideal) {
+          improvementsList = improvementsData[processDetails.id].ideal;
+        } else if (improvementsData[processDetails.id] && improvementsData[processDetails.id].improvements) {
+          improvementsList = improvementsData[processDetails.id].improvements;
+        }
+
         return (
-          <div className="bg-white border rounded shadow-lg p-4 max-w-md absolute bottom-20 right-6 z-20">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold">{selectedProcess.name}</h3>
-              <button 
-                onClick={() => setSelectedProcess(null)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                X
-              </button>
+          <div className="bg-white border rounded shadow-lg p-4 process-details-panel" style={panelStyle}>
+            <div className="details-panel-header">
+              <h3 className="font-semibold">{processDetails.name}</h3>
             </div>
+            <button 
+              className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-colors"
+              onClick={() => setSelectedProcess(null)}
+              aria-label="Close details"
+            >
+              <span className="text-lg font-semibold">&times;</span>
+            </button>
             
-            <div className="mb-3">
-              <p className="text-sm text-gray-600">{selectedProcess.details}</p>
-            </div>
+            <p className="mb-3 text-sm break-words text-gray-700">{processDetails.details}</p>
             
-            {selectedProcess.metrics && (
-              <div className="mb-3">
-                <h4 className="font-medium mb-1">Metrics:</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {Object.entries(selectedProcess.metrics).map(([key, value]) => (
-                    <div key={key} className="text-sm">
-                      <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span> {value}
-                    </div>
-                  ))}
-                </div>
+            <div className="metrics-card">
+              <h4 className="font-medium mb-2 text-blue-800 border-b border-blue-100 pb-1">Metrics</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {processDetails.metrics && Object.entries(processDetails.metrics).map(([key, value]) => (
+                  <div key={key} className="metric-item">
+                    <span className="font-medium text-xs text-gray-500 block capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                    <span className="text-sm font-semibold">{value}</span>
+                  </div>
+                ))}
               </div>
-            )}
+            </div>
             
-            {wasteData[selectedProcess.id] && (
-              <div>
-                <h4 className="font-medium mb-1">Identified Wastes:</h4>
+            {improvementsList.length > 0 && (
+              <div className="improvements-card">
+                <h4 className="font-medium mb-2 text-green-800 border-b border-green-100 pb-1">Implemented Improvements</h4>
                 <div className="space-y-2">
-                  {wasteData[selectedProcess.id].wastes.map((waste, index) => {
-                    const wasteInfo = wasteIcons[waste.type];
+                  {improvementsList.map((improvement, index) => {
+                    const impInfo = improvementIcons[improvement.type] || { icon: '🔧', name: improvement.type };
                     return (
-                      <div key={index} className="flex items-center gap-2 text-sm">
-                        <span className={`inline-block ${wasteInfo.color} rounded-full p-1`}>
-                          {wasteInfo.icon}
+                      <div key={index} className="improvement-item">
+                        <span className={`inline-block ${impInfo.color} rounded-full p-2 mt-0.5 shadow-sm`}>
+                          {impInfo.icon}
                         </span>
-                        <div>
-                          <div className="font-medium">{wasteInfo.name}</div>
-                          <div className="text-gray-600">{waste.data}</div>
+                        <div className="flex-1">
+                          <div className="font-medium text-sm break-words">{improvement.data}</div>
                         </div>
                       </div>
                     );
                   })}
                 </div>
-              </div>
-            )}
-
-            {selectedProcess.hasDrillDown && (
-              <div className="mt-4 pt-3 border-t border-gray-200">
-                <button 
-                  onClick={(e) => handleDrillDown(selectedProcess, e)}
-                  className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                >
-                  View Detailed Process Flow
-                </button>
               </div>
             )}
           </div>
@@ -693,9 +865,10 @@
                 </h2>
                 <button 
                   onClick={() => setShowInfoModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-colors"
+                  aria-label="Close modal"
                 >
-                  X
+                  <span className="text-xl font-semibold">&times;</span>
                 </button>
               </div>
               
@@ -715,7 +888,7 @@
                   <li>Use the view mode toggles to switch between Current, Improved, and Ideal states</li>
                   <li>Review the overall metrics to understand system performance</li>
                   <li>Hover over waste icons (🔄, ⏳, etc.) to see waste details</li>
-                  <li>Use the "View Detailed Process Flow" button when available to see the micro-level process</li>
+                  <li>In the improved and ideal states, hover over improvement icons (📶, 🤖, etc.) to see implemented improvements</li>
                 </ul>
                 
                 <h3 className="font-semibold mb-2">Legend</h3>
@@ -740,19 +913,23 @@
                     </div>
                     <span className="text-sm">Inventory/WIP</span>
                   </div>
-                  <div className="flex items-center p-2 border rounded">
-                    <div className="w-6 h-6 border-2 border-yellow-500 relative mr-2">
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-yellow-300 rounded-full flex items-center justify-center text-xs font-bold">
-                        ↓
-                      </div>
-                    </div>
-                    <span className="text-sm">Process with Drill-Down</span>
-                  </div>
                 </div>
                 
                 <h3 className="font-semibold mb-2">Waste Categories</h3>
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   {Object.entries(wasteIcons).map(([type, info]) => (
+                    <div key={type} className="flex items-center p-2 border rounded">
+                      <div className={`w-6 h-6 ${info.color} rounded-full flex items-center justify-center mr-2`}>
+                        {info.icon}
+                      </div>
+                      <span className="text-sm">{info.name}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <h3 className="font-semibold mb-2">Improvement Categories</h3>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {Object.entries(improvementIcons).map(([type, info]) => (
                     <div key={type} className="flex items-center p-2 border rounded">
                       <div className={`w-6 h-6 ${info.color} rounded-full flex items-center justify-center mr-2`}>
                         {info.icon}
@@ -796,6 +973,144 @@
         );
       };
       
+      // Effect to calculate connection lines after mount/resize
+      React.useEffect(() => {
+        const calculateLines = () => {
+          const suppliers = processes.filter(p => p.type === 'supplier');
+          const receivingNode = processes.find(p => p.id === 'process-receiving');
+          const shopFloorNode = processes.find(p => p.id === 'process-shopfloor');
+          const customerNode = processes.find(p => p.id === 'customer');
+          const mapContainer = mapContainerRef.current;
+
+          if (!receivingNode || !mapContainer) {
+            console.log("Missing receiving node or map container ref");
+            setConnectionStyles([]); // Clear styles if container not ready
+            return;
+          }
+
+          const containerWidth = mapContainer.offsetWidth;
+          const containerHeight = mapContainer.offsetHeight;
+          
+          if (containerWidth === 0 || containerHeight === 0) {
+             console.log("Container dimensions are zero.");
+             setConnectionStyles([]); // Clear styles if dimensions are zero
+             return;
+          }
+
+          // Define node dimensions for calculations
+          const supplierWidth = 160; // Width of supplier node
+          const receivingWidth = 160; // Width of receiving node
+          const processWidth = 160; // Width of process nodes
+
+          // Start with supplier to receiving connections
+          let styles = suppliers.map(supplier => {
+            // Calculate pixel coordinates (center points)
+            const supplierCenterX = (supplier.position.x / 100) * containerWidth;
+            const supplierCenterY = (supplier.position.y / 100) * containerHeight;
+            const receivingCenterX = (receivingNode.position.x / 100) * containerWidth;
+            const receivingCenterY = (receivingNode.position.y / 100) * containerHeight;
+
+            // Calculate border positions instead of centers
+            const supplierRightX = supplierCenterX + (supplierWidth / 2);
+            const receivingLeftX = receivingCenterX - (receivingWidth / 2);
+
+            // Use Y from center points since we're connecting horizontally
+            const y1 = supplierCenterY;
+            const y2 = receivingCenterY;
+
+            // New start and end points are at the borders
+            const x1 = supplierRightX;
+            const x2 = receivingLeftX;
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI); // Angle in degrees
+
+            console.log(`Line ${supplier.id}: (${x1},${y1}) to (${x2},${y2}), len: ${length}, angle: ${angle}`);
+
+            return {
+              key: `conn-${supplier.id}-receiving`,
+              style: {
+                position: 'absolute',
+                left: `${x1}px`,
+                top: `${y1}px`,
+                width: `${length}px`,
+                height: '2px',
+                backgroundColor: '#888',
+                transform: `rotate(${angle}deg)`,
+                transformOrigin: '0 50%',
+                zIndex: 5
+              }
+            };
+          });
+          
+          // Add shop floor to customer connection
+          if (shopFloorNode && customerNode) {
+            const shopFloorCenterX = (shopFloorNode.position.x / 100) * containerWidth;
+            const shopFloorCenterY = (shopFloorNode.position.y / 100) * containerHeight;
+            const customerCenterX = (customerNode.position.x / 100) * containerWidth;
+            const customerCenterY = (customerNode.position.y / 100) * containerHeight;
+
+            // Calculate border positions
+            const shopFloorRightX = shopFloorCenterX + (processWidth / 2);
+            const customerLeftX = customerCenterX - (processWidth / 2);
+
+            // Use Y from center points since we're connecting horizontally
+            const y1 = shopFloorCenterY;
+            const y2 = customerCenterY;
+
+            // Start and end points at the borders
+            const x1 = shopFloorRightX;
+            const x2 = customerLeftX;
+
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI); // Angle in degrees
+
+            console.log(`Line shopfloor-customer: (${x1},${y1}) to (${x2},${y2}), len: ${length}, angle: ${angle}`);
+
+            // Add the connection to styles array
+            styles.push({
+              key: 'conn-shopfloor-customer',
+              style: {
+                position: 'absolute',
+                left: `${x1}px`,
+                top: `${y1}px`,
+                width: `${length}px`,
+                height: '2px',
+                backgroundColor: '#888',
+                transform: `rotate(${angle}deg)`,
+                transformOrigin: '0 50%',
+                zIndex: 5
+              }
+            });
+          }
+          
+          setConnectionStyles(styles);
+        };
+
+        calculateLines(); // Calculate on mount
+
+        // Optional: Recalculate on window resize
+        window.addEventListener('resize', calculateLines);
+        return () => window.removeEventListener('resize', calculateLines);
+
+      }, [processes]); // Rerun if processes data changes
+
+      // Function to render connection lines from state
+      const renderConnections = () => {
+        console.log("Rendering connections:", connectionStyles);
+        return connectionStyles.map(line => (
+          <div 
+            key={line.key} 
+            className="connection-line" // Keep class for potential base styles
+            style={line.style} // Apply calculated styles
+          ></div>
+        ));
+      };
+
       // Update metrics based on view mode
       React.useEffect(() => {
         if (viewMode === 'improved') {
@@ -821,39 +1136,36 @@
           });
         }
       }, [viewMode]);
-
-      // Extract parameters from URL on component mount
+      
+      // Effect to handle clicks outside of process nodes
       React.useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const highlightParam = queryParams.get('highlight');
+        // Skip if no process is selected
+        if (!selectedProcess) return;
         
-        if (highlightParam) {
-          setHighlightedProcess(highlightParam);
+        // Handler function for document clicks
+        const handleOutsideClick = (e) => {
+          // Get the details panel element if it exists
+          const detailsPanel = document.querySelector('.process-details-panel');
           
-          // Find the process and auto-select it
-          const process = processes.find(p => p.id === `process-${highlightParam}`);
-          if (process) {
-            setSelectedProcess(process);
+          // Check if the click was on a process node or inside the details panel
+          const isProcessNodeClick = e.target.closest('[data-process-id]');
+          const isDetailsPanelClick = detailsPanel && detailsPanel.contains(e.target);
+          
+          // If clicking on a different process node, the handleProcessClick will handle it
+          // If clicking outside both process nodes and details panel, close the panel
+          if (!isProcessNodeClick && !isDetailsPanelClick) {
+            setSelectedProcess(null);
           }
-        }
-
-        // Listen for postMessage events
-        window.addEventListener('message', (event) => {
-          if (event.data && event.data.action === 'highlightProcess') {
-            setHighlightedProcess(event.data.process);
-            
-            // Find the process and auto-select it
-            const process = processes.find(p => p.id === `process-${event.data.process}`);
-            if (process) {
-              setSelectedProcess(process);
-            }
-          }
-        }, false);
-
-        return () => {
-          window.removeEventListener('message', () => {});
         };
-      }, []);
+        
+        // Add the event listener
+        document.addEventListener('click', handleOutsideClick);
+        
+        // Clean up the event listener on unmount or when selectedProcess changes
+        return () => {
+          document.removeEventListener('click', handleOutsideClick);
+        };
+      }, [selectedProcess]); // Dependency on selectedProcess
       
       return (
         <div className="flex flex-col h-screen bg-gray-100">
@@ -879,4 +1191,191 @@
               {['current', 'improved', 'ideal'].map(mode => (
                 <button
                   key={mode}
-                  class
+                  className={`px-4 py-1 ${viewMode === mode ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                  onClick={() => setViewMode(mode)}
+                >
+                  {mode.charAt(0).toUpperCase() + mode.slice(1)}
+                </button>
+              ))}
+            </div>
+            
+            {/* Metrics */}
+            <div className="flex flex-wrap gap-3">
+              <div className="bg-gradient-to-r from-blue-50 to-white px-3 py-1 rounded border border-blue-200 shadow-sm transition-all hover:shadow">
+                <span className="text-xs text-gray-500 font-medium">Lead Time</span>
+                <div className="text-sm font-semibold">{metrics.totalLeadTime} hours</div>
+              </div>
+              <div className="bg-gradient-to-r from-green-50 to-white px-3 py-1 rounded border border-green-200 shadow-sm transition-all hover:shadow">
+                <span className="text-xs text-gray-500 font-medium">Value-Added Time</span>
+                <div className="text-sm font-semibold">{metrics.valueAddedTime} hours</div>
+              </div>
+              <div className="bg-gradient-to-r from-indigo-50 to-white px-3 py-1 rounded border border-indigo-200 shadow-sm transition-all hover:shadow">
+                <span className="text-xs text-gray-500 font-medium">Process Efficiency</span>
+                <div className="text-sm font-semibold">{metrics.processCycleEfficiency}%</div>
+              </div>
+              <div className="bg-gradient-to-r from-purple-50 to-white px-3 py-1 rounded border border-purple-200 shadow-sm transition-all hover:shadow">
+                <span className="text-xs text-gray-500 font-medium">Accuracy Rate</span>
+                <div className="text-sm font-semibold">{metrics.accuracyRate}%</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Value Stream Map */}
+          <div className="flex-1 overflow-auto relative p-4">
+            {/* Added map-container-inner class and ref */}
+            <div 
+              ref={mapContainerRef} 
+              className="rounded-lg border bg-white w-full relative map-container-inner" 
+              style={{ height: '600px', padding: '20px', overflow: 'hidden' }} // Added overflow hidden just in case
+            >
+              
+              {/* Render connection lines */}
+              {renderConnections()}
+
+              {/* Render process nodes */}
+              {processes.map(process => {
+                const processDetails = getProcessDetails(process);
+                const colorClass = getProcessColor(processDetails);
+                const style = { 
+                  left: `${process.position.x}%`, 
+                  top: `${process.position.y}%` 
+                };
+                
+                if (process.type === 'inventory') {
+                  return (
+                    <div 
+                      key={process.id}
+                      data-process-id={process.id} // Added data attribute
+                      className={`inventory-node ${colorClass} border-2`}
+                      style={style}
+                      onClick={(event) => handleProcessClick(process, event)}
+                    >
+                      <div className="inventory-node-content">
+                        <div className="text-xs font-medium text-center">{process.name}</div>
+                      </div>
+                      {createWasteIcons(process)}
+                      {createImprovementIcons(process)}
+                    </div>
+                  );
+                }
+                
+                return (
+                  <div 
+                    key={process.id}
+                    data-process-id={process.id} // Added data attribute
+                    className={`process-node ${colorClass} border-2`}
+                    style={style}
+                    onClick={(event) => handleProcessClick(process, event)}
+                  >
+                    <div className="text-sm font-medium mb-1">{processDetails.name}</div>
+                    {processDetails.metrics && processDetails.metrics.oeeUtilization && (
+                      <div className="text-xs">OEE: {processDetails.metrics.oeeUtilization}%</div>
+                    )}
+                    
+                    {/* Waste icons for process nodes */}
+                    {createWasteIcons(process)}
+                    
+                    {/* Improvement icons for process nodes */}
+                    {createImprovementIcons(process)}
+                  </div>
+                );
+              })}
+              
+              {/* Timeline bar at the bottom */}
+              <div className="absolute bottom-4 left-10 right-10 h-16 border-t border-gray-300">
+                <div className="flex justify-between px-4">
+                  <div className="text-sm text-gray-500">
+                    Total Lead Time: {metrics.totalLeadTime} hours
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Process Cycle Efficiency: {metrics.processCycleEfficiency}%
+                  </div>
+                </div>
+                
+                {/* Value-Added Time bar */}
+                <div className="h-8 mt-4 relative">
+                  <div className="absolute top-0 left-0 right-0 h-4 bg-gray-200 rounded"></div>
+                  <div 
+                    className="absolute top-0 left-0 h-4 bg-green-500 rounded value-added-bar"
+                    style={{ '--final-width': `${(metrics.valueAddedTime / metrics.totalLeadTime) * 100}%` }}
+                  ></div>
+                  <div className="absolute top-6 left-0 text-xs text-gray-500">
+                    Value-Added: {metrics.valueAddedTime} hours
+                  </div>
+                  <div className="absolute top-6 right-0 text-xs text-gray-500">
+                    Non-Value-Added: {(metrics.totalLeadTime - metrics.valueAddedTime).toFixed(1)} hours
+                  </div>
+                </div>
+              </div>
+              
+              {/* Process details panel */}
+              {renderProcessDetails()}
+            </div>
+          </div>
+          
+          {/* Info Modal */}
+          {renderInfoModal()}
+          
+          {/* Render global tooltip component */}
+          <GlobalTooltip tooltipData={tooltipData} />
+          
+          {/* Legend bar at bottom */}
+          <div className="bg-white border-t p-3">
+            {viewMode === 'current' ? (
+              <div className="flex flex-wrap gap-3 justify-center">
+                {Object.entries(wasteIcons).map(([type, info]) => (
+                  <div key={type} className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
+                    <span className={`inline-block ${info.color} rounded-full p-1.5 border-2 shadow-sm`}>{info.icon}</span>
+                    <span className="font-medium">{info.name}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-3 justify-center">
+                {/* Updated to match the icons users see on the map with enhanced styling */}
+                <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
+                  <span className="inline-block bg-purple-200 border-purple-500 border-2 rounded-full p-1.5 shadow-sm">🏷️</span>
+                  <span className="font-medium">RFID Implementation</span>
+                </div>
+                {/* Removed incomplete div here */}
+                <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
+                  <span className="inline-block bg-teal-200 border-teal-500 border-2 rounded-full p-1.5 shadow-sm">📝</span>
+                  <span className="font-medium">Standard Operating Procedure</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // Render app
+    try {
+      // Update debug message
+      document.getElementById('debug-container').innerText = 'React loaded, attempting to render app...';
+      
+      // Render the app
+      ReactDOM.render(
+        <ValueStreamMap />,
+        document.getElementById('root')
+      );
+      
+      // If successful, update debug message again
+      setTimeout(() => {
+          document.getElementById('debug-container').innerText = 'App rendered successfully!';
+          // Hide the debug message after 5 seconds
+          setTimeout(() => {
+            const debugEl = document.getElementById('debug-container');
+            if (debugEl) {
+              debugEl.style.display = 'none';
+            }
+          }, 5000);
+        }, 100); // Added a small delay to ensure DOM is fully updated
+    } catch (error) {
+      // Update debug message on error
+      document.getElementById('debug-container').innerText = `Error rendering app: ${error.message}\n${error.stack}`;
+      console.error("Error rendering React app:", error);
+    }
+  </script>
+</body>
+</html>
