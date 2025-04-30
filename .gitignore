@@ -3,3 +3,5 @@ node_modules
 build/
 __pycache__/
 *.pyc
+redis-context/test-results/
+test-results/
