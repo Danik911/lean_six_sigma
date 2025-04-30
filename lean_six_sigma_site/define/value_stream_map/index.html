@@ -701,7 +701,9 @@
               onMouseEnter={(e) => handleShowTooltip(e, 'improvement', impInfo.name, improvement.data)}
               onMouseLeave={handleHideTooltip}
             >
-              <span>{impInfo.icon}</span>
+              <span className={`inline-block ${impInfo.color} rounded-full p-1.5 border-2 shadow-sm`}>
+                          {impInfo.icon}
+                        </span>
             </div>
           );
         });
@@ -836,7 +838,7 @@
                     const impInfo = improvementIcons[improvement.type] || { icon: '🔧', name: improvement.type };
                     return (
                       <div key={index} className="improvement-item">
-                        <span className={`inline-block ${impInfo.color} rounded-full p-2 mt-0.5 shadow-sm`}>
+                        <span className={`inline-block ${impInfo.color} rounded-full p-1.5 border-2 shadow-sm`}>
                           {impInfo.icon}
                         </span>
                         <div className="flex-1">
@@ -1332,16 +1334,12 @@
               </div>
             ) : (
               <div className="flex flex-wrap gap-3 justify-center">
-                {/* Updated to match the icons users see on the map with enhanced styling */}
-                <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
-                  <span className="inline-block bg-purple-200 border-purple-500 border-2 rounded-full p-1.5 shadow-sm">🏷️</span>
-                  <span className="font-medium">RFID Implementation</span>
-                </div>
-                {/* Removed incomplete div here */}
-                <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
-                  <span className="inline-block bg-teal-200 border-teal-500 border-2 rounded-full p-1.5 shadow-sm">📝</span>
-                  <span className="font-medium">Standard Operating Procedure</span>
-                </div>
+                {Object.entries(improvementIcons).map(([type, info]) => (
+                  <div key={type} className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 shadow-sm hover:shadow transition-shadow">
+                    <span className={`inline-block ${info.color} rounded-full p-1.5 border-2 shadow-sm`}>{info.icon}</span>
+                    <span className="font-medium">{info.name}</span>
+                  </div>
+                ))}
               </div>
             )}
           </div>

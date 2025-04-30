@@ -62,99 +62,19 @@ if (Test-Path -Path ".\analyze_flow\root_cause_analysis_output\plots") {
     Copy-Item -Path ".\analyze_flow\root_cause_analysis_output\plots\*" -Destination ".\build\analyze_flow\root_cause_analysis_output\plots\"
 }
 
-# Create main index.html
-Write-Host "Creating main index page..." -ForegroundColor Yellow
+# Create main index.html with redirect
+Write-Host "Creating main index page with redirect..." -ForegroundColor Yellow
 $indexContent = @"
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lean Six Sigma Project - Sites Index</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #eaecee;
-            padding-bottom: 10px;
-        }
-        .site-section {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        .site-link {
-            margin-bottom: 10px;
-        }
-        .site-link a {
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        .site-link a:hover {
-            background-color: #2980b9;
-        }
-        .description {
-            margin-top: 5px;
-            color: #7f8c8d;
-        }
-    </style>
+    <meta http-equiv="refresh" content="0; url=lean_six_sigma_site/index.html">
+    <title>Lean Six Sigma Project</title>
 </head>
 <body>
-    <h1>Lean Six Sigma Project - Sites Index</h1>
-    
-    <div class="site-section">
-        <h2>Main Project Site</h2>
-        <div class="site-link">
-            <a href="lean_six_sigma_site/index.html">Lean Six Sigma Documentation Site</a>
-        </div>
-        <p class="description">The main project documentation site with DMAIC phases and analysis reports.</p>
-    </div>
-
-    <div class="site-section">
-        <h2>Tools and Analysis</h2>
-        <div class="site-link">
-            <a href="value_stream_map/index.html">Value Stream Map</a>
-        </div>
-        <p class="description">Interactive value stream mapping tool for process visualization and analysis.</p>
-
-        <div class="site-link">
-            <a href="process_flow_diagram/stocktake_process.html">Stocktake Process Flow Diagram</a>
-        </div>
-        <p class="description">Visual representation of the stocktake process flow.</p>
-    </div>
-
-    <div class="site-section">
-        <h2>Interactive Applications</h2>
-        <div class="site-link">
-            <a href="5s_app/index.html">5S Management Application</a>
-        </div>
-        <p class="description">Tool for implementing and tracking 5S methodology.</p>
-
-        <div class="site-link">
-            <a href="kanban_system/index.html">Kanban System</a>
-        </div>
-        <p class="description">Kanban board for visual inventory management.</p>
-    </div>
-
-    <div class="site-section">
-        <h2>Direct Report Access</h2>
-        <div class="site-link">
-            <a href="lean_six_sigma_site/analyze/reports.html">Analysis Reports</a>
-        </div>
-        <p class="description">Direct access to all markdown analysis reports.</p>
-    </div>
+    <p>If you are not redirected automatically, follow this <a href="lean_six_sigma_site/index.html">link to the Lean Six Sigma Project</a>.</p>
 </body>
 </html>
 "@

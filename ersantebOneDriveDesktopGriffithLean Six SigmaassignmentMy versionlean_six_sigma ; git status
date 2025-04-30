@@ -1,0 +1,13 @@
+* [33m998b945[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m add data sets
+[31m|[m * [33mcfb33bf[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Create README.md
+[31m|[m[31m/[m  
+* [33m60079e7[m add readme
+* [33m285bac9[m[33m ([m[1;31morigin/main-backup[m[33m, [m[1;32mmain-backup[m[33m)[m Merge changes from vsm-improvements branch
+* [33mea54486[m Update .gitignore to exclude test-results directories
+[32m|[m * [33ma61c738[m[33m ([m[1;31morigin/gh-pages[m[33m)[m Deploy to GitHub Pages
+[32m|[m * [33m0963b94[m[33m ([m[1;32mtemp-merge-branch[m[33m)[m Merge changes from vsm-improvements branch while ignoring build directory
+[32m|[m[32m/[m  
+* [33m7e8275f[m Remove build directory from Git tracking
+* [33ma8674c8[m Update .gitignore to exclude build directory
+[33m|[m *   [33ma9c5cbf[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on vsm-improvements: 671d06e add integrated code on analyze page
+[33m|[m [34m|[m[35m\[m  
