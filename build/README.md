@@ -1,1 +1,0 @@
-# lean_six_sigma
