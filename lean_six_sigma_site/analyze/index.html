@@ -248,6 +248,22 @@
                         </a>
                     </div>
                     <p>This report outlines our initial data exploration findings, including descriptive statistics and preliminary insights that guided our deeper analysis.</p>
+                    
+                    <div class="document-link file-csv">
+                        <a href="analyze_flow/simplepharma_inventory_analysis.csv" target="_blank">
+                            <i class="fas fa-table"></i>
+                            <span>SimplePharma Inventory Analysis Dataset</span>
+                        </a>
+                    </div>
+                    <p>This is the primary dataset used for our analysis, containing detailed inventory records, counts, and associated factors that were analyzed to identify the root causes of discrepancies.</p>
+                    
+                    <div class="document-link file-csv">
+                        <a href="analyze_flow/inventory_counts_detail.csv" target="_blank">
+                            <i class="fas fa-table"></i>
+                            <span>Inventory Counts Detail Dataset</span>
+                        </a>
+                    </div>
+                    <p>This dataset contains the detailed records of the stock-taking process, including information on counters, trials, and accuracy measures. It was used to create the categorical analysis visualizations and evaluate measurement system performance.</p>
                 </div>
                 
                 <div class="analysis-overview">
@@ -501,7 +517,6 @@ def main():
 
 if __name__ == "__main__":
     main()`,
-
             "analyze_flow/categorical_analysis.py": `import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -545,7 +560,6 @@ def main():
 
 if __name__ == "__main__":
     main()`,
-
             "analyze_flow/relationships_analysis.py": `import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -589,7 +603,6 @@ def main():
 
 if __name__ == "__main__":
     main()`,
-
             "analyze_flow/root_causes_analysis.py": `import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -667,7 +680,6 @@ This report presents the initial exploration of the SimplePharma inventory datas
 - **Missing Values:** None detected in the dataset
 - **Outliers:** Some extreme values detected in Count_Time_Seconds (>600s)
 - **Class Imbalance:** Count_Accurate is balanced (75% accurate, 25% inaccurate)`,
-
             "categorical_analysis_report": `# Categorical Analysis Report
 
 ## Overview
